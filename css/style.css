@@ -1,0 +1,454 @@
+:root {
+    /* --body-color: #cce6ff; */
+    --body-color: #860a73;
+    --text-color: #af4c96;
+    --padding-vert-ul: 1rem;
+    --nav-back-color: #ffffff;
+    --padding-nav-vert: 1.5vh;
+    --padding-vert-p: .5rem;
+    --header-padding: 16px;
+    --space-32:32px;
+    --space-24:24px;
+    --space-12:12px;
+    --space-4:4px;
+    --code-color: #dd7edb;
+
+
+    /* 
+    --line-color: #e6f2ff;
+
+     --contents-color: #b30086;
+    --contents-h3-color: #99ccff;
+    --contents-h4-color: #88acd3;
+    --padding-vert: 2vh;
+   
+  
+    --margin-vert: 2vh;
+
+    --code-t1-color: #b30086;
+    --code-t1-bkcolor: #d8a0ca;
+    --code-l-bkcolor: #ecbde0; */
+
+
+
+}
+
+* {
+    margin: 0;
+    /* padding:0; */
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--body-color);
+    color: var(--text-color);
+}
+
+
+header h1 {
+    background: white;
+    width: max-content;
+    padding-left: var(--header-padding);
+    padding-right:  var(--header-padding);
+    padding-top:  var(--header-padding);
+    padding-bottom:  var(--header-padding);
+    
+}
+
+
+.inner-head h1 {
+    background: white;
+    width: max-content;
+    padding-left: var(--space-12);
+    padding-right: var(--space-12);
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: var(--space-24);
+    margin-bottom: var(--space-24);
+}
+
+
+
+
+.inner-descript h3 {
+    background: white;
+    width: max-content;
+    padding-left: var(--space-12);
+    padding-right: var(--space-12);
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.inner-descript p {
+    background-color: white;
+    width: max-content;
+    padding-left: var(--space-12);
+    padding-right:var(--space-12);
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+p {
+    line-height: 1.8;
+    /* Sets line height to 1.8 times the current font size */
+    /* margin-bottom: var(--padding-vert-p); */
+
+}
+
+li {
+    line-height: 2.0;
+    /* Sets line height to 1.8 times the current font size */
+}
+
+ul {
+    margin-bottom: var(--padding-vert-ul);
+}
+
+
+.section-s {
+    /* background-color:#a8e6ce; */
+    width: max-content;
+    /* padding-left:12px; */
+    padding-right: var(--space-24);
+    /* padding-top: var(--space-24); */
+    padding-bottom: var(--space-24)x;
+    margin-left: var(--space-12);
+
+}
+
+.section-s p {
+    /* background-color: #a8e6ce; */
+     background-color: #af4c98;
+    color: white;
+}
+
+p.back-s {
+    /* background-color: #a8e6ce; */
+    background-color: #af4c98;
+    font-weight: 500;
+    color: white;
+
+}
+
+.inner-flex {
+    display: flex;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+nav ul {
+    display: flex;
+    background-color: var(--nav-back-color);
+    flex-wrap: wrap;
+    /* The font size will be at least 2rem (32px), at most 5rem (80px),
+     and scale with 4% of the viewport width in between. */
+    font-size: clamp(1rem, 1vw, 2rem);
+    padding: 0;
+}
+
+nav ul li {
+    /* width:10%; */
+    text-transform: uppercase;
+    list-style-type: none;
+    padding: var(--padding-nav-vert);
+    line-height: 1.2;
+    /* reset line height */
+}
+
+
+nav ul li a {
+    text-decoration: none;
+    padding: var(--padding-nav-vert);
+}
+
+nav ul li a:link {
+    color: var(--text-color);
+}
+
+
+nav ul li a:active {
+    color: var(--body-color);
+}
+
+nav ul li a:visited {
+    color: var(--text-color);
+}
+
+nav ul li a:hover {
+    background-color: var(--text-color);
+    color: var(--nav-back-color);
+    padding: var(--padding-nav-vert);
+
+}
+
+.contents {
+    background: white;
+    padding-right: var(--space-32);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    padding-left: var(--space-32);
+}
+
+.contents-notes{
+    background: white;
+    padding-right: var(--space-32);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    padding-left: var(--space-32);
+
+}
+
+
+
+
+.contents h3,.contents-notes h3 {
+    padding: var(--padding-vert-p);
+    color: white;
+    background: var(--body-color);
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-12);
+
+    width: max-content;
+}
+
+.contents h4, .contents-notes h4{
+    padding: var(--padding-vert-p);
+    color: white;
+    background: var(--body-color);
+    margin-top:var(--space-12);
+    margin-bottom:var(--space-12);
+   /* background:rgba(76, 175, 80,0.7); */
+   font-weight: normal;
+    width: max-content;
+}
+
+.contents h4.new-contents{
+     color: white;
+    background: var(--code-color);
+
+}
+
+.new-contents-list{
+
+    color: var(--code-color);
+
+}
+
+.contents a, .contents-tasks a, .contents-notes a {
+    text-decoration: none;
+    color: var(--code-color);
+}
+
+.contents h3 a, .contents-tasks h3 a{
+    text-decoration: none;
+    color: white;
+ }
+
+.contents a:hover,.contents-tasks a:hover,.contents-notes a:hover {
+    text-decoration: none;
+    background: var(--code-color);
+    color: white;
+}
+
+.contents h3 a:hover, .contents-tasks h3 a:hover {
+    text-decoration: none;
+    color: var(--body-color);
+    background: white;
+}
+
+.contents-tasks {
+    background: var(--body-color);
+
+    padding-right: var(--space-32);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    padding-left: var(--space-32);
+}
+
+.contents-tasks h3 {
+    padding: var(--padding-vert-p);
+    color: white;
+    color: var(--body-color);
+    margin-top: 12px;
+    margin-bottom: 12px;
+    background:white;
+    width: max-content;
+}
+.contents-tasks ul{
+    background:rgba(255,255,255,0.9);
+    padding-right: var(--space-24);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    padding-left: var(--space-24);
+
+}
+
+.contents-tasks ol{
+    background:rgba(255,255,255,0.7);
+    padding-right: var(--space-24);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    padding-left: var(--space-32);
+
+}
+
+.contents-tasks ul li{
+    margin-left:var(--space-12);
+
+}
+.contents-tasks ol li{
+    margin-left:var(--space-12);
+
+}
+
+.contents-tasks ol{
+    margin-top:var(--space-12)
+}
+
+.customP {
+    color: white;
+    background: var(--body-color);
+    padding:var(--space-4);
+}
+.contents-notes .customP{
+     background:rgba(76, 116, 175, 0.2);
+     color: var(--body-color);
+    padding:var(--space-4);
+
+}
+
+.table-grade {
+     border:1px;
+    border-color:var(--body-color);
+    border-style: solid; 
+    padding:var(--space-12);
+    font-weight: 500;
+    background: var(--body-color);
+    color: white;
+}
+
+.content-sched-mod{
+     background: var(--body-color);
+    padding-right: var(--space-32);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    padding-left: var(--space-32);
+    /* display:flex;
+    flex-wrap:wrap; */
+
+}
+
+/* .sched-mod{
+    width:95%;
+        /* width:45%;
+        margin-left:2%; */
+/*} */
+
+.sched-mod ul {
+    background: rgba(255, 255, 255,.9);
+    padding-right: var(--space-24);
+    padding-top: var(--space-24);
+    padding-bottom: var(--space-24);
+    padding-left: var(--space-24);
+}
+
+.sched-mod ul li {
+    padding-bottom:var(--space-12);
+    /* font-size: clamp(1.1rem, 1.1vw, 1.5rem); */
+    list-style-type: none;
+    margin-left:var(--space-12);
+    
+
+}
+.sched-mod a {
+    text-decoration: none;
+     background:rgba(76, 116, 175, 0.2);
+     color: var(--body-color);
+     padding:var(--space-4);
+}
+.sched-mod span{
+     background:rgba(76, 116, 175, 0.2);
+     color: var(--body-color);
+     padding:var(--space-4);
+
+}
+
+.sched-mod a:hover {
+    text-decoration: none;
+    background: var(--body-color);
+    color: white;
+}
+
+.sched-mod .due_over{
+    text-decoration: none;
+    background: rgba(221, 126, 219,0.5);
+    color: white;
+
+}
+
+.sched-mod .due_over:hover{
+    text-decoration: none;
+    background: rgba(221, 126, 219,1.0);
+    color: white;
+
+}
+
+
+ .sched-mod h2 {
+    background: rgb(255, 255, 255);
+    width: max-content;
+    padding-left: var(--space-12);
+    padding-right: var(--space-12);
+    padding-top: 4px;
+    padding-bottom: 4px;
+    margin-top: var(--space-24);
+} 
+
+ .sched-mod h3 {
+    background: white;
+    width: max-content;
+    padding-left: var(--space-12);
+    padding-right:var(--space-12);
+    padding-top: 4px;
+    padding-bottom: 4px;
+    /* margin-bottom: var(--space-12); */
+} 
+
+
+
+code{
+    color:white;
+    background-color: var(--code-color);
+    background-color:rgba(221, 126, 219,0.2);
+    color: var(--code-color);
+    font-size:14px;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    border-radius:1px;
+    padding:var(--space-4);
+}
+/* .heading-list{
+    text-transform: uppercase;
+
+} */
+.table-contents h3{
+    color: var(--body-color);
+    margin:1px;
+    padding:2px;
+    background-color:white;
+}
+.heading-list li{
+     list-style-type: none;
+
+}
+.heading-list li mark{
+    color: white;
+    background-color:var(--body-color);
+    padding:var(--space-4)
+   
+}
+

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+
+<head>
+    <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+      <link href="css/themes/prism.css" rel="stylesheet" />
+  
+
+</head>
+
+<body>
+    <header>
+        <h1 id = "title-head"></h1>
+        <nav id = "cart351Nav"></nav>
+       <div class="inner-head">
+                <h1>Intro to CART 351</h1>
+            </div>
+    </header>
+    <main>
+
+<section class="contents-notes">
+<h2> TOOLS USED IN CART 351 </h2>
+<ul>
+<li><span class = "customP">GITHUB</span> (for Version Control)+ <span class = "customP">GITHUB PAGES</span> for class website</li>
+<li><span class = "customP">VSCODE:</span> text editor + server extension, language support + other packages -> the ide (integrated development environment)</li>
+<li><span class = "customP">CHROME, FIREFOX, POSTMAN...:</span> clients and debugging</li>
+<li><span class = "customP">HOSTING:</span> TBA</li>
+<li><span class = "customP">PYTHON + FLASK:</span> Backend (Server side development)</li>
+<li><span class = "customP">MONGO DB:</span> Databases</li>
+<li><span class = "customP">HTML,CSS, JAVASCRIPT:</span> Frontend (Client side development)</li>
+<li><span class = "customP">OTHER PUBLIC/PRIVATE API's:</span>i.e. google maps, leaflet, openAI ... special/extended services to be integrated into ones projects :) </li>
+</ul>
+<h2> HOW THE WEB WORKS </h2>
+<h3> TERMINOLOGY </h3>
+A little dry :(
+<h4> CLIENTS </h4>
+<ul>
+<li>An <span class= "customP">application</span> (i.e. a Browser) such as Chrome or Firefox that runs on a device (computer, phone etc…) & is connected to the Internet</li>
+<li> Primary function: <span class= "customP">to take user input</span>, translate this input into a request, & send this request to a remote computer called a web server </li>
+<li> Similarly, the client will <span class= "customP">receive a response from the web server</span>, translate the response and display the result to the user. </li>
+<li> A client is not ONLY the application itself, rather it is ALSO the device that this application resides on (computer, tablet, phone…) </li>
+<li> Every client device has a unique address called an <span class= "customP">IP address</span> that other computers can use to identify it. </li>
+</ul>
+<h4> SERVERS </h4>
+<ul>
+<li>A <span class= "customP">web server</span> is a machine that connected to the internet and also has an IP address.</li>
+<li>A server <span class= "customP">waits for requests</span> from other machines (i.e. a client) & responds to these requests.</li>
+<li> Unlike a client, which also has an IP address, the server has specific server software installed on it, <span class= "customP">enabling it to know how to respond</span> to incoming requests from the client.</li>
+<li>The primary function of a web server is to <span class= "customP">store, process and deliver web pages to clients</span>.</li>
+<li> There are many types of servers, web servers, database servers, file servers, application servers, and more… </li>
+</ul>
+<h4> IP ADDRRESS </h4>
+<ul>
+<li> This is a numerical identifier for a device (computer, server, printer, router, etc.) on a <span class= "customP"><a href = "https://en.wikipedia.org/wiki/Internet_protocol_suite"> TCP/IP network</a></span>.</li>
+<li><span class= "customP">Every device</span> connected to the internet has an IP address that it uses to <span class= "customP">identify and communicate</span> with other connected devices. </li>
+<li>IP addresses have four sets of numbers separated by decimal points (e.g. 245.22.19.26). This is called the <span class= "customP">logical address</span>.</li>
+<li>In order to locate a device in the network, the logical IP address is converted to a <span class= "customP">physical address</span> by the TCP/IP protocol software</li>
+<li> This physical address (i.e. <a href = "https://en.wikipedia.org/wiki/MAC_address">MAC address</a>) is built into your hardware. </li>
+</ul>
+<h4> ISP: The Internet Service Provider</h4>
+<ul>
+<li> This is the middle man between the client and public web server(s).</li>
+<li> For the typical homeowner, the ISP is usually a <em>cable company</em>: Videotron, Bell, etc…</li>
+<li> Essentially, the browser will communicate a request to the ISP - which will then forward   the request onwards (towards the destination).</li>
+</ul>
+<h4> DNS</h4>
+<ul>
+<li> When a browser receives a request from a user to access ie.<a href = "www.concordia.ca">www.concordia.ca</a>, <span class = "customP">it doesn’t know where or how to look for www.concordia.ca</span>.</li>
+<li> It is then the <span class = "customP">ISP’s</span> task to do a <span class = "customP">DNS (Domain Name System) lookup</span> to find out what the IP address is of the site you’re trying to visit...</li>
+<li> The look up is done to the <span class = "customP">DNS (Domain Name System)</span> which is a <span class = "customP">distributed database</span> which keeps track of all domain names of connected devices and their corresponding IP addresses on the Internet. (don’t worry about the details of a distributed database)</li>
+</ul>
+<h4>HTTP & URL</h4>
+<ul>
+<li><span class = "customP">Hyper-text Transfer Protocol:</span>?The protocol that web browsers and web servers use to communicate with each other over the Internet. The HTTP protocol runs on-top of the TCP/IP protocol.</li>
+<li><span class = "customP">Uniform Resource Locators:</span> URLs identify a particular web resource. A simple example is <a href = "http://www.concordia.ca/academics/undergraduate.html ">http://www.concordia.ca/academics/undergraduate.html</a></li>
+<li><span class = "customP">The URL specifies:</span>
+<ul>
+<li>the <span class = "customP">protocol:</span> http</li>
+<li><span class = "customP">Host name:</span> concordia.ca</li>
+<li> <span class = "customP">A file/path name:</span> =/academics/undergraduate.html </li>
+</ul>
+</li>
+<li> A user can obtain the web resource identified by this URL via HTTP from a network host whose domain name is concordia.ca.</li>
+<li>A URL is also a <span class = "customP">hypertext link</span>: the threads that interconnect the web. </li>
+<li><span class = "customP">Hypertext</span> was first popularized by <a href = "https://en.wikipedia.org/wiki/Ted_Nelson">Ted Nelson</a>, used by <a href = "https://en.wikipedia.org/wiki/Douglas_Engelbart">Douglas Engelbart</a>, and implemented by <a href = "https://en.wikipedia.org/wiki/Tim_Berners-Lee">Tim Berners-Lee</a>.</li>
+<li>A <span class = "customP">link</span> is a portion of text or graphic that transfers the user to the associated web address when clicked on..</li>
+</ul>
+<h4>TCP/IP (VERY HIGH LEVEL)</h4>
+TCP/IP:The Transmission Control Protocol/Internet Protocol - is most widely used communications protocol. A <span class = "customP">protocol</span> is simply a standard set of rules for doing something. And ... TCP/IP is used as a  <span class = "customP">standard</span> for transmitting data over networks.
+The TCP/IP protocol uses a specific strategy for  <span class = "customP">transmission of data</span>:
+<ul>
+<li>When a request is made for data, that data is broken up into many tiny chunks called packets.</li> 
+<li>Each packet is tagged with:
+<ul>
+<li>a unique header (includes sender/receiver port info)</li>
+<li>an IP header which includes the sender/receiver IP addresses</li>
+</ul>
+</li>
+<li>The packet is then transmitted through an ethernet, WiFi or Cellular network and is allowed to travel on any route and take as many <a href = "https://en.wikipedia.org/wiki/Hop_(networking)">hops</a> (has to pass through another device) as it needs to get to the final destination.</li>
+<li> Once the packets reach the destination, they are reassembled again and delivered as one piece. </li>
+</ul>
+
+
+
+
+
+<h3> AN EXAMPLE APPLICATION </h3>
+<p>As an introduction to what you <span class = "customP">will</span> learn in to develop and implement in this course, we will go through some principles of <span class = "customP">web development</span> by examining an example application at <a href = "https://intrval.xyz/cart351Example/">https://intrval.xyz/cart351Example/</a>.
+The application exists only to demonstrate some basic concepts of the course, and is, by no means, <em>the only way</em>  a modern web application should be made. You will learn various strategies and techniques in this course - depending on what you will be attempting to make :)
+So, start by opening the <a href = "https://intrval.xyz/cart351Example/">example application</a> in your browser. Sometimes this takes a while.</p>
+<h4> FIRST RULE OF WEB DEVELOPMENT </h4>
+<p>As you know from your p5, javascript and intro to web classes: <em>ALWAYS</em> keep the Developer Console OPEN in your web browser.
+The console:
+<img src = "resources/week_one/images/1.png"/></p>
+<p>Make sure that the  <span class = "customP">Network tab</span> is open, and check the Disable cache option as shown. 
+Preserve log can also be useful (it saves the logs printed by the application when the page is reloaded).
+<span class = "customP">NB: The most important tab is the Console tab. However, in this introduction, we will be using the Network tab quite a bit :) </span>.</p>
+<h4> HTTP GET </h4>
+<p>The server and the web browser communicate with each other using the <a href = "https://developer.mozilla.org/en-US/docs/Web/HTTP">HTTP</a> protocol. The Network tab shows how the browser and the server communicate.</p>
+<p>When you reload the page (To refresh a webpage, on windows, press the Function-F5 keys. On macOS, press command-R), the console will show that two events have happened:
+<img src = "resources/week_one/images/2.png"/></p>
+<p> Now click on the first event to reveal more info:
+<img src = "resources/week_one/images/3.png"/>
+</p>
+<p>The upper part: <span class = "customP">General</span>: shows that the browser requested the address <span class = "customP"> https://intrval.xyz/cart351Example/ </span> using the <code>GET method</code>, and that the request was successful, because the server response had the span class = "customP"> Status code 200</span>.</p>
+<p>The <span class = "customP">request</span> and the <span class = "customP"> server response</span> have several headers:
+<img src = "resources/week_one/images/4.png"/></p>
+<p>The Response headers on top tell us e.g <span class = "customP">the size</span> of the response in bytes and the <span class = "customP">exact time</span> of the response. 
+An important header:<span class = "customP"><a href ="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type">Content-Type</a></span> tells us that the response is a text file in <span class = "customP"><a href = "https://en.wikipedia.org/wiki/UTF-8">utf-8</a> format</span> and the contents of which have been <span class = "customP">formatted with <a href = "https://en.wikipedia.org/wiki/HTML">HTML</a></span>. This way the browser knows the response to be a regular HTML page and to render it to the browser <em>like a web page</em>.
+</p>
+<p>
+The <span class = "customP">Response tab</span> shows the response data, a regular HTML page. The body section determines the structure of the page rendered to the screen:
+<img src = "resources/week_one/images/5.png"/></p>
+<p>The page (amongst other items) contains a <a href = "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/div">div</a> element with class name <span class = "customP"> container, which in turn contains a <a href ="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/h3"> h3</a> element displaying the number of notes created, another div with class name <span class = "customP">flexy</span> with four <a href = "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img">img</a> tags, and then a button to view  the notes.</p>
+<p>Because of the img tags, the browser does a <span class = "customP">second HTTP request</span> to fetch the <em>sunflower.jpg</em> from the server (all four image tags contain the same source so only one request needs to be made) . The details of the request are as follows:
+<img src = "resources/week_one/images/6.png"/></p>
+<p>The request was made to the address <a href = "https://intrval.xyz/cart351Example/images/sunflower.jpg">https://intrval.xyz/cart351Example/images/sunflower.jpg</a> and its type is <span class = "customP">HTTP GET</span>. The response headers tell us that the <span class = "customP">response size is 11207 bytes</span>, and its <span class = "customP">Content-type is image/jpeg</span>, so it is a jpeg image. The browser uses this information to render the image correctly to the screen:)</p>
+<p> The chain of events caused by opening the page https://intrval.xyz/cart351Example on a browser forms the following sequence diagram:
+<img src = "resources/week_one/images/sequence_1.jpg"/>
+</p>
+<p>The sequence diagram visualizes how the browser and server are communicating over the time. The time flows in the diagram from top to bottom, so the diagram starts with the first request that the browser sends to server, followed by the response.</p>
+<p>First, the browser sends an HTTP GET request to the server to fetch the HTML code of the page. The <span class = "customP">img tag</span> in the HTML prompts the browser to fetch the image: <span class = "customP">sunflower.jpg</span>. The browser renders the HTML page and the image to the screen.
+<em>Even though it is difficult to notice, the HTML page begins to render before the image has been fetched from the server</em>.</p>
+<h4> TRADITIONAL WEB APPS </h4>
+<p>The homepage of our example application works like a <span class = "customP">traditional web application</span>. When entering the page, the browser fetches the HTML document detailing the structure and the textual content of the page from the server.
+The server has formed this document somehow. The document can be a <span class = "customP">static text file saved into the server's directory</span> - which it is in our case:). The server can also form the HTML documents dynamically according to the application's code, using, for example, data from a database. 
+In traditional web applications, the browser<em>only</em> fetches HTML data from the server, and all <span class = "customP">application logic</span> is on the server. A server can be created using <a href = "https://spring.io/projects/spring-framework">Java Spring</a>, <a href = "https://flask.palletsprojects.com/en/stable/"> Python Flask</a>, <a href = "https://rubyonrails.org/">Ruby on Rails</a>, <a href = "https://expressjs.com/"> Express</a> with Node.js, <a href = "https://www.php.net/">PHP</a>... to name just a few examples.
+This example uses PHP. 
+In CART 351 - we will use course will use Python Flask (a lightweight WSGI web app framework.</p>
+<h4>Running application logic in the browser</h4>
+Keep the Developer Console open. 
+You should have noticed already (from looking at the <span class = "customP">Network Tab</span>)... that when the html page is fetched - before fetching the image - the <span class = "customP">style.css</span> and the <span class = "customP">client.js</span> are fetched... (as they are parsed before the images...)
+So: essentially after fetching  <span class = "customP">client.js</span> - the browser will begin to execute the code in the script:
+<pre line="1" lang="html">
+window.onload = async function () {
+  // get data and store:
+  const response = await fetch("getData.php");
+  const notesList = await response.json();
+  console.log(notesList)
+  let parentList = document.querySelector("#notes-list");
+
+  // access the num and populate dynamically
+  document.querySelector("#num").textContent = notesList.length;
+  //go through returned data
+  for(note of notesList){
+    //make dynamically a list
+    console.log(note)
+    let li = document.createElement("li");
+    li.classList.add("roboto-notes");
+    li.classList.add("li-note");
+    li.textContent = note.content;
+    parentList.appendChild(li)
+ }
+
+
+  document.querySelector("#show-button").addEventListener("click", function () {
+    // show the notes
+    if (this.getAttribute("isshowing") === "0") {
+      this.textContent = "hide notes";
+      document.querySelector("#notes").style.display = "block";
+      this.setAttribute("isshowing", "1");
+
+      // fetch the notes from the server ... remember fetech!
+    }
+    //hide notes
+    else {
+      document.querySelector("#notes").style.display = "none";
+      this.textContent = "show notes";
+      this.setAttribute("isshowing", "0");
+    }
+  });
+//post form data (part two)
+  document.querySelector("#saveButton").addEventListener("click", async function (e) {
+    e.preventDefault();
+
+    let form = document.querySelector("#addPostForm");
+    let data = new FormData(form);
+    // for (let pair of data.entries()) {
+    //   console.log(pair[0] + ", " + pair[1]);
+    // }
+    let response = await fetch("postData.php", {
+      method: "POST",
+      body: data,
+    });
+      const textResponse = await response.text();
+      console.log(textResponse);
+  });
+};
+</pre>
+Lets first focus on the following two lines:
+<pre line="1" lang="html">
+window.onload = async function () {
+  // get data and store:
+  const response = await fetch("getData.php");
+  const notesList = await response.json();
+</pre>
+OK: - again: as this is the <span class = "customP"> intro class :) to CART 351 </span> we will not go into details... RATHER this is to give you context for what you will be able to do by the end of the semester :) --- so just bear with me:
+<ul>
+<li> We make a GET request to the **server side script** (<span class = "customP">getData.php</span>):
+<pre line="1" lang="html">
+<?php
+//check if there has been something posted to the server to be processed
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+    $filePath = 'data.json'; // Path to your JSON file
+
+    // Check if the file exists
+if (file_exists($filePath)) {
+    // Read the entire contents of the file into a string
+     $jsonString = file_get_contents($filePath);
+     echo $jsonString;
+    exit;
+     }
+        else {
+        echo "JSON file not found.";
+        exit;
+    }
+
+}//GET
+
+?>
+</pre>
+ </li>
+<li> Data is returned from the server side script - (NOTE: we will review the FETCH API in class later in the semester :)) </li>
+<li> The data returned is in <span class ="customP"> json </span> format and we then use javascript to create html elements dynamically and append them to the page:
+<pre line="1" lang="html">
+//go through returned data
+  for(note of notesList){
+    //make dynamically a list
+    console.log(note)
+    let li = document.createElement("li");
+    li.classList.add("roboto-notes");
+    li.classList.add("li-note");
+    li.textContent = note.content;
+    parentList.appendChild(li)
+ }
+</pre>
+</li>
+</ul>
+<p> Lets review what has just happened with another sequence diagram ... why? Because, in this introduction we are concerned with how communication ((client)request-> (server) response) occurs between the client and the webserver:
+<img src = "resources/week_one/images/sequence_2.jpg"/>
+</p>
+<ul>
+<li>The browser fetches the HTML code defining the content and the structure of the page from the server using an HTTP GET request.</li>
+<li>Links in the HTML code cause the browser to also fetch the CSS style sheet <span class = "customP">style.css</span>... and the JavaScript code file <span class = "customP">client.js</span></li>
+<li>The browser executes the JavaScript code. The code makes an HTTP GET request to the address <span class = "customP">https://intrval.xyz/cart351Example/getData.php</span>, which returns the notes as JSON data.</li>
+<li>When the data has been fetched, the browser executes an event handler, which renders the notes to the page using the DOM-API.</li>
+</ul>
+Phew ...
+So essentially - what have we understood? Well that we can get data / resources from the web server by making GET requests... 
+
+Well - we will ALSO learn in CART 351 and cover in great detail <span class = "customP">how to get data from a user and POST it to the web server</span>... and for completeness (and so that you know what is coming...) this example application can also do that - <span class = "customP">in the most conventional way</span>:
+<h4> Forms and HTTP Post </h4>
+<p>
+If you scroll down the HTML page - we come to the <em>adding a new note section:</em>
+<img src = "resources/week_one/images/7.png"/>
+</p>
+<p>
+The html consists of an HTML <a href = "https://developer.mozilla.org/en-US/docs/Learn_web_development/Extensions/Forms/Your_first_form">form element</a>.
+When the button on the form is clicked, the browser will send the user input to the server (via JavaScript - <span class="customP">BUT DO NOT worry about the details now< /span>). Let's just open the Network tab and see what submitting the form looks like:
+<img src = "resources/week_one/images/8.png"/>
+</p>
+<p>
+You can see that - that the browser made a request for php script called < span class = "customP">postData.php</span>
+If we click on that request - we can access the <span class = "customP">Headers</span> tab:
+<img src = "resources/week_one/images/9.png"/>
+</p>
+<p>
+It is an <a href = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/POST"> HTTP POST</a> request to the php page.. and if you click on <span class = "customP"> Payload tab </span>:
+<img src = "resources/week_one/images/10.png"/>
+</p>
+<p> What you see is that the data in the form of key-value pairs has been sent to the server ... (as part of the request)</p>
+<p> So I will not go into great detail here - as this is what the course is for ... but essentially what do we do with the data? Well we append it to the json file... so that next time you reload the page there will be one more note !
+<img src = "resources/week_one/images/11.png"/>
+</p>
+<h4>So what is CART 351 about? </h4>
+<p>
+Well - instead of just developing on the client side (i.e. events in javascript) you will learn to make <span class = "customP"> full-stack web applications </span>
+Practically all web applications have (at least) two <span class = "customP">layers</span>: the browser, being closer to the end-user, is the top layer, and the server the bottom one. There is often also a database layer below the server. 
+<span class = "customP">We can therefore think of the architecture of a web application as a stack of layers</span>. UUUGHHHH...
+No really - it will be fun:)
+Ultimately you will be able to build web apps that can evolve and change (are not static) depending on input from clients. 
+And what is a client? Well not only is the browser a client -> touchdesigner, maxmsp, unity, arduino, rasberryPi etc ... all have libraries that allow for one to communicate via HTTP (they can act as clients)!
+Even better - we will also learn in this class to use web sockets - which will allow for <span class = "customP"> realtime, bi directional communication between client(s) and server(s) 
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- OLD-->
+We need thus to add local member method: <code>updateDivPos()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">
+<code>
+ updateDivPos() {
+    this.sunDiv.style.left = this.x + "px";
+    this.sunDiv.style.top = this.y + "px";
+  }
+  </code>
+</pre>
+Finally inside the the event listener function in garden.js -> we call <code>handleKeyDownInSUn()</code>:
+
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">
+<code>
+window.addEventListener("keydown", function handleKeyDown(event) {
+  //call the handleKeyDown method of class
+  sun.handleKeyDownInSUn(event);
+});
+</code>
+</pre>
+
+<p><span class = "customP"> And voila you should now have linear movement of a single sun when the relevant keys are pressed...</span></p>
+
+</section>
+</main>
+  <script src="js/prism.js"></script>
+  <script src = "js/dataStuff.js"></script>
+</body>
+
+</html>
