@@ -91,51 +91,55 @@ A little dry :(
 <li>A <span class = "customP">link</span> is a portion of text or graphic that transfers the user to the associated web address when clicked on..</li>
 </ul>
 <h4>TCP/IP (VERY HIGH LEVEL)</h4>
-TCP/IP:The Transmission Control Protocol/Internet Protocol - is most widely used communications protocol. A <span class = "customP">protocol</span> is simply a standard set of rules for doing something. And ... TCP/IP is used as a  <span class = "customP">standard</span> for transmitting data over networks.
-The TCP/IP protocol uses a specific strategy for  <span class = "customP">transmission of data</span>:
+<p>TCP/IP:The Transmission Control Protocol/Internet Protocol - is most widely used communications protocol. A <span class = "customP">protocol</span> is simply a standard set of rules for doing something.</p>
+<p>And ... TCP/IP is used as a  <span class = "customP">standard</span> for transmitting data over networks.
+The TCP/IP protocol uses a specific strategy for  <span class = "customP">transmission of data</span>:</p>
 <ul>
-<li>When a request is made for data, that data is broken up into many tiny chunks called packets.</li> 
+<li>When a request is made for data, that data is broken up into many tiny chunks called <span class="customP">packets</span>.</li> 
 <li>Each packet is tagged with:
 <ul>
-<li>a unique header (includes sender/receiver port info)</li>
-<li>an IP header which includes the sender/receiver IP addresses</li>
+<li><span class="customP">a unique header</span> (includes sender/receiver port info)</li>
+<li><span class="customP">an IP header</span> which includes the sender/receiver IP addresses</li>
 </ul>
 </li>
-<li>The packet is then transmitted through an ethernet, WiFi or Cellular network and is allowed to travel on any route and take as many <a href = "https://en.wikipedia.org/wiki/Hop_(networking)">hops</a> (has to pass through another device) as it needs to get to the final destination.</li>
+<li>The packet is then transmitted through an <span class="customP">ethernet, WiFi or Cellular</span> network and is allowed to travel on any route and take as many <a href = "https://en.wikipedia.org/wiki/Hop_(networking)">hops</a> (has to pass through another device) as it needs to get to the final destination.</li>
 <li> Once the packets reach the destination, they are reassembled again and delivered as one piece. </li>
 </ul>
-
-
-
-
 
 <h3> AN EXAMPLE APPLICATION </h3>
 <p>As an introduction to what you <span class = "customP">will</span> learn in to develop and implement in this course, we will go through some principles of <span class = "customP">web development</span> by examining an example application at <a href = "https://intrval.xyz/cart351Example/">https://intrval.xyz/cart351Example/</a>.
 The application exists only to demonstrate some basic concepts of the course, and is, by no means, <em>the only way</em>  a modern web application should be made. You will learn various strategies and techniques in this course - depending on what you will be attempting to make :)
 So, start by opening the <a href = "https://intrval.xyz/cart351Example/">example application</a> in your browser. Sometimes this takes a while.</p>
 <h4> FIRST RULE OF WEB DEVELOPMENT </h4>
-<p>As you know from your p5, javascript and intro to web classes: <em>ALWAYS</em> keep the Developer Console OPEN in your web browser.
-The console:
-<img src = "resources/week_one/images/1.png"/></p>
-<p>Make sure that the  <span class = "customP">Network tab</span> is open, and check the Disable cache option as shown. 
-Preserve log can also be useful (it saves the logs printed by the application when the page is reloaded).
-<span class = "customP">NB: The most important tab is the Console tab. However, in this introduction, we will be using the Network tab quite a bit :) </span>.</p>
+<p>As you know from your p5, javascript and intro to web classes: <span class="customP"><em>ALWAYS</em> keep the Developer Console <em>OPEN</em> in your web browser.</span></p>
+<p>Make sure that the  <span class = "customP">Network tab</span> is open, and check the Disable cache option as shown in the image below.</p>
+<p>The Preserve log can also be useful (it saves the logs printed by the application when the page is reloaded).</p>
+<p><span class = "customP"> NB: The most important tab is the Console tab.</span> However, in this introduction, we will be using the Network tab quite a bit :) </span>.</p>
+<p><figure><img src = "resources/week_one/images/1.png"/></figure></p>
 <h4> HTTP GET </h4>
 <p>The server and the web browser communicate with each other using the <a href = "https://developer.mozilla.org/en-US/docs/Web/HTTP">HTTP</a> protocol. The Network tab shows how the browser and the server communicate.</p>
-<p>When you reload the page (To refresh a webpage, on windows, press the Function-F5 keys. On macOS, press command-R), the console will show that two events have happened:
-<img src = "resources/week_one/images/2.png"/></p>
-<p> Now click on the first event to reveal more info:
-<img src = "resources/week_one/images/3.png"/>
-</p>
-<p>The upper part: <span class = "customP">General</span>: shows that the browser requested the address <span class = "customP"> https://intrval.xyz/cart351Example/ </span> using the <code>GET method</code>, and that the request was successful, because the server response had the span class = "customP"> Status code 200</span>.</p>
-<p>The <span class = "customP">request</span> and the <span class = "customP"> server response</span> have several headers:
-<img src = "resources/week_one/images/4.png"/></p>
-<p>The Response headers on top tell us e.g <span class = "customP">the size</span> of the response in bytes and the <span class = "customP">exact time</span> of the response. 
-An important header:<span class = "customP"><a href ="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type">Content-Type</a></span> tells us that the response is a text file in <span class = "customP"><a href = "https://en.wikipedia.org/wiki/UTF-8">utf-8</a> format</span> and the contents of which have been <span class = "customP">formatted with <a href = "https://en.wikipedia.org/wiki/HTML">HTML</a></span>. This way the browser knows the response to be a regular HTML page and to render it to the browser <em>like a web page</em>.
-</p>
-<p>
+<p>When you reload the page (To refresh a webpage, on windows, press the Function-F5 keys. On macOS, press command-R), the console will show that two events have happened:</p>
+<figure><img src = "resources/week_one/images/2.png"/></figure>
+<p> Now click on the first event to reveal more info:</p>
+<figure><img src = "resources/week_one/images/3.png"/></figure>
+<ul>
+<li>The <span class = "customP">General</span>section: shows that the browser requested the address <span class = "customP"> https://intrval.xyz/cart351Example/ </span> using the <code>GET method</code>.
+<br/>It also shows that the <span class = "customP">request was successful</span>, because the server response had the <span class = "customP"> Status code 200</span>.</li>
+</ul>
+
+<figure><img src = "resources/week_one/images/4.png"/></figure>
+<ul>
+<li>The <span class = "customP">Response headers</span> above tell us e.g <span class = "customP">the size</span> of the response in bytes and the <span class = "customP">exact time</span> of the response. </li>
+<li>An important label: <span class = "customP"><a href ="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Type">Content-Type</a></span> tells us that the response is a text file in <a href = "https://en.wikipedia.org/wiki/UTF-8">utf-8</a> format and the contents of which have been <span class = "customP">formatted with <a href = "https://en.wikipedia.org/wiki/HTML">HTML</a></span>. 
+ The browser thus knows the response is to be a <span class="customP">regular HTML page</span> and to render it to the browser <em>like a web page</em>.
+</li>
+</ul>
+<figure><img src = "resources/week_one/images/5.png"/></figure>
+<ul>
+<li>
 The <span class = "customP">Response tab</span> shows the response data, a regular HTML page. The body section determines the structure of the page rendered to the screen:
-<img src = "resources/week_one/images/5.png"/></p>
+</li>
+</ul>
 <p>The page (amongst other items) contains a <a href = "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/div">div</a> element with class name <span class = "customP"> container, which in turn contains a <a href ="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/h3"> h3</a> element displaying the number of notes created, another div with class name <span class = "customP">flexy</span> with four <a href = "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/img">img</a> tags, and then a button to view  the notes.</p>
 <p>Because of the img tags, the browser does a <span class = "customP">second HTTP request</span> to fetch the <em>sunflower.jpg</em> from the server (all four image tags contain the same source so only one request needs to be made) . The details of the request are as follows:
 <img src = "resources/week_one/images/6.png"/></p>
@@ -156,7 +160,8 @@ In CART 351 - we will use course will use Python Flask (a lightweight WSGI web a
 Keep the Developer Console open. 
 You should have noticed already (from looking at the <span class = "customP">Network Tab</span>)... that when the html page is fetched - before fetching the image - the <span class = "customP">style.css</span> and the <span class = "customP">client.js</span> are fetched... (as they are parsed before the images...)
 So: essentially after fetching  <span class = "customP">client.js</span> - the browser will begin to execute the code in the script:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">
+  <code>
 window.onload = async function () {
   // get data and store:
   const response = await fetch("getData.php");
@@ -211,18 +216,22 @@ window.onload = async function () {
       console.log(textResponse);
   });
 };
+  </code>
 </pre>
 Lets first focus on the following two lines:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">
+  <code>
 window.onload = async function () {
   // get data and store:
   const response = await fetch("getData.php");
   const notesList = await response.json();
+  </code>
 </pre>
 OK: - again: as this is the <span class = "customP"> intro class :) to CART 351 </span> we will not go into details... RATHER this is to give you context for what you will be able to do by the end of the semester :) --- so just bear with me:
 <ul>
 <li> We make a GET request to the **server side script** (<span class = "customP">getData.php</span>):
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">
+  <code>
 <?php
 //check if there has been something posted to the server to be processed
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
@@ -243,11 +252,13 @@ if (file_exists($filePath)) {
 }//GET
 
 ?>
+</code>
 </pre>
  </li>
 <li> Data is returned from the server side script - (NOTE: we will review the FETCH API in class later in the semester :)) </li>
 <li> The data returned is in <span class ="customP"> json </span> format and we then use javascript to create html elements dynamically and append them to the page:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">
+  <code>
 //go through returned data
   for(note of notesList){
     //make dynamically a list
@@ -258,6 +269,7 @@ if (file_exists($filePath)) {
     li.textContent = note.content;
     parentList.appendChild(li)
  }
+ </code>
 </pre>
 </li>
 </ul>

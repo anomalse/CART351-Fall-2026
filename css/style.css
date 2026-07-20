@@ -97,6 +97,20 @@ p {
 
 }
 
+figure{
+margin-top:var(--padding-vert-p);
+margin-bottom:var(--padding-vert-p);
+background:orange;
+display:flex;
+
+justify-content: center;       /* 2. Centers the image horizontally */
+
+}
+figure img{
+   width:80%;  
+  
+}
+
 li {
     line-height: 2.0;
     /* Sets line height to 1.8 times the current font size */
