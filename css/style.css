@@ -247,6 +247,23 @@ nav ul li a:hover {
 
 }
 
+.contents h5, .contents-notes h5{
+    padding: var(--padding-vert-p);
+    color: white;
+    background: var(--body-color);
+    margin-top:var(--space-12);
+    margin-bottom:var(--space-12);
+   /* background:rgba(76, 175, 80,0.7); */
+   font-weight: normal;
+    width: max-content;
+}
+
+.contents h5.new-contents{
+     color: white;
+    background: var(--code-color);
+
+}
+
 .new-contents-list{
 
     color: var(--code-color);
@@ -464,5 +481,92 @@ code{
     background-color:var(--body-color);
     padding:var(--space-4)
    
+}
+
+/* Container must be relative to position the menu correctly */
+.quick-menu {
+  position: relative;
+  display: inline-block;
+color: var(--text-color);
+  /* background:orange */
+}
+
+/* 
+nav ul li a {
+    text-decoration: none;
+    padding: var(--padding-nav-vert);
+} */
+/* 
+nav ul li a:link {
+    color: var(--text-color);
+}
+
+
+nav ul li a:active {
+    color: var(--body-color);
+}
+
+nav ul li a:visited {
+    color: var(--text-color);
+}
+
+nav ul li a:hover {
+    background-color: var(--text-color);
+    color: var(--nav-back-color);
+    padding: var(--padding-nav-vert);
+
+} */
+
+/* Style for the element you hover over */
+.quick-menu-trigger {
+  /* background-color: #3498db; */
+    color: var(--text-color);
+  /* padding: 12px 20px; */
+  /* font-family: sans-serif; */
+  cursor: pointer;
+  /* border-radius: 4px; */
+
+}
+
+/* Style for the element you hover over */
+.quick-menu-trigger:hover {
+    background-color: var(--text-color);
+    color: var(--nav-back-color);
+    /* padding: var(--padding-nav-vert); */
+
+}
+
+/* Hide the menu by default and position it absolutely */
+.quick-dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  /* min-width: 160px; */
+  box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+  border-radius: 4px;
+  overflow: hidden;
+  z-index: 1;
+  width:200%;
+}
+
+
+/* Style the individual menu items */
+.quick-dropdown-item {
+  color: #333333;
+  padding: 12px 16px;
+  /* font-family: sans-serif; */
+  cursor: pointer;
+  width:100%;
+
+}
+
+/* Change background color of items on hover */
+.quick-dropdown-item:hover {
+  background-color: #f1f1f1;
+}
+
+/* Show the menu when hovering over the parent dropdown container */
+.quick-menu:hover .quick-dropdown-menu {
+  display: block;
 }
 
