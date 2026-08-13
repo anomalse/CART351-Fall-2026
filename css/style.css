@@ -12,6 +12,8 @@
     --space-12:12px;
     --space-4:4px;
     --code-color: #dd7edb;
+    --back-customP:#d4abca;
+    --back-sched-mod-a:#d4abca;
 
 
     /* 
@@ -347,7 +349,8 @@ nav ul li a:hover {
     padding:var(--space-4);
 }
 .contents-notes .customP{
-     background:rgba(76, 116, 175, 0.2);
+      background:var(--back-customP);
+     /* background:rgba(76, 116, 175, 0.2); */
      color: var(--body-color);
     padding:var(--space-4);
 
@@ -398,7 +401,8 @@ nav ul li a:hover {
 }
 .sched-mod a {
     text-decoration: none;
-     background:rgba(76, 116, 175, 0.2);
+     /* background:rgba(76, 116, 175, 0.2); */
+     background:var( --back-sched-mod-a);
      color: var(--body-color);
      padding:var(--space-4);
 }
@@ -518,7 +522,6 @@ code{
   background-color: #ffffff;
   overflow: hidden;
   z-index: 1;
-  /* width:200%; */
 }
 
 
