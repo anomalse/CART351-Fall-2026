@@ -24,7 +24,7 @@
   <main>
 
     <section class="contents-notes">
-      <h2>CART 351 Introduction to Python:</h2>
+    <h3>CART 351 Introduction to Python:</h3>
 <p> <a href = "https://www.python.org/about/">Python</a> is a popular programming language. It was created by Guido van Rossum, released in 1991. It is  used in many, many different ways - i.e.:
 <ul>
 <li>web development (server-side)</li>
@@ -36,90 +36,106 @@
 <li>and the list goes on ... </li>
 </ul>
 </code>
-<h3> Why is Python popular?</h3>
+<h4> Why is Python popular?</h4>
 <ul>
-<li>One reason why Python is popular is because, there are many, <span class = "customP">many community-contributed libraries extending the already extensive Standard Library</span>. A library is a collection of code that can be used in other programs.</li>
-<li>Python already comes with an <span class = "customP">extensive Standard Library</span>. The <a href = "https://pypi.org/">python package index (PyPI) </a> hosts many of the available modules...</li>
-<li>Python works on <span class = "customP">different platforms</span> (Windows, Mac, Linux, Raspberry Pi, etc).</li>
-<li>Python has a <span class = "customP">simple syntax</span> similar to the English language, and is concise and straightforward</li>
-<li>Like Javascript - <span class = "customP">Python runs on an interpreter system</span>, meaning that code can be executed as soon as it is written. This means that prototyping can be very quick.</li>
-<li> There are <span class = "customP">no type declarations of variables, parameters, functions, or methods in source code</span>. 
-This makes the code short and flexible, and you lose the compile-time type checking of the source code. Python tracks the types of all values at runtime and flags code that does not make sense as it runs.</li>
-<li>Python can be treated in <span class = "customP">a procedural way, an object-oriented way or a functional way (different programming paradigms).</li>
+<li>One reason why Python is popular is because, there are many, many <code>community-contributed libraries</code> extending the already extensive <code>Standard Library</code>. A library is a collection of code that can be used in other programs.</li>
+<li>Python already comes with an <code>extensive Standard Library</code>. The <a href = "https://pypi.org/">python package index (PyPI) </a> hosts many of the available modules...</li>
+<li>Python works on <code>different platforms</code> (Windows, Mac, Linux, Raspberry Pi, etc).</li>
+<li>Python has a <code>simple syntax</code> similar to the English language, and is concise and straightforward</li>
+<li>Like Javascript - <code>Python runs on an interpreter system</code>, meaning that code can be executed as soon as it is written. This means that prototyping can be very quick.</li>
+<li> There are <code>no type declarations of variables, parameters, functions, or methods in source code</code>. 
+This makes the code short and flexible, and you <code>lose the compile-time type checking</code> of the source code. Python tracks the types of all values at runtime and flags code that does not make sense as it runs.</li>
+<li>Python can be treated in <code>a procedural way, an object-oriented way or a functional way</code> (different programming paradigms).</li>
 </ul>
-<h2> LETS GO </h2>
-Ok! We are ready to code in python ... We will start with basic syntax. You will see that in essence there are many things you will already intuitively know/not find difficult... as you have already programmed before :)
-We will be working in VS code (keep the project open that you just had for the setup)
-<h3> Run python in the terminal</h3>
-If you type  on the mac <code>python3</code> or in windows <code>python</code> in the terminal you will invoke the <span class= customP> python interpreter </span> - and you will see <span class = "customP">>>></span>.
-So if you type <code> print("Hello I am running python")</code> and press enter - the interpreter will run the instruction to print the string ;)
-You can experiment (while the interpreter is running in a given session) with variables and operators etc directly in the terminal..i.e:  
-<span class = "customP">(PRESS ENTER after each instruction)</span>
- <pre line="1" lang="html"> 
-var_one =10
+<h3> LETS GO </h3>
+<p>Ok! We are ready to code in python ... We will start with basic syntax. You will see that in essence there are many things you will already intuitively know/not find difficult... as you have already programmed before :)</p>
+<p>We will be working in VS code (keep the project open that you just had for the setup)</p>
+<h4> Run python in the terminal</h4>
+<p>If you type  on the mac <code>python3</code> or in windows <code>python</code> in the terminal you will invoke the <code> python interpreter </code> - and you will see <code>>>></code>.</p>
+<p>So if you type:</p>
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+  <code> print("Hello I am running python")</code> 
+  </pre>
+ <p>and press enter - the interpreter will run the instruction to print the string ;)</p>
+<p>You can experiment (while the interpreter is running in a given session) with variables and operators etc directly in the terminal..i.e:
+<br/><span class = "customP">(PRESS ENTER after each instruction)</span></p>
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> <code>var_one =10</code>
 </pre>
- <pre line="1" lang="html"> 
-var_two =12
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>var_two =12</code>
 </pre>
- <pre line="1" lang="html"> 
-var_one+var_two
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>var_one+var_two</code>
 </pre>
- <pre line="1" lang="html"> 
-var_three = var_one+var_two
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>var_three = var_one+var_two</code>
 </pre>
- <pre line="1" lang="html"> 
-print(var_three)
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>print(var_three)</code>
 </pre>
-<h3> Saving and running python scripts in a file </h3>
-Python source files use the <span class ="customP>.py</span> extension and are called <span class = "customP">modules</span>. With a Python module called <code>hello_cart351.py</code> - saved in your proj directory, the easiest way to run it is with the mac terminal command: 
-<pre line="1" lang="html">
-python3 hello_cart351.py
+<h4> Saving and running python scripts in a file </h4>
+<p>Python source files use the <code>.py</code> extension and are called <code>modules</code>. </p>
+<p>With a Python module called <code>hello_cart351.py</code> - saved in your proj directory, the easiest way to run it is with the mac terminal command:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>python3 hello_cart351.py</code>
 </pre>
-or on windows:
-<pre line="1" lang="html">
-python hello_cart351.py
+<p>or on windows:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>python hello_cart351.py</code>
 </pre>
-This command will call the Python interpreter to execute the code in <code>hello_cart351.py</code>.
-Here's a very simple <code>hello_cart351.py</code> program:
-<pre line="1" lang="html">
-#!/usr/bin/python3
+<p>This command will call the Python interpreter to execute the code in <code>hello_cart351.py</code>.</p>
+<p>Here's a very simple <code>hello_cart351.py</code> program:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>#!/usr/bin/python3
 print('Hello CART 351!')
+</code>
 </pre>
-Note: that the first line serves a crucial purpose in Unix-like operating systems (such as Linux and macOS) when you <span class = "customP">want to execute the file directly as a script without explicitly calling the interpreter</span>. (You would first need to make the script executable (run <code> chmod+x hello_cart351.py</code> and then invoke it using <code>./</code>).
+<p>Note: that the first line serves a crucial purpose in Unix-like operating systems (such as Linux and macOS) when you <code>want to execute the file directly as a script without explicitly calling the interpreter</code>. You would first need to make the script executable (run <code> chmod+x hello_cart351.py</code> and then invoke it using <code>./</code>).</p>
 
-<h3> Python Indentation </h3>
-<span class = "customP">Indentation</span> refers to the spaces at the beginning of a code line.
-Where in other programming languages the indentation in code is for readability only, <span class = "customP">INDENTATION IN PYTHON IS VERY IMPORTANT</span>:
-** Python uses indentation to indicate a block of code ** i.e  - lets make an if statement in <code>hello_cart351.py</code>and try run it:
-<pre line="1" lang="html">
-if 10 > 4:
-print("Ahahah!")
+<h4> Python Indentation </h4>
+<p><strong>Indentation</strong> refers to the spaces at the beginning of a code line. Where in other programming languages the indentation in code is for readability only, <code>INDENTATION IN PYTHON IS VERY IMPORTANT</code>: Python uses indentation to indicate a block of code. Let's make an if statement in <code>hello_cart351.py</code>and try run it:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>if 10 > 4:
+print("Ahahah!")</code>
 </pre>
-You will get an error - because you did not indent the second line... think: <span class = "customP">indentation INSTEAD of curly braces </span>. So this should work:
-<pre line="1" lang="html">
-if 10 > 4:
+<p>You will get an error - because you did not indent the second line... think: <code>indentation INSTEAD of curly braces </code>. So this should work:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>if 10 > 4:
     print("Ahahah!")
+</code>
 </pre>
-<h3>Python Comments </h3>
-<h4> Single line </h4>
-In Python: Comments starts with a <span class ="customP">#</span>, and Python will ignore them.
-Comments can be placed on their own line:
-<pre line="1" lang="html">
+<h4>Python Comments </h4>
+<h5> Single line </h5>
+<p>In Python: Comments starts with a <code>#</code>, and Python will ignore them. Comments can be placed on their own line:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
 # A comment, this is so you can read your program later.
 # Anything after the # is ignored by python.
 print("this will be printed")
+</code>
 </pre>
-Or at the end of a line (everything after the '#' will be ignored):
-<pre line="1" lang="html">
+<p>Or at the end of a line (everything after the '#' will be ignored):</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
 print("this will be printed")# and the comment after is ignored
 print("This will run - is on a different line.")
+</code>
 </pre>
-<h4>Multi line</h4>
-'''    '''
-<h3> Numbers and Math </h3>
-Ok - so this part is super similar to javascript.... and thus is almost self explanatory:)
-Addition, Subtraction, Multiplication, Division, Modulo, Comparison Operators ...
-<pre line="1" lang="html">
+<h5> Numbers and Math </h5>
+<p>Ok - so this part is super similar to javascript.... and thus is almost self explanatory:)
+<br/>The <code>Addition, Subtraction, Multiplication, Division, Modulo, Comparison</code> Operators ...</p>
+<!-- <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> -->
+<pre id = "writeA" data-line="" class="language-python line-numbers">
+<script>
+let s = ""
+for(let i = 1; i< 80; i++){
+    if(i%2 ===0){
+        s+=`${i},`
+    }
+}
+document.querySelector("#writeA").setAttribute("data-line",s)
+</script>
+<code>
 print("I will now count my vegetables:")
 
 #addition and division and exponent
@@ -192,13 +208,14 @@ print ("Value of and_a_b is ", and_a_b )
 print ("Value of or_a_b is ", or_a_b )
 print ("Value of and_a_b_c is ", and_a_b_c )
 print ("Value of or_a_b_c is ", or_a_b_c )
-
+</code>
 </pre>
 
 <h3> Variables</h3>
-Let us now briefly discuss <span class="customP">variables</span> - again this should not be new for you :)
-Consider the following program:
-<pre line="1" lang="html">
+<p>Let us now briefly discuss <code>variables</code> - again this should not be new for you :)</p>
+<p>Consider the following program:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 #!/usr/bin/python3
 cars =100
 space_in_car = 3
@@ -217,61 +234,68 @@ print("We can handle ", car_pool_capacity, "passengers today")
 print ("we have ",passengers," to carpool today")
 print("We will need about ",avg_passengers_per_car_needed, "in each car.")
 print("Do we have the space: ",avg_passengers_per_car_needed <= space_in_car )
-
+</code>
 </pre>
-Consider:
+<p>Consider:
 <ul>
-<li>the order in which variables are written: what happens if <span class = "customP">cars_not_driven</span> is declared first?</li>
+<li>the order in which variables are written: what happens if <code>cars_not_driven</code> is declared first?</li>
 <li> naming conventions of variables </li>
-<li> how are variables <span class = "customP">assigned</span>?</li>
+<li> how are variables <code>assigned</code>?</li>
 <li> datatypes and variables: dynamic typing -> Python is a <a href = "https://realpython.com/python-type-checking/#dynamic-typing"> dynamically typed language</a>, meaning it doesn't enforce type declarations at runtime </li>
 <li> reassignment of variables</li>
 </ul>
-Ok ... so we know how to assign and print variables, but lest discuss them a bit more:
-<h4> DataTypes </h4>
-Variables can store data of different types, and different types can do different things. Python has the following data types built-in by default, in these categories:
+</p>
+<p>Ok ... so we know how to assign and print variables, but lest discuss them a bit more:</p>
+<h5> DataTypes </h5>
+<p>Variables can store data of different types, and different types can do different things. Python has the following data types built-in by default, in these categories:
 <ul>
-<li><span class ="customP">Text Type:</span> str </li>
-<li><span class ="customP">Numeric Types: </span> int, float, complex </li>
-<li><span class ="customP">Sequence Types: </span>list, tuple, range </li>
-<li><span class ="customP">Mapping Type: </span>dict </li>
-<li><span class ="customP">Set Types: </span>set, frozenset </li>
-<li><span class ="customP">Boolean Type: </span>bool </li>
-<li><span class ="customP">Binary Types: </span>bytes, bytearray </li>
-<li><span class ="customP">None Type: </span>NoneType </li>
+<li><code>Text Type:</code> str </li>
+<li><code>Numeric Types:</code> int, float, complex </li>
+<li><code>Sequence Types:</code> list, tuple, range </li>
+<li><code>Mapping Type:</code> dict </li>
+<li><code>Set Types:</code> set, frozenset </li>
+<li><code>Boolean Type:</code> bool </li>
+<li><code>Binary Types:</code> bytes, bytearray </li>
+<li><code>None Type:</code> NoneType </li>
 </ul>
-If you want to find out the type of a variable while a program is running, you can use the <span class = "customP">type()</span> function:
-<pre line="1" lang="html">
+</p>
+<p>If you want to find out the type of a variable while a program is running, you can use the <code>type()</code> function:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 testVar = 5
 print(type(testVar))
 testVar_two = 4.6
 print(type(testVar_two))
+</code>
 </pre>
 <h4>User defined CONSTANTS</h4>
-As you know from other languages like JavaScript, <span class = "customP">constants</span> are <span style  = "color:#992495"> identifiers for values that don’t change during a program’s execution</span>.
-<span class = "customP">Python lacks built-in syntax for constants, treating them as variables that should remain unchanged</span>. You define constants by following a naming convention: use all uppercase letters with underscores separating words. This signals to other developers that these variables should not be reassigned.
-The following example demonstrates creating a constant - and NOTE - that you can change it ... (there will be no warnings from the interpreter)
-<pre line="1" lang="html">
+<p>As you know from other languages like JavaScript, <code>constants</code> are <code> identifiers for values that don’t change during a program’s execution</code>.</p>
+<p><code>Python LACKS built-in syntax for constants</code>, treating them as variables that should remain unchanged.</p> 
+<p>You define constants by following a naming convention: <code>use all uppercase letters with underscores separating words</code>. This signals to other developers that these variables should not be reassigned.
+The following example demonstrates creating a constant - and NOTE - that you can change it ... (there will be no warnings from the interpreter).</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 TEST_ONE = "a constant"
 print(TEST_ONE )
 TEST_ONE = "changed the constant"
 print(TEST_ONE )
+</code>
 </pre>
-A good convention to follow:  define constants at the top of any <code>.py</code> file right after any import statements. This way, people reading your code will immediately know the constants’ purpose and expected treatment.
-https://realpython.com/python-constants/#exploring-other-constants-in-python
-<!-- can we define strict constants ?-->
-Note: as python has evolved - and is now used readily for larger programs with multiple developers - there are techniques for creating <strong>strict user defined constants</strong> - but it is beyond the scope of this class...
+<p>A good convention to follow: define constants at the top of any <code>.py</code> file right after any import statements. This way, people reading your code will immediately know the constants’ purpose and expected treatment.
+<br/>Note: as python has evolved - and is now used readily for larger programs with multiple developers - there are techniques for creating <strong>strict user defined constants</strong> - but it is beyond the scope of this class...</p>
 <h4>Built -in CONSTANTS</h4>
-Python also defines several internal names that can be considered as constants. Some of these names are <span class = "customP">strict constants</span>, meaning that you can’t change them once the interpreter is running.
-A few examples include:
+<p>Python also defines several internal names that can be considered as constants. Some of these names are <code>strict constants</code>, meaning that you can’t change them once the interpreter is running.
+A few examples include:</p>
 <ul>
-<li> True</li>
-<li> False</li>
-<li> None</li>
+<li><code>True</code></li>
+<li><code>False</code></li>
+<li><code>None</code></li>
 </ul>
 <h4>PRINTING VARIABLES</h4>
-When you want to include the values of variables inside a string  - you can do it like we did previously ... or you can use a <span class = "customP">format string</span>. Basically: you embed the variables inside <code>{}</code>, and to indicate that the string is a <span class = "customP">format string</span> - you prefix the string with a <code>f</code>. An example:
-<pre line="1" lang="html">
+<p>When you want to include the values of variables inside a string  - you can do it like we did previously ... or you can use a <code>format string</code>.</p>
+<p>Basically: you embed the variables inside <code>{}</code>, and to indicate that the string is a <scode>format string</code> - you prefix the string with a <code>f</code>. An example:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 #!/usr/bin/python3
 
 my_name = "Sabine"
@@ -284,13 +308,15 @@ a_saved_fstring = f"I love all fruit but my fav are {my_fav_fruit}s"
 print(f"My name is {my_name}")
 print(f"my favorite color is {my_fav_color} and I also love {my_fav_animal}s")
 print(a_saved_fstring)
+</code>
 </pre>
 <!-- for printing we could also include escape chars etc [pg 65]-->
 <h4> User input from the terminal</h4>
-As a sort of side topic - because in the future we will look at taking input from users from a proper UI or we will read from files/ database/json / apis ...
+<p>As a sort of side topic - because in the future we will look at taking input from users from a proper UI or we will read from files/ database/json / apis ...
 BUT - just to start we will see how to take input from the terminal - it is a good introduction to dynamically generated values ...
-So  - its not difficult: we just use the python <span class = "customP"> input() </span> function. As you will see - the result from the <span class = "customP"> input()</span> function can be stored in a variable ...  AND ... within the <span class = "customP"> input() </span>, we san specify some instructions...
-<pre line="1" lang="html">
+So  - its not difficult: we just use the python <code> input() </code> function. As you will see - the result from the <code> input()</code> function can be stored in a variable ...  AND ... within the <code> input() </code>, we san specify some instructions:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 #!/usr/bin/python3
 
 my_name = input("Name: ")
@@ -303,26 +329,30 @@ a_saved_fstring = f"Your fav fruit is {my_fav_fruit}"
 print(f"Your name is {my_name}")
 print(f"Your favorite color is {my_fav_color} and You also love {my_fav_animal}s")
 print(a_saved_fstring)
-
+</code>
 </pre>
 <h3> Functions</h3>
-You have already seen a couple of inbuilt python functions: <span class = "customP"> print(), type(), input() ...</span> - and python has mananananay more, and the various modules that extend python have mananannay more :)
-If you want to get information on any core python function  - you can access probably the most useful one of them all: <span class = "customP"> help() </span>.
-For example:
-<pre line="1" lang="html">
+<p>You have already seen a couple of inbuilt python functions: <code> print(), type(), input() ...</code> - and python has mananananay more, and the various modules that extend python have mananannay more :)
+If you want to get information on any core python function  - you can access probably the most useful one of them all: <code> help() </code>.
+For example:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 #!/usr/bin/python3
 help(round)
 #get info on round() 
+</code>
 </pre>
-** Only use the <span class = "customP"> on the name of the function</span>, do not execute the function inside the help() :) - will give you a completely different output.
+<p>** Only use the <code> on the name of the function</code>, do not execute the function inside the help() :) - will give you a completely different output.</p>
 <h4> Defining your own functions I</h4>
-Lets start with a simple example: lets say we wanted to create a custom function  called <span class  = "customP"> least_difference </span> that does the following:
+<p>Let's start with a simple example: lets say we wanted to create a custom function called <code>least_difference</code> that does the following:
 <ul>
 <li>takes <strong>three numbers</strong> x1, x2 and x3 as arguments</li>
 <li>will calculate the differences between x1 and x2 , x1 and x3, x2 and x3</li>
 <li>returns the minimum difference </li>
 </ul>
-<pre line="1" lang="html">
+</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 def least_difference(x1, x2, x3):
     #abs() returns the absolute value
     # min() returns the minimum value
@@ -330,19 +360,22 @@ def least_difference(x1, x2, x3):
     diff2 = abs(x1 - x3)
     diff3 = abs(x2 - x3)
     return min(diff1, diff2, diff3)
+</code>
 </pre>
+<p>
 Lets break it down:
 <ul>
-<li>We create a function called <span class = "customP">least_difference</span>, which takes three arguments,x1, x2, and x3.</li>
-<li>Functions start with a <span class = "customP">header introduced by the <code>def</code> keyword</span>.</li>
-<li>The <span class = "customP"> indented block of code following the <code>:</code> </span> is run when the function is called.</li>
-<li><span class = "customP"><code>return</code></span> is another keyword uniquely associated with functions. 
-When Python encounters a return statement, it exits the function immediately, and passes the value on the right hand side to the calling context.</li>
+<li>We create a function called <code>least_difference</code>, which takes three arguments,x1, x2, and x3.</li>
+<li>Functions start with a <code>header</code> introduced by the <code>def</code> keyword.</li>
+<li>The <code>indented block</code> of code following the <code>:</code> is run when the function is called.</li>
+<li><code>return</code>is another keyword uniquely associated with functions. When Python encounters a return statement, it exits the function immediately, and passes the value on the right hand side to the calling context.</li>
 </ul>
+</p>
+<!--sabine here-->
 <h4> Defining your own functions II</h4>
-What would happen if you did not include the <span class = "customP"><code>return</code></span> keyword when you define a function?
-
-<pre line="1" lang="html">
+<p>What would happen if you did not include the <code>return</code> keyword when you define a function?</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 def least_difference(x1, x2, x3):
     """Return the smallest difference between any two numbers
     among x1, x2 and x3.
@@ -351,21 +384,23 @@ def least_difference(x1, x2, x3):
     diff2 = abs(x2 - x3)
     diff3 = abs(x1 - x3)
     min(diff1, diff2, diff3)
+    </code>
 </pre>
-Note: the <span class = "customP"> multiline comment </span> just after the function header is known as a <span class = "customP">docstring</span>: a description of the function ... it allows us now to use the <span class = "customP"> help() </span> function  on for our custom function :)  - <span class = "customP">least_difference</span>.
-
-Python allows us to define functions without a return. The result of calling them is the special value <span class = "customP">None</span>. (This is similar to the concept of "null" in other languages.)
-Without a return statement though - the function <span class = "customP">least_difference() </span> is completely pointless.
-But there ARE functions that are useful without returning anything. We've already seen two examples of this: print() and help() don't return anything. We only call them for their side effects (putting some text on the screen). Other examples of useful side effects include writing to a file, or modifying an input...
+<p>
+Note: the <code> multiline comment</code> just after the function header is known as a <code>docstring</code>: a description of the function. It allows us now to use the <code> help()</code> function  on for our custom function :)  - <code>least_difference</code>.</p>
+<p>Python allows us to define functions <em>without a return</em>. The result of calling them is the special value <code>None</code>. (This is similar to the concept of "null" in other languages.)
+Without a return statement though - the function <code>least_difference() </code> is completely pointless.</p>
+<p>There ARE functions that are useful without returning anything. We've already seen two examples of this: <code>print()</code> and <code>help() </code>don't return anything. We only call them for their <em>side effects</em> (putting some text on the screen). Other examples of useful side effects include writing to a file, or modifying an input...</p>
 <h4> Default and Optional Arguments</h4>
-Information can be passed into python functions as arguments (just like javascript :)).
-Arguments are specified after the function name, inside the parentheses. You can add as many arguments as you want, just separate them with a comma.
-Python also allows for function arguments to have <span class = "customP"> default values </span>. If the function is called without the argument, then the argument gets its default value.
-This default value is assigned in the function header using the assignment operator (=). 
-<span style = "color:#992495">Syntax: </span>
-<code>def function_name(param1, param2=default_value2, param3=default_value3)</code>
-The next example demonstrates <span style = "color:#992495">the importance of  the order of arguments</span> given in the function call: 
-<pre line="1" lang="html">
+<p>Information can be passed into python functions as <code>arguments</code> (just like javascript :)).
+Arguments are specified after the function name, inside the parentheses. You can add as many arguments as you want, just separate them with a comma.</p>
+<p>Python also allows for function arguments to have <code> default values </code>. If the function is called without the argument, then the argument gets its default value.
+This default value is assigned in the function header using the assignment operator (=).</p> 
+<p>The Syntax:<br/>
+<code>def function_name(param1, param2=default_value2, param3=default_value3)</code>.</p>
+<p>The next example demonstrates <code>the importance of  the order of arguments</code> given in the function call:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 def student(firstname, lastname ='Smith', grade ='Fifth'):
  print(firstname, lastname, 'studies in', grade, 'Grade')
 # 1 positional argument
@@ -377,14 +412,16 @@ student('Cassandra', 'Eighth') # takes second position - so grade will be Fifth
 
 # 3 positional arguments                         
 student('Cassandra', 'Parker', 'Eighth')  
+</code>
 </pre>
-
-In the first call, there is only one required argument and the rest arguments use the default values. 
-In the last call (4th), the <code>lastname</code> and <code>grade</code> arguments values are replaced from the default values to new passing values. 
-In the second and third call only the <code>lastname</code> argument value is replaces from the default to the new .. 
-
-You can call functions with keyword argments:
-<pre line="1" lang="html">
+<ul>
+<li>In the first call, there is only one required argument and the rest of the arguments use the default values.</li> 
+<li>In the last call (4th), the <code>lastname</code> and <code>grade</code> arguments values are replaced from the default values to new passing values.</li>
+<li>In the second and third call only the <code>lastname</code> argument value is replaces from the default to the new .. </li>
+</ul>
+<p>You can call functions with keyword argments:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 def student(firstname, lastname ='Smith', grade ='Fifth'):
      print(firstname, lastname, 'studies in', grade, 'Grade')
 
@@ -396,12 +433,13 @@ student(firstname ='Cassandra', grade ='Eighth')
 
 # 2 keyword arguments 
 student(lastname ='Parker', firstname ='Cassandra')
+</code>
 </pre>
-
-As you can see from the example, we are using the keyword(s) to specify which argument to replace. 
-Note: it is advisable not to mix the <span style = "color:#992495">positional</span> with the <span style = "color:#992495">keyword</span> strategy for the default arguments -> it is one or the other.
-The following examples will generate errors:
-<pre line="1" lang="html">
+<p>As you can see from the example, we are using the keyword(s) to specify which argument to replace. 
+Note: it is advisable not to mix the <code>positional</code> with the <code>keyword</code> strategy for the default arguments -> it is one or the other.</p>
+<p>The following examples will generate errors:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 # required argument missing
 student()                
 
@@ -410,12 +448,15 @@ student(firstname ='Cassandra', 'Fifth')
 
 # unknown keyword argument 
 student(subject ='Maths')
+</code>
 </pre>
 
 <h4>Passing Functions as parameters</h4>
-We can also create custom functions that accept a <span class  = "customP">function</span> as an argument. Again this should be a familiar concept if you know a bit of javascript:
-In Python, functions are first-class objects meaning they can be assigned to variables, passed as arguments and returned from other functions. This enables <em>higher-order functions</em>, <em>decorators</em> and <em>lambda expressions</em> (do not worry about these specific terms for now). By passing a function as an argument, we can modify a function’s behaviour dynamically without altering its implementation. For Example: we want to have a function whose purpose is to apply a function to process text:
-<pre line="1" lang="html">
+<p>We can also create custom functions that accept a <code>function</code> as an argument. Again this should be a familiar concept if you know a bit of javascript:
+In Python, functions are first-class objects meaning they can be assigned to variables, passed as arguments and returned from other functions. This enables <em>higher-order functions</em>, <em>decorators</em> and <em>lambda expressions</em> (do not worry about these specific terms for now). By passing a function as an argument, we can modify a function’s behaviour dynamically without altering its implementation.</p> 
+<p>For Example: we want to have a function <code>whose purpose is to apply a function to process text:</code></p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 def process(alteringFunction, text):  # applies a function to text  
     return alteringFunction(text)  
 
@@ -434,16 +475,18 @@ print(process(replaceText, "good afternoon CART 351!"))
 #use same () and pass different functions
 itOne = process(uppercase, "double-trouble")
 print(process(replaceText, itOne))
+</code>
 </pre>
-Explanation: The function <span class = "customP">process()</span> applies a any given function to text.
-We then have defined uppercase() and replaceText(), which get passed as parameters to <span class = "customP">process()</span>.
+<p>Explanation: The function <code>process()</code> applies a any given function to text.
+We then have defined uppercase() and replaceText(), which get passed as parameters to <code>process()</code>.</p>
 
 <h3> Logical IF/ ELSE /ELSE IF</h3>
-We recently went over the comparison operators: <code> ==, !=, <, >, <=, >= </code> and the logical operators: <code >and,or,not </code>. 
-Recall: that when these are used in boolean expressions - the result will be <code>True</code> or <code> False </code>.
-So - as you learnt in other programming languages - we can use boolean expressions to make decisions - using condition tests ... the <span class = "customP"> if statement </span>.
-<pre line="1" lang="html">
-Consider the following examples:
+<p>We recently went over the comparison operators: <code> ==, !=, <, >, <=, >= </code> and the logical operators: <code>and,or,not</code>. 
+Recall: that when these are used in boolean expressions - the result will be <code>True</code> or <code>False</code>.</p>
+<p>So - as you learnt in other programming languages - we can use boolean expressions to make decisions - using condition tests ... the <code>if statement</code>.
+Consider the following examples:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27" class="language-python line-numbers">
+<code>
 #simple if
 var_a = 33
 var_b = 200
@@ -469,53 +512,91 @@ elif var_a_in_two > var_b_in_two:
     print(f"{var_a_in_two} is greater then  {var_b_in_two}")
 else:
    print(f"{var_a_in_two} is less then  {var_b_in_two}")
+</code>
 </pre>
 
 <h3> For Loop </h3>
-An example <span class = "customP">for loop</span> in... python!: 
-<pre line="1" lang="html">
+<p>An example <span class = "customP">for loop</span> in... python!:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 num=5
 for i in range (num):
     print (i)
+</code>
 </pre>
-To loop through a set of code a specified number of times, you can use the <span class = "customP">range()</span> function.
+<p>To loop through a set of code a specified number of times, you can use the <code>range()</code> function.</p>
 <ul>
-<li>The <span class = "customP">range()</span> function defaults to 0 as a starting value</li>
-<li>It is possible to specify the starting value by adding a parameter: range(i, j), which means values from <span class = "customP">i to j (but not including j)</span> </li>
-<li> The range() function defaults to increment the sequence by 1, however it is possible to specify the increment value by adding a third parameter <span class = "customP">k</span>: range(i, j, k). </span>
+<li>The <code>range()</code> function defaults to 0 as a starting value</li>
+<li>It is possible to specify the starting value by adding a parameter: range(i, j), which means values from <code>i to j (but not including j)</code> </li>
+<li> The range() function defaults to increment the sequence by 1, however it is possible to specify the increment value by adding a third parameter <code>k: range(i, j, k).</code> </li>
 </ul>
-Another example:
-<pre line="1" lang="html">
+<p>Another example:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 sum = 0
 for i in range(0, 20, 2):
     sum = sum + i
 print(sum)
 # output 90
+</code>
 </pre>
-Using the for loop to iterate through lists etc.. is fundamental - we will come back to those details in the next section.
-<p class = "customP" style = "text-transform:uppercase">Using else in the for loop</p>
-The <span class = "customP">else</span> keyword in a for loop specifies a block of code to be executed <span class = "customP">when the loop is finished</span>:
-<pre line="1" lang="html">
+<p>Using the for loop to iterate through lists etc.. is fundamental - we will come back to those details in the next section.</p>
+<h4>Using else in the for loop</h4>
+<p>The <code>else</code> keyword in a for loop specifies a block of code to be executed <code>when the loop is finished</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 for index in range(20):
   print(index)
 else:
   print("finished for loop!")
+</code>
 </pre>
+<p>Note that the following snippet will produce the same result:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
+for index in range(20):
+  print(index)
 
-<p class = "customP" style = "text-transform:uppercase"> Break </p>
-The <span class = "customP">break</span> keyword is used to break out a for loop, or a while loop.
-<pre line="1" lang="html">
+print("finished for loop again!")
+</code>
+</pre>
+<h4> Break </h4>
+<p>The <code>break</code> keyword is used to break out a for loop, or a while loop.</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 for index in range(10):
   print(f"for loop :) {index}")
   if index == 3:
     break
+</code>
 </pre>
-<p class = "customP" style = "text-transform:uppercase"> Break & Else</p>
-You can  use <span class = "customP">break</span> and <span class = "customP">else</span> together in a for loop - but note: if the <span class = "customP">break</span> is executed then the <span class = "customP">else</span> will NOT run.
+<h4> Break & Else</h4>
+<p>You can  use <code>break</code> and <code>else</code> together in a for loop - but note: if the <code>break</code> is executed then the <code>else</code> will NOT run. For example:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
+def test_break_else(num):
+  #go through loop
+  for index in range(num):
+    print(f"for loop :) {index}")
+    #condition for break
+    if index == 30:
+      print(f"breaking out")
+      break
+  #come here if we DO NOT break
+  else:
+    print("finished for loop - num is less than 30!")
 
+  #out of for loop clause
+  print(f"out of the foor loop")
+
+test_break_else(20)
+test_break_else(40)
+</code>
+</pre>
 <h3> While Loop </h3>
-An example <span class = "customP">while loop</span> in... python!: 
-<pre line="1" lang="html">
+<p>An example <code>while loop</code> in... python!: </p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 # Condition of the while loop
 number =int(input("Please input number: ")) 
 while number < 20 :  
@@ -523,146 +604,193 @@ while number < 20 :
     # Increment the value of the variable "number by 1"
     number = number+1
 print(f"after the while loop: number is: {number}")
+</code>
 </pre>
-Recall :) - A while loop is a programming concept that, when it's implemented, executes a piece of code over and over again while a given condition still holds TRUE.
+<p> Recall :) - A while loop is a programming concept that, when it's implemented, executes a piece of code over and over again while a given condition still holds TRUE.</p>
 <h3> Query things in strings </h3>
-Lets do some more fun things with strings ;) - i.e. lets look at some python functions that allow us to do some interesting things with text:
+<p>Let's do some more fun things with strings ;) - i.e. lets look at some python functions that allow us to do some interesting things with text:</p>
 <h4>len()</h4>
-This function will return the length of the string that you give to it as an argument:
-<pre line="1" lang="html">
+<p>This function will return the length of the string that you give to it as an argument:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print(len("A good day is one with lots of ice cream!"))
+</code>
 </pre>
-You can use the return value from <span class = "customP">len()</span> in other expressions:
-<pre line="1" lang="html">
+<p>You can use the return value from <code>len()</code> in other expressions:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print (len("camambert")+len("cheddar"))
+</code>
 </pre>
 <h4>in</h4>
-The python operator <span class = "customP">in</span> will allow us to check if a particular strings exists <em>within</em> another string. The operator will return <span class = "customP">True or False</span>:
-<pre line="1" lang="html">
+<p>The python operator <code>in</code> will allow us to check if a particular strings exists <em>within</em> another string. The operator will return <code>True or False</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print("ice" in "ice cream")
+</code>
 </pre>
-or
-<pre line="1" lang="html">
+<p>or:</p>
+
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print("vanilla" in "ice cream")
+</code>
 </pre>
 <h4>startswith() and endswith()</h4>
-The previous operator <span class = "customP">in</span> checked if a given string occurred <em> anywhere</em> in another string... we can now be more specific with <span class = "customP">startswith()</span> or <span class = "customP">endswith()</span> by checking the beginning or the end respectively:
-<pre line="1" lang="html">
+<p>The previous operator <code>in</code> checked if a given string occurred <em> anywhere</em> in another string... we can now be more specific with <code>startswith()</code> or <code>endswith()</code> by checking the beginning or the end respectively:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print("ice cream".startswith("ice"))
 print("ice cream".endswith("ice"))
+</code>
 </pre>
 <h4>isdigit()</h4>
-This method will return <span class = "customP">True</span> if python believes that the string could represent an integer and <span class = "customP">False</span> otherwise:
-<pre line="1" lang="html">
+<p>This method will return <code>True</code> if python believes that the string could represent an integer and <code>False</code> otherwise:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print("ice".isdigit())
 print("25690".isdigit())
 print("25690.89".isdigit())
+</code>
 </pre>
 <h4> isupper() and islower()</h4>
-These methods will return <span class = "customP">True</span> if python  the string is all in uppercase and all in lowercase respectively -  and <span class = "customP">False</span> otherwise:
-<pre line="1" lang="html">
+<p>These methods will return <code>True</code> if python  the string is all in uppercase and all in lowercase respectively -  and <code>False</code> otherwise:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print("ice cream".islower())
 print("Ice cream".islower())
 print("ICE cream".isupper())
 print("ICE CREAM".isupper())
+</code>
 </pre>
 <h4>find()</h4>
-The <span class = "customP"> in </span> operator (as discussed above) will tell us if a string is within another string - BUT if we want to know <span class = "customP"> where</span> the string occurs, we can use the <span class = "customP">find()</span> function. It takes a single argument: the string we are looking for. If the string is found, then the function will return the FIRST <span class = "customP">index</span> at which the string was found. It will return -1 if nothing is found.
-<pre line="1" lang="html">
+<p>The <code> in </code> operator (as discussed above) will tell us if a string is within another string - BUT if we want to know <code> where</code> the string occurs, we can use the <code>find()</code> function. It takes a single argument: the string we are looking for. If the string is found, then the function will return the FIRST <code>index</code> at which the string was found. It will return -1 if nothing is found.</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 choccy = "I love chocolate especially with nuts"
 choccychocc = "I love chocolate especially chocolate with nuts"
 
 print(choccy.find("choc"))
 print(choccy.find("nutty"))
 print(choccychocc.find("choc"))
+</code>
 </pre>
 <h4>count()</h4>
-This function will return the <span class = "customP">number of times a particular string is found within another string.
-<pre line="1" lang="html">
+<p>This function will return the <code>number of times</code> a particular string is found within another string.</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 choccy = "I love chocolate especially with nuts"
 choccychocc = "I love chocolate especially chocolate with nuts"
+
 
 print(choccy.count("choc"))
 print(choccy.count("nutty"))
 print(choccychocc.count("choc"))
+</code>
 </pre>
 <h4>==</h4>
-To test if two strings contain the <span class="customP">same characters </span> and in the <span class="customP">same order</span> - we can use the standard <span class = "customP"> equality operator (==)</span>:
-<pre line="1" lang="html">
+<p>To test if two strings contain the <code>same characters</code> and in the <code>same order</code> - we can use the standard <code> equality operator (==)</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print("west"=="east")
 print("east"=="east")
 print("WEST"=="West")
+</code>
 </pre>
+<!--SABINE HERE-->
 <h3> Simple String transformations </h3>
-Python strings have a number of different functions , which when called on a string, will return <span class="customP">a copy of that string with the transformation applied to it</span>.These functions are super helpful - when you normalize, clean, or prepare strings for display purposes...
+<p>Python strings have a number of different functions , which when called on a string, will return <code>a copy of that string with the transformation applied to it</code>.These functions are super helpful - when you normalize, clean, or prepare strings for display purposes...</p>
 <h4>upper()</h4>
-This function will return the string all in upper case:
-<pre line="1" lang="html">
+<p>This function will return the string all in upper case:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 allInUpper = "questions! and Anwsers and more questions!".upper()
 print(allInUpper)
+</code>
 </pre>
 <h4>lower() </h4>
-In contrast, this function will return the string all in lower case:
-<pre line="1" lang="html">
+<p>In contrast, this function will return the string all in lower case:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 allInLower = "questions! and Anwsers and more questions!".lower()
 print(allInLower)
+</code>
 </pre>
 <h4>title()</h4>
-And then - this function will replace every letter at the beginning of each word with an upper case letter:
-<pre line="1" lang="html">
+<p>And then - this function will replace every letter at the beginning of each word with an upper case letter:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 capitalizeEach = "questions! and Anwsers and more questions!".title()
 print(capitalizeEach)
+</code>
 </pre>
 <h4>strip()</h4>
-This function will <span class="customP">remove any whitespace</span> from the beginning of the end of the string  - BUT not in between
-<pre line="1" lang="html">
+<p>This function will <code>remove any whitespace</code> from the beginning of the end of the string  - BUT not in between</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print("     got some space at beginning and at end.   ")
 removeWhite = "     got some space at beginning and at end.   ".strip()
 print(removeWhite)
+</code>
 </pre>
 <h4> replace()</h4>
-The <span class="customP">replace()</span> takes two arguments: <span class="customP"> 1: the string to find </span>  and <span class="customP">2: the string to replace </span> with wherever that string has been found (essentially a replaceAll)
-<pre line="1" lang="html">
+<p>The <code>replace()</code> takes two arguments: <code>1: the string to find</code> and <code>2: the string to replace</code> with wherever that string has been found (essentially a replaceAll)</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 originalText ="i love ice cream and cookies and I love carrots and bananas but what I love most is lasagna"
 replaceAll = originalText.replace("I love","I dislike")
 print(replaceAll)
+</code>
 </pre>
-You can add the optional <span class = "customP">count</span> argument to the function in order to replace only "count" number of occurrences:
-<pre line="1" lang="html">
+<p>You can add the optional <code>count</code> argument to the function in order to replace only "count" number of occurrences:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 originalText ="i love ice cream and cookies and I love carrots and bananas but what I love most is lasagna"
 replaceFirst = originalText.replace("I love","I dislike",1)
 print(replaceFirst)  
+</code>
 </pre>
 <h4>int() </h4>
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print(int("45"))
+</code>
 </pre>
 <!--SABINE NEW ... -->
 <h3> Lists </h3>
-In python: a <span class = "customP">list</span> is a container of things organized from <span class = "customP">first to last</span>.
-Examples:
-<pre line="1" lang="html">
+<p>In python: a <code>list</code> is a container of things organized from <code>first to last</code>.
+Examples:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 fruits = ["oranges","bananas","melons","strawberries"]
 vegetables = ["carrots","aubergines","celery","cauliflower"]
 mixed_bag = [1,3,"nothing",2.4,True]
+</code>
 </pre>
-To <span class = "customP">iterate</span> through a list you can use a standard for loop i.e:
-<pre line="1" lang="html">
+<p>To <code>iterate</code> through a list you can use a standard for loop i.e:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 for el in fruits:
     print(f"I love {el}")
+</code>
 </pre>
 
-<span style = "color:#992495">Representing a string as a list </span>
-A string is a also a list ... a list of characters. Therefore you can iterate through a string using a for loop ... to access the characters:
-<pre line="1" lang="html">
+<h4>Representing a string as a list </h4>
+<p>A string is a also a list ... a list of characters. Therefore you can iterate through a string using a for loop ... to access the characters:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 testString = "A wonderful sunshiny day"
 for ch in testString:
     print(ch)
+</code>
 </pre>
-<h3> Appending to a list </h3>
-1. Start with an empty list
-2. Use the function <code> append()</code> to add a new item to the list:
-<pre line="1" lang="html">
+<h4> Appending to a list </h4>
+<ol>
+<li>Start with an empty list</li>
+<li>Use the function <code> append()</code> to add a new item to the list:</li>
+</ol>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 #empty list
 newItems = []
 newItems.append("first")
@@ -673,57 +801,71 @@ for i in range(2,10):
 
 for el in newItems:
     print(el)
+  </code>
 </pre>
-** Note: you cannot use the <span class = "customP">append()</span> on a <span class = "customP">string</span> - we will come to string functions specifically later on...
+<p>** Note: you cannot use the <code>append()</code> on a <code>string</code> - we will come to string functions specifically later on...</p>
 <h4> Accessing Elements in a List </h4>
-So you can go through a list in order (for loop) ... 
-AND: you can also access elements by their position in the list (just like an array :))
+<p>So you can go through a list in order (for loop) ... AND: you can also access elements by their position in the list (just like an array :))<br/>
 Consider:
-<pre line="1" lang="html">
+</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 var_A = 34
 things = ['cat','pencil',34,True,-164,"whale",var_A]
+</code>
 </pre>
-<span class = "customP"> How do we access: (using the position) </span>
-The `thing` at beginning of the list?
-The `thing` at the end of the list?
-The 'pencil'?
-The 'True' value?
-<span style = "color:#992495">You can access a character in a string also by its position:</span>
-<pre line="1" lang="html">
+<p><code> How do we access: (using the position) </code></p>
+<ul>
+<li>The `thing` at beginning of the list? </li>
+<li>The `thing` at the end of the list? ** - hint we do have the <code>len()</code></li>
+<li>The 'pencil'?</li>
+<li>The 'True' value?</li>
+</ul>
+<p>You can access a character in a string also by its position:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 anotherTest = "A wonderful rainy day"
 print(f"character at position 0 (1st) {anotherTest[0]}")
 print(f"character at position 2 (3rd) {anotherTest[2]}")
+</code>
 </pre>
 <h4> Helpful list methods</h4>
-We have seen the function <span class = "customP">append()</span> .. other list methods include:
+<p>We have seen the function <code>append()</code> .. other list methods include:</p>
 <ul>
 <li> 
-<span class = "customP">insert(index, elem)</span>: inserts the element at the given index, shifting elements to the right:
-<pre line="1" lang="html">
+<code>insert(index, elem)</code>: inserts the element at the given index, shifting elements to the right:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 testList = ["abc","3",56,67,True,["a","b","c"]]
 testList.insert(2,"new element") # insert in 3rd place
 for el in testList:
     print(el)
+</code>
 </pre>
 </li>
 <li> 
-<span class = "customP">extend(anotherList)</span>: adds the elements in `anotherList` to the end of the list:
-<pre line="1" lang="html">
+<code>extend(anotherList)</code>: adds the elements in `anotherList` to the end of the list:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 listA = ["red","blue","orange"]
 listB = ['sarah','michael','kiara','stephen']
 listA.extend(listB)
 print(listA)
+</code>
 </pre>
 </li>
-<li><span class = "customP">+= </span>: on a list is similar to extend():
-<pre line="1" lang="html">
+<li><code>+= </code>: on a list is similar to extend():
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 listC = ['cats','dogs','parrots']
 listA +=listC
 print(listA)
+</code>
 </pre>
 </li>
-<li><span class = "customP">+ </span>: you can combine lists:
-<pre line="1" lang="html">
+<li><code>+ </code>: you can combine lists:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 #1
 aL = ["1","2"]
 bL = ["a","c","b"]
@@ -732,11 +874,12 @@ print(cL)
 #2
 dL = aL+aL+bL
 print(dL)
+</code>
 </pre>
-
 </li>
-<li><span class = "customP">index(elem)</span>: searches for an element from the start of the list and returns the index. Will throw a `ValueError` if the element does not appear. Note - you CAN use this method on strings as well:
-<pre line="1" lang="html">
+<li><code>index(elem)</code>: searches for an element from the start of the list and returns the index. Will throw a `ValueError` if the element does not appear. Note - you CAN use this method on strings as well:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 listQ = ['cats','dogs','parrots']
 print(listQ.index("Cats")) # will throw a Value Error and ends program
 print(listQ.index("cats"))
@@ -744,18 +887,22 @@ print(listQ.index("cats"))
 myStringTest = "another fine snowy day"
 print(myStringTest.index("z"))# will throw a Value Error and ends program
 print(myStringTest.index("s"))
+</code>
 </pre>
 </li>
-<li><span class = "customP">remove(elem)</span>: searches for the first instance of the given element and removes it (throws ValueError if not present). Note: will NOT work on a string:
-<pre line="1" lang="html">
+<li><code>remove(elem)</code>: searches for the first instance of the given element and removes it (throws ValueError if not present). Note: will NOT work on a string:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 listF = ['cats','dogs','parrots','pies']
 listF.remove('dogs')
 listF.remove('pie')# will throw a Value Error and ends program
 print(listF)
+</code>
 </pre>
  </li>
-<li><span class = "customP">sort()</span>: sorts a list in place (note you cannot generally mix datatypes (except numbers -> can be floats and ints) in a list to sort - all have to be the same): 
-<pre line="1" lang="html">
+<li><code>sort()</code>: sorts a list in place (note you cannot generally mix datatypes (except numbers -> can be floats and ints) in a list to sort - all have to be the same): 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 listToSort = ['water','question','apples','wander']
 listToSortBools = [True,True,False,True]
 listToSortNums = [2.5,6,7,43,102.6,1,1.2,0.8]
@@ -771,31 +918,39 @@ print(f"after:: {listToSortBools}")
 print(f"before:: {listToSortNums}")
 listToSortNums.sort()
 print(f"after:: {listToSortNums}")
+</code>
 </pre>
 </li>
-<li><span class = "customP">reverse()</span>: reverses the list in place: 
-<pre line="1" lang="html">
+<li><code>reverse()</code>: reverses the list in place: 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 listToSort.reverse()
 print(listToSort)
+</code>
 </pre>
 </li>
-<li><span class = "customP">len()</span>: access the length of a list: 
-<pre line="1" lang="html">
+<li><code>len()</code>: access the length of a list: 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print (len(dL))
 print(len(dL+dL))
+</code>
 </pre>
 </li>
-<li><span class = "customP">pop(index)</span>: removes and returns the element at the given index, or returns the rightmost element if index is omitted: 
-<pre line="1" lang="html">
+<li><code>pop(index)</code>: removes and returns the element at the given index, or returns the rightmost element if index is omitted: 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 el = listToSort.pop() # take out at end
 print(f"item removed: {el}")
 print(f"rev list: {listToSort}")
+</code>
 </pre>
 </li>
 </ul>
 <h4> Finding existence </h4>
-You can use the keyword <span class = "customP">in</span> to determine whether or not an element exists in a list (returns True or False). This option also works on Strings:
-<pre line="1" lang="html">
+<p>You can use the keyword <code>in</code> to determine whether or not an element exists in a list (returns True or False). This option also works on Strings:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-python line-numbers">
+<code>
 list_ex = ['stars', 23, 'stripes',"dots",62]
 #1
 if 'stars' in list_ex:
@@ -824,52 +979,61 @@ if 'days' in strTest:
     print("found days")
 else:
     print("not in")
+</code>
 </pre>
 <h4> join() </h4>
-If you for instance have a <span class = "customP">list of words</span> - it is a <em>common</em> task to want to take that list and then <span class = "customP">'glue' it back together</span> so that it is a single string again... (go from LIST --> STRING):
-<pre line="1" lang="html">
+<p>If you for instance have a <code>list of words</code> - it is a <em>common</em> task to want to take that list and then <code>'glue' it back together</code> so that it is a single string again... (go from LIST --> STRING):</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 element_list = ["hydrogen", "helium", "lithium", "beryllium", "boron"]
 glue = ", and "
 single_str = glue.join(element_list)
 print(single_str)
+</code>
 </pre>
-So, the <span class = "customP">join()</span> needs a "glue" string to the left - this is the string that will be placed in-between each word in the list.
-The argument passed to the <span class = "customP">is the list to convert</span>.
+<p>So, the <code>join()</code> needs a "glue" string to the left - this is the string that will be placed in-between each word in the list.
+The argument passed to the <code>is the list to convert</code>.</p>
 <h4> split() </h4>
-In contrast to <span class = "customP">join()</span>, <span class = "customP">split()</span> will take a string and convert to a list :) - This can be useful when you want to apply list operations on a string.
-***-> NEED TO FINISH
-
-Very often you therefore use split() and join() together:
+<p>In contrast to <code>join()</code>, <code>split()</code> will take a string and convert to a list :) - This can be useful when you want to apply list operations on a string.</p>
+Very often you therefore use split() and join() together:</p>
 <ol>
 <li>Split a string to get a list of units (i.e. words)</li>
 <li>Use some list operations on the new list</li>
 <li>Join that list back together as a string </li>
 <li>Do something with the new string </li>
 </ol>
+<!-- EXAMPLE ??-->
 
 <h4> List slicing </h4>
-<span class = "customP">List slicing</span> in python is an important strategy that will allow one  to easily access specific elements in a list. The syntax is as follows:
-<span class = "customP">list_name[start : end : step]</span>
-The Parameters are:
-<span class = "customP">start (optional)</span>: Index to begin the slice (inclusive). Defaults to 0 if omitted.
-<span class = "customP">end (optional)</span>: Index to end the slice (exclusive). Defaults to the length of list if omitted.
-<span class = "customP">step (optional)</span>: Step size, specifying the interval between elements. Defaults to 1 if omitted.
-NOTE: you can also perform <span class = "customP">slicing on strings :) </span>
+<p><code>List slicing</code> in python is an important strategy that will allow one  to easily access specific elements in a list. The syntax is as follows:
+<code>list_name[start : end : step]</code><br/>
+The Parameters are:</p>
 <ul>
-<li> Example to get the items from a list starting at position 1 and ending at position 5 (exclusive):
-<pre line="1" lang="html">
+<li><code>start (optional)</code>: Index to begin the slice (inclusive). Defaults to 0 if omitted.</li>
+<li><code>end (optional)</code>: Index to end the slice (exclusive). Defaults to the length of list if omitted.</li>
+<li><code>step (optional)</code>: Step size, specifying the interval between elements. Defaults to 1 if omitted.</li>
+</ul>
+<p>NOTE: you can also perform <code>slicing on strings :) </code></p>
+<ul>
+<li> To get the items from a list starting at position 1 and ending at position 5 (exclusive):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 aList = [1,2,3,4,5,'a','b','c','d','e'] 
 print(aList[1:5])
+</code>
 </pre>
 </li>
 <li> Get all the items from a list:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print(aList[::])
 print(aList[:])
+</code>
 </pre>
 </li>
 <li> Get all items before/after a specific position:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 # Get elements starting from index 2 to the end of the list
 bList = aList[2:] #specify start and leave end blank
 print(bList)
@@ -877,18 +1041,22 @@ print(bList)
 # Get elements until from start until index 5 
 cList = aList[:5] #specify end and leave start blank
 print(cList)
+</code>
 </pre>
 </li>
 
 <li> Get all items between two positions:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 # Get elements from index 1 to index 6 (excluding index 6)
 dList = aList[1:6]
 print(dList)
+</code>
 </pre>
 </li>
 <li>Get items at specified intervals:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 # Get every second element from the list, starting from the beginning (use the step)
 stepA = aList[::2]
 print(stepA)
@@ -896,10 +1064,12 @@ print(stepA)
 # Get every third element from the list, starting from index 1 to 8(exclusive)
 stepB = aList[1:8:3]
 print(stepB)
+</code>
 </pre>
 </li>
-<li><span class = "customP">Negative indexing</span> is useful when you want to access elements using indexes starting from the end of the list. The last element always has an index of -1, the second last element -2, and so on.... <span class = "customP">Negative indexing makes it easy to access items without needing to know the exact length of the list</span>.
-<pre line="1" lang="html">
+<li><code>Negative indexing</code> is useful when you want to access elements using indexes starting from the end of the list. The last element always has an index of -1, the second last element -2, and so on.... <br/>Negative indexing makes it easy to access items without needing to know the exact length of the list.
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 # Get elements starting from index -2 to end of list
 negA = aList[-2:]
 print(negA)
@@ -919,10 +1089,12 @@ print(negD)
 #Get from index 1 to last (excluding last)
 negE= aList[1:-1]
 print(negE)
+</code>
 </pre>
 </li>
 <li> You can also use slicing and replace the items at those indexes:
-<pre line="1" lang="html">
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 qList = [1,2,3,4,5,'a','b','c','d','e'] 
 qList[0:2] = 'z'    ## replace [1,2] with single ['z']
 print(qList)
@@ -934,44 +1106,58 @@ print(rList)
 sList = [1,2,3,4,5,'a','b','c','d','e'] 
 sList[4:-1] = 'nnn'   ## replace
 print(sList)
+</code>
 </pre>
 </li>
 </ul>
 <h4> Reading from a text file </h4>
-Let's look at how to read files from your file system directly. Don't worry - it is not difficult...
-So - the content below will read the contents of the file frankenstein.txt sourced from <a href = "https://www.gutenberg.org/files/84/84-h/84-h.htm#chap01">here</a>
-Download the text file from <a href = "http://clab.concordia.ca/wp-content/uploads/2025/09/frankenstein.txt">HERE</a> and place in a folder called <span class = "customP">data</span> - in your workspace
-<pre line="1" lang="html">
+<p>Let's look at how to read files from your file system directly. Don't worry - it is not difficult...</p>
+<p>So - the content below will read the contents of the file <code>frankenstein.txt</code> sourced from <a href = "https://www.gutenberg.org/files/84/84-h/84-h.htm#chap01">here</a>.<br/>
+Download the text file from <a href = "resources/week_two/frankenstein.txt">HERE</a> and place in a folder called <code>data</code> - in your workspace.</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 franken_chp1 = open("data/frankenstein.txt").read()
+</code>
 </pre>
-Once the text is loaded  - its just a regular string that you can print out ;):
-<pre line="1" lang="html">
+<p>Once the text is loaded  - its just a regular string that you can print out ;):</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print(franken_chp1)
+</code>
 </pre>
-You can run all your string functions on it - i.e.:
-<pre line="1" lang="html">
+<p>You can run all your string functions on it - i.e.:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 #count
 count_my = franken_chp1.count("my")
 print(count_my)
 #length
 lenText = len(franken_chp1)
 print(lenText)
+</code>
 </pre>
-Or you can transform it:
-<pre line="1" lang="html">
+<p>Or you can transform it:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 print(franken_chp1.replace("my", "*********MY*****"))
 print(franken_chp1)
+</code>
 </pre>
-You can run a for loop over it - what does this do?
-<pre line="1" lang="html">
+
+<p>You can run a for loop over it - what does this do?</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 for letter in franken_chp1:
     print(letter)
+</code>
 </pre>
-Or this?
-<pre line="1" lang="html">
+<p>Or this?</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19" class="language-python line-numbers">
+<code>
 words = franken_chp1.split(" ")
 for word in words:
     print(word)
+</code>
 </pre>
 <!--SABINE MARKER -->
 <!--

@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+
+<head>
+  <title></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link href="css/themes/prism.css" rel="stylesheet" />
+
+
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>PYTHON FOUNDATIONS II</h1>
+    </div>
+  </header>
+  <main>
+
+<section class="contents-notes">
+<h3> Dictionaries </h3>
+<ul>
+<li>The dictionary is a very useful data structure in Python. The easiest way to conceptualize a dictionary is that it's like a list, except you don't look up values in a dictionary by their index ---you look them up using a <code>key</code> or a unique identifier for that value --- <code>very much like a JavaScript object</code>.</li>
+<li>We're going to focus here just on learning how to get data <code>out</code> of dictionaries, not how to build new dictionaries from existing data. <br/>We're also going to <em>omit</em> some of the finer details about how dictionaries work internally.</li>
+<li>The benefit of having data that can be parsed into dictionaries, as opposed to lists, is that dictionary keys tend to be <code>mnemonic</code>. <br/>That is, <code>a dictionary key will usually tell you something about what its value is</code>. (This is in opposition to parsing, say, CSV data, where we have to keep counting fields in the header row and translating that to the index that we want.)</li>
+<li>Lists and dictionaries work together and are used extensively to represent all different kinds of data.</li>
+<li>Often, when we get data from a remote source, or when we choose how to represent data internally, we'll use both in tandem. <br/>The most common form this will take is representing a table, or a database, as a <code>list</code> of records that are themselves represented as <code>dictionaries</code> (mapping the name of the column to the value for that column). We'll see an example of this when we access web APIs next :)</li>
+<li>Dictionaries are also good for storing <code>associations</code> or <code>mappings</code> for quick lookups. For example, if you wanted to write a program that was able to recall the capital city of every Canadian Province, you might use a dictionary whose keys are the names of the provinces, and whose values are the corresponding capitals. <br/>Dictionaries are also used for data analysis tasks, like keeping track of how many times a particular token occurs in an incoming data stream.</li>
+<li>Dictionaries are written with curly brackets, surrounding a series of comma-separated pairs of <code>keys</code> and <code>values</code>. </li>
+</ul>
+<p>Here's a very simple dictionary, with one key: <code>Cart_253_A</code> associated with a value: <code>Pippin Bar</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+{'Cart_253_A':'Pippin Bar'}
+</code>
+</pre>
+<p>Next - another example with more entries</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+{'Cart_253_A':'Pippin Bar',
+'Cart_211':'Brad Todd',
+'Cart_214':'Joanna Berzowska', 
+'Cart_215':'Jonathan Lessard'}
+</code>
+</pre>
+<p>The association of a key with a value is sometimes called a <code>mapping</code>. <br/>So, in the above dictionary for example, we might say that the key <code>Cart_253_A</code> maps to the value <code>Pippin Barr</code>.</p>
+<p>A dictionary is just like any other Python value. You can assign it to a variable:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+class_professors = {'Cart_253_A':'Pippin Bar',
+                    'Cart_211':'Brad Todd',
+                    'Cart_214':'Joanna Berzowska', 
+                    'Cart_215':'Jonathan Lessard'}
+</code>
+</pre>
+<p>and that value has a type:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+type(class_professors)
+#result will be: &ltclass 'dict'&gt
+</code>
+</pre>
+<p> Keys and values in dictionaries can be of any data type, not just strings. Here's a dictionary, for example, that maps integers to lists of floating point numbers:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+{17: [1.6, 2.45], 42: [11.6, 19.4], 101: [0.123, 4.89]}
+</code>
+</pre>
+<p> A dictionary can also be empty, containing no key/value pairs at all:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code> 
+{}
+</code>
+</pre>
+<h4> Getting values out of dictionaries: </h4>
+<p> The primary operation that we'll perform on dictionaries is writing an expression that evaluates to the value for a particular key. We do that with the same syntax we used to get a value at a particular index from a list. <br/>Except with dictionaries, instead of using a number, we use one of the keys that we had specified for the value when making the dictionary. 
+<br/>For example, if we wanted to know who is teaching Cart_253_A, or, more precisely, <code>what the value for the key `Cart_253_A` is</code>: we would write this expression:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+class_professors["Cart_253_A"]
+</code>
+</pre>
+<p>If we put a key in those brackets that does not exist in the dictionary, we get an error similar to the one we get when trying to access an element of an array beyond the end of a list:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code> 
+print(class_professors["Cart_255"])
+</code>
+</pre>
+<p><code style = "font-size:12px;color:red;">
+Traceback (most recent call last):
+  File "/Users/se/CART351-2025/LECTURES/WEEK_3/dictionariesEx.py", line 7, in <module>
+    print(class_professors["Cart_255"])
+          ~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'Cart_255'
+</code>
+</p>
+<p>As you might suspect, the thing you put inside the brackets doesn't have to be a string; it can be any Python expression, as long as it evaluates to something that is a key in the dictionary:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+cart_class = 'Cart_214'
+print(class_professors[cart_class])
+</code>
+</pre>
+<p>You can get a list of all the <code>keys</code> in a dictionary using the dictionary's <code>.keys()</code> method:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code> 
+print(class_professors.keys())
+</code>
+</pre>
+<p>And - you can iterate through this list to print out each value using a for loop:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+for key in class_professors.keys():
+    print(class_professors[key])
+</code>
+</pre>
+<p>There is also a function to just iterate through all the <code>values</code> using the <code>values()</code> method:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+print(class_professors.values())
+#use a for loop to iterate:
+for value in class_professors.values():
+    print(value)
+</code>
+</pre>
+<p>And - if you want a list of all <code>key/value</code> pairs you can use the <code>items()</code> method:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+print(class_professors.items())
+#again you can use a for loop - but note that the output is a **tuple**
+for key_val in class_professors.items():
+    print (key_val)
+</code>
+</pre>
+<!--SABINE -->
+<h4> Other operations on dictionaries: </h4>
+<p><a href  = "https://docs.python.org/3.13/library/stdtypes.html#mapping-types-dict">HERE</a> is the entire list of methods that dictionaries support. Let's discuss the first few:</p>
+<ul>
+<li>The <code> in </code> operator: (which we already saw with strings and lists .....) - : will check if a <code> particular key</code> exists in the dictionary:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+print('Cart_253_A' in class_professors )
+#True
+print('Cart_253' in class_professors )
+#False
+</code>
+</pre>
+</li>
+<li> A dictionary can also go in a <code>for</code> loop. If you write a for loop like this, the loop will <code>iterate over each key in the dictionary</code> (it will <em>not</em> return the value at each key :)):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+for item in class_professors:
+    print(item)
+  </code>
+</pre>
+</li>
+<li> If you want the value for each key then you could do the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+for item in class_professors:
+    print(class_professors[item])
+</code>
+</pre>
+</li>
+</ul>
+<h4> Dictionaries can contain lists and other dictionaries </h4>
+<p>Dictionaries are often used to represent <code>hierarchical</code> data structures, that is, data structures with a top-down organization. <br/>For example, consider a program intended to keep track of a shopping list. In such a program, you might want to categorize grocery items by category, so you might make a dictionary that has a key for each category:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+shopping = {
+            'vegetables': ['spinach', 'carrots','broccoli','lettuce'],
+            'fruit': ['canteloupe', 'banananas'],
+             'bakery': ['bagels', 'rye bread'],
+            }
+</code>
+</pre>
+<p>The <code>shopping</code> dictionary above has three keys, whose values are all <code>lists</code>. Writing an expression that evaluates to one of these lists is easy, i.e.:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+shopping["fruit"]
+</code>
+</pre>
+<p>And you could write a <code>for</code> loop to print out the items of one of these lists fairly easily as well, i.e.:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code> 
+print("Vegetable items on your list:")
+for item in shopping['vegetables']:
+    print("* " + item)
+</code>
+</pre>
+<p>But:: how do you write an expression that evaluates to  the <code>first item of the list of vegetables</code>? The trick to this is to remember how <code>indexing syntax</code> works. <br/>When you have a pair of square brackets with a single value inside of them, Python looks immediately to the left of those square brackets for an expression that <code>evaluates to either a list or a dictionary</code>. For example, in the following expression:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+[5, 10, 15, 20][3]
+# the result is 20
+</code>
+</pre>
+<p>... you can think of Python as looking at this expression from right to left. It sees the <code>[3]</code> first and then thinks, "okay, I need to find something that is a list or dictionary directly to the left of this, and grab the third item (index-wise)." <br/>In fact, it <code>does</code> find a list or a dictionary (i.e., the list [5, 10, 15, 20]) and evaluates the entire expression to 20 accordingly.</p>
+<p>With that in mind, let's rephrase the task. I want to get:</p>
+<ul>
+<li>* the <code>first</code> item</li>
+<li>* from the list that is the value for the key <code>vegetables</code></li>
+<li>* in the dictionary <code>shopping</code></li>
+</ul>
+<p>We can work at this problem by following these instructions and then writing the expression <code> backwards </code>. </p>
+<ul>
+<li>* To get the first item from a list, we need: <code style = "font-size:12px;color:red;"> ???[0] # the first item</code></li>
+<li>* The <code>???</code> has to be a list ... so we can then get the value for the key <code> vegetables</code>: <code style = "font-size:12px;color:red;"> ????["vegetables"][0] # from the list that is the value for the key "vegetables" </code></li>
+<li>* Again, <code>????</code> is a placeholder, but now we know it has to be a dictionary. The dictionary, of course, is  <code>shopping</code>, so we can fill that in as the last step:  <code style = "font-size:12px;color:red;">shopping["vegetables"][0]</code></li>
+</ul>
+<p>OK ... lets get a tad more complicated and say that we want to  <code> divide up vegetables by color and have seperate categories for each</code>: a possible solution is then to make the value for the key <code>vegetables</code> to be a ... <code> dictionary</code>:</p>
+
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+shopping_rev = {
+            'vegetables': {"green":["spinach","broccoli","lettuce"],"orange":["carrots"]},
+            'fruit': ['canteloupe', 'banananas'],
+             'bakery': ['bagels', 'rye bread'],
+            }
+</code>
+</pre>
+<p>So now to access the <code> green vegetables </code> we would write:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+shopping_rev['vegetables']['green']
+</code>
+</pre>
+<p>And to get the first <code> orange vegetable </code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+shopping_rev['vegetables']['orange'][0]
+</code>
+</pre>
+<h4>Adding key/value pairs to a dictionary </h4>
+<p>Once you've assigned a dictionary to a variable, you can add another key/value pair to the dictionary by assigning a value to a new index, like so:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+shopping_rev["cleaning_items"] = ["dish-soap", "sponges"]
+</code>
+</pre>
+<p>And note how easily we can add to the list indexed by the key <code>cleaning_items</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+shopping_rev["cleaning_items"].append("bleach")
+print(shopping_rev)
+</code>
+</pre>
+<h4> The order of keys </h4>
+<p>Python stores the key/value pairs in a dictionary <code>in the order you added them to the dictionary</code> **<em>in most cases</em>** -: this was not the case in all versions of python and may not be in the future... therefore do not rely on the fact that <em>right now</em> Python preserves insertion order in dictionaries.</p>
+<h4> Dictionary keys are unique </h4>
+<p>Another important fact about dictionaries is that you <code>can't put the same key into one dictionary twice</code>. If you try to write out a dictionary that has the same key used more than once, Python will silently ignore all but one of the key/value pairs. For example:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+{'a': 1, 'a': 2, 'a': 3}
+#{'a':3} is the result
+</code>
+</pre>
+<p>Similarly, if you attempt to set the value for a key that already exists in the dictionary <code>(using =)</code>, you won't actually add a second key/value pair for that key. Rather, you'll just overwrite the existing value:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+test_dict = {'a': 1, 'b': 2}
+#test_dict['a'] is 1
+
+test_dict['a'] = 100
+test_dict['a']
+#test_dict['a'] is 100
+</code>
+</pre>
+<h3> Web API's </h3>
+ <p><code>A web API is some collection of data, made available on the web, provided in a format easy for computers to parse</code>. But in order to write scripts to access web APIs, we need to review few other things first....</p>
+<h4> URL's </h4>
+<p>Recall: <code>A URL ("uniform resource locator") uniquely identifies a document on the web</code>, and provides instructions for how to access it.  Most of what we do on the web---whether we're using a web browser or writing a script that accesses the web---comes down to manipulating URLs.</p>
+<p>So it's important for us to understand the structure of URLs, so we can take them apart and put them back together (both in our heads and programmatically). URLs have a conventional structure that is specified in Internet standards documentation, and many of the web APIs we'll be accessing assume knowledge of this structure. <br/>So let's take the following URL:  <code> http://www.example.com/categories/test?arg1=apples&arg2=winter</code> and break it down into parts, so we have a common <em>vocabulary</em>:</p>
+<ul>
+<li><code>http</code>: scheme</li>
+<li><code>www.example.com</code>: host</li>
+<li><code>categories/test</code>: path</li>
+<li><code>?arg1=apples&arg2=winter</code>: query string</li>
+</ul>
+<p>All of these parts are required, except for the query string, which is optional.</p>
+<ul>
+<li>The <code>scheme</code> determines what <code>protocol</code> will be used to access this resource. For our purposes, this will almost always be <code>http</code> (HyperText Transfer Protocol) or <code>https</code> (HTTP, but over an encrypted connection).</li>
+<li>The <code>host</code> specifies which server on the Internet we're going to talk to in order to retrieve the document we want.</li>
+<li>The <code>path</code> names a resource on the server, often using slashes (`/`) to represent hierarchical relationships between resources. (Sometimes this corresponds to actual files on the server, but just as often it does not.)</li>
+<li>The <code>query string</code> is a means to tell the server <strong>how</strong> we want the document delivered. (More examples of this coming throughout the semester :))</li>
+</ul>
+<p>So, most of the work you'll do in learning how to use a web API is learning how to construct and manipulate URLs. A quick glance through the documentation for the <a href = "https://developer.spotify.com/documentation/web-api/tutorials/getting-started">Spotify API</a> reveals that the bulk of the documentation is just a big list of URLs, with information on how to adjust those URLs to get the information you want.</p>
+<h4> HTML, JSON and WEB API's</h4>
+<p>The most common format for documents on the web is <code>HTML (HyperText Markup Language)</code>. Web browsers like HTML because they know how to render as human-readable documents---in fact, that's what web browsers are for: turning HTML from the web into visually splendid and exciting entities.</p>
+<p>HTML was specifically designed to be a tool for creating web pages, and it excels at that, but it's not so great for <code>describing structured data</code>. Another popular format is <code>JSON (JavaScript Object Notation)</code>. Like <code>HTML</code>, <code>JSON</code> is a format for exchanging structured data between computer programs. But, unlike HTML, JSON is primarily intended to communicate content, rather than layout.</p>
+<br><p>Let's consider an example:<a href = "https://catapi.com">The Cat API</a> has a human-readable version of page for the cat picture with id <code>b47</code>, found at this URL:
+<code>https://cdn2.thecatapi.com/images/b47.jpg</code>.</p>
+<br/><p>But <code>The Cat API also has a version of this data designed to be easily readable by computers</code>. This is the URL, and it returns a document in JSON format:
+<code>https://api.thecatapi.com/v1/images/b47</code>.</p>
+<br/><p>So, every web site makes available a number of URLs that return human-readable documents; many web sites (like Twitter or X) also make available URLs that return documents intended to be read by computer programs.</p>
+<p>You can think of a web API as the <strong>set of URLs, and rules for manipulating URLs</strong>, that a web site makes available and that are also intended to be read by computer programs. <br>API stands for <code>application programming interface</code>; so a <code>web API</code> is an <em>interface</em> enabling you to program applications that use the web site's data.</p>
+<h4> API Keys </h4> 
+<p>Let's say you want to access weather data from the <a href = "https://openweathermap.org/api">Open Weather Map API</a>.</p> 
+<p>Most web APIs (unlike most web pages) require some kind of <code>authentication</code>, which here means some kind of information that <em>associates the request with an individual</em>.</p>
+<p>In many APIs, this takes the form of a <code>token or key (also called a "client ID" and/or "secret") </code> passed on as an <code>extra parameter</code> at the end of the URL (or in an HTTP header) that identifies the request as having come from a unique user.</p>
+<br/><p>So how do you get <code>keys or "tokens</code>? There's usually some kind of sign-up form in or near the developer documentation for the service in question. <br/>Sign up for the Open Weather Map API <a href = "https://home.openweathermap.org/subscriptions/unauth_subscribe/onecall_30/base">here</a>.</p>
+<p>Different services have different requirements regarding how to include your keys in your request; you'll have to consult the documentation to know for sure.</p>
+<p>In the following examples, I'll assume you've acquired an access token for the Open Weather Map API in question and have assigned them to variables in the programs as appropriate...</p>
+<h4> Fetching web documents with "requests"</h4>
+<p>All you need to make (most) web API requests is a web browser. But it would be tedious to do these requests in a web browser and then copy over the responses into Python for analysis:). We may also want to make *many* requests to a web API i.e. - doing some machine learning tasks with OpenAI  -  and then use the results in another script......<br/> This is all very much not possible with just the web browser. Ideally, there would be some way to make web requests <code>directly inside a Python program</code>.</p>
+<p>Python does, in fact, have a built-in library: <a href = "https://docs.python.org/3/library/urllib.request.html"> urllib.request</a> just for this purpose! Actually, a number of other programmers have contributed their own libraries for making web requests in Python which improve on the capabilities of the built-in Python library. One of these is <a href = "http://docs.python-requests.org/en/master">requests</a> which we'll be using below.</p>
+<p>The purpose of the <code>requests</code> library is to make requests to web servers in order to retrieve web documents. You give it a URL, and it gives back a string that contains the content of the document located at that URL.</p>
+<p>Here's an example of how to use <code> requests</code>. Our task here is to <em>fetch the current weather for Montreal using the Open Weather Map API</em>:</p>
+<ul>
+<li> So lets start a new project in VSCode, with a python file called <code>weatherTest.py</code> </li>
+<li> Then lets create a new virtual environment with conda:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+conda create --name webAPisenv python=3.13
+</code>
+</pre>
+</li>
+<li>Then we activate out virtual environment:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+conda activate webAPisenv
+</code>
+</pre>
+</li>
+<li> And now we can use the package manager called <code>pip</code>: the standard package installer and dependency manager to install the <code>requests</code> package. In your terminal type:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+pip install requests
+</code>
+</pre>
+And let it run...</li>
+<li> Ok - now we can code :) Add the following code to your python file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25" class="language-python line-numbers">
+<code>
+#import the lib
+import requests
+
+#city arg
+city = "Montreal" 
+
+#my api key -> you should add yours
+api_key = "2ba267fc5ab5b4c99201b8efab509d99" 
+
+#url to get results with the city added
+url_with_city ="http://api.openweathermap.org/data/2.5/weather?q=" +city 
+
+#url with the api key appeneded
+url_to_send = url_with_city + "&APPID=" + api_key 
+
+#make the request
+response = requests.get(url_to_send) 
+
+#get the response as json
+data = response.json() 
+
+#print
+print(data)
+</code>
+</pre>
+</li>
+<li>Super! We'll break down <code>how</code> exactly to know what the URL for a particular resource is a bit later (and how to add the API to the request). But for now, just revel in the accomplishment of getting information from an API into your Python program. Breaking down the code a little bit, the following lines are most important:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25" class="language-python line-numbers">
+<code>
+  response = requests.get(url_to_send)
+  data = response.json()
+  </code>
+</pre>
+<ul><li>This line calls the <code>get()</code> function in the <code>requests</code> package, with one parameter, the URL that you want to fetch (which we previously stored in a variable called <code>url_to_send</code>).</li>
+<li>When this function gets called, the  <code>requests</code> library makes a network request to the specified URL and retrieves its contents, returning a special kind of value called a  <code>response</code>, which contains information about the response generated by the remote server, along with the content of that response.</li>
+<li><a href = "http://docs.python-requests.org/en/master/api/#requests.Response"> Response objects have many different methods and attributes()</a>, but the one we're most interested in is <code>.json()</code>, which takes data in the response in JSON format (if present) and converts it to the corresponding Python data structure.</li>
+<li>The data returned from the Open Weather Map API is in JSON format. After being converted to a Python data structure, you can see it's a <code>dictionary</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25" class="language-python line-numbers">
+<code>
+# a dict
+print(type(data)) 
+#get the keys
+print (data.keys())
+</code>
+</pre>
+</li>
+</ul>
+<li>Ok  -  so lets out put one of the values for the key <code> weather</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25" class="language-python line-numbers">
+<code>
+print(data["weather"])
+print(type(data["weather"]))
+</code>
+</pre>
+</li>
+<li>And we can now see that the result is a list that we can iterate through with a <code> for loop </code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25" class="language-python line-numbers">
+<code>
+for weather_item in data["weather"]:
+    print (weather_item) 
+    #new:: check if weather item is an instance of dictionary
+    if isinstance(weather_item,dict) :
+        print("here")
+        for item in weather_item:
+            print(f"key: {item}, value: {weather_item[item]}") #key and value
+</code>
+</pre></li>
+</ul>
+<h4> More on building Query strings dynamically </h4>
+<p>The <code>requests().get()</code> allows us to pass the city and api key in a more precise way... change the initial <code>requests().get()</code> to:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25" class="language-python line-numbers">
+<code>
+bare_url = 'http://api.openweathermap.org/data/2.5/weather'
+response = requests.get(bare_url , params={"q": city, "APPID":api_key })
+</code>
+</pre>
+<p>Well: the <code>params</code> variable is there to make our lives easier ;) If you put <code>params=</code> into the arguments of the call to <code>requests.get()</code>, the library will take the dictionary that you passed and use it to form a query string. It does this so you don't have to figure out how to write the query string yourself... <br>Let's review what a query string looks like. Here's the example query string from the section above about URL structure:<code>?arg1=apples&arg2=winter</code>. At first glance, it looks like rubbish. </p>
+<br/>
+<p>For another perspective, let's look at the query string from the example request to the Open Weather Map API:</p>
+<code>"q=Montreal&APPID=2ba267fc5ab5b4c99201b8efab509d99"</code>.</p><br/>
+<p>A little bit of the structure becomes more apparent here... It looks like we have a series of <code>key-value pairs</code>, separated by <code>ampersands (&)</code>.The pairs themselves are separated by <code>equal signs (`=`)</code>.</p>
+<p>So .... What kind of data structure does this resemble? It's a data structure that we talked about earlier today, it's a <code>dictionary</code>!</p>
+<p>As a result  - The <code>requests</code> library does the hard work for us of converting the python dictionary to a query formatted string  when we pass the parameters to the <code>requests.get()</code> function with the named <code>params</code> parameter. Very handy!</p>
+      
+    
+    </section>
+  </main>
+  <script src="js/prism.js"></script>
+  <script src="js/dataStuff.js"></script>
+</body>
+
+</html>
