@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<head>
+  <title></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link href="css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>PYTHON FOUNDATIONS I</h1>
+    </div>
+  </header>
+  <main>
+
+    <section class="contents-notes">
+    
+<h3>Small Exercise</h3>
+<ul>
+<li> Create a new html template page called <span class = "customP">lemons.html</span>save it into the <em>templates folder</em>. Add some basic html markup to the file.</li>
+<li> In your current python file make a view function called <span class = "customP">view_lemons()</span> and have associated decorator function take the parameter <span class = "customP">"/lemons"</span></li>
+<li> link to a static style sheet in  the template file - it should render the body background to be <code>rgb(191, 246, 255)</code></li>
+<li>Let the <span class = "customP">view_lemons()</span> function return the <span class = "customP">lemons.html</span> using the <code>render_template()</code></li>
+<li> Pass a list containing five animals (one of them should be tigers) in the <code>render_template()</code></li>
+<li> Pass a boolean assigned to false <code>render_template()</code></li>
+<li> Write the condition and/or for loop to have the page render like below if the <span class = "customP"> passed boolean is true </span>:
+<img style = "width:60%;" src = "http://clab.concordia.ca/wp-content/uploads/2025/09/true.png"></li>
+<li> Write the condition and/or for loop to have the page render like below if the <span class = "customP"> passed boolean is false </span>:
+<img style = "width:60%;" src = "http://clab.concordia.ca/wp-content/uploads/2025/09/false-2.png">
+</li>
+<li>** BONUS...**: Pass a dictionary: <code>tiger = {"feature":"stripes","size":"large","family":"cat","isWild":True}</code> in the <code>render_template()</code>. Then display the items in the dictionary as an html list in <span class = "customP">lemons.html</span>, when the the boolean above is false, and the current animal in the list being rendered is "tigers"</li>
+</ul>  
+      
+    
+    </section>
+  </main>
+  <script src="js/prism.js"></script>
+  <script src="js/dataStuff.js"></script>
+
+<!-- <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> -->
+
+<pre id = "writeA" data-line="" class="language-python line-numbers">
+<script>
+let s = ""
+for(let i = 1; i< 80; i++){
+    if(i%2 ===0){
+        s+=`${i},`
+    }
+}
+document.querySelector("#writeA").setAttribute("data-line",s)
+</script>
+<code>
+</body>
+
+</html>
