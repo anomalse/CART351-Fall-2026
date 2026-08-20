@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<head>
+  <title></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>EXERCISE II</h1>
+    </div>
+  </header>
+  <main>
+
+    <section class="contents-notes">
+    
+<h3>WEB APIS, DICTIONARIES + LISTS IN PYTHON</h3>
+<h4>DESCRIPTION</h4>
+<ul>
+  <li>The <code>purpose</code> of this exercise is to
+    practice receiving data from a WEB API: specifically <a
+      href="https://aqicn.org/">The World Air Quality Index API </a></li>
+  <li>You will be required to make <code>requests</code>
+    to the API, <code>explore</code> and <code>document</code> the results, and <code>read</code> the API documentation -- all similar
+    tasks to an example we just did in class.</li>
+  <li>This is <code>not a test</code>: you can discuss solutions, issues with each other and the instructor.</li>
+  <li>PLEASE <code>try not to use AI tools for this exercise</code>.</li>
+  <li>You will be required to <code>complete all items in the list below</code> in order to get full marks.</li>
+  <li>This exercise is <code>worth 5%</code> of your grade</li>
+  <li><code>WHO</code>: Please work in teams of <code>two or three </code> - not one, not four.</li>
+  <li><code>WHEN</code>: All team members mustbefore the end of class (Monday Sept 22 2025 5:15 pm)</li>
+  <li><code>THE DELIVERABLE</code>: All team members must <strong>individually</strong> upload the python project (with all comments and code
+    included NEATLY and NUMBERED) to their own github repository and provide the
+    url in the submission box of the CART 351 moodle page</li>
+</ul>
+<h4>WHAT TO DO</h4>
+<ol style = "list-style: none;">
+  <li><span class = "highLightExColor">Set up your
+        workspace</span>
+        <ul>
+        <li>Create a new project called <code>student-name-1_student-name-2_exercise_one</code>
+    (student-name-1, and student-name-2 are the team members names) in
+    VisualStudio Code. </li>
+    <li>Then create a new file in the project called <code>ex-one.py</code>. </li>
+    <li>Create a new virtual environment with python =3.13, and activate it with necessary <code>conda</code> commands.</li>
+    <li>Use <code>pip</code> within your activated virtual environment to install the <code>requests</code> library. And you are set up!</li>
+    </ul>
+  </li>
+  <li><span class = "highLightExColor"> to the web
+        api:</span>
+        <ul>
+         <li>This exercise is going to help you to practice how
+    one API in particular works, or at least a subset of a particular web
+    API---<a href="http://aqicn.org/api/">the World Air Quality Index API</a>.</li>
+    <li>The idea is that by introducing you to this one API, you'll learn the tools
+    necessary to sign up for, query, and interpret APIs from other providers as
+    well. Before you can use the Air Quality Index API, <code>you need to sign up for an API key</code>. 
+    <li>Do so by going to the <code>API's </code><a href="http://aqicn.org/data-platform/token/#/">token request form</a> and
+    following the instructions. You'll need to provide your e-mail address.
+    (When I signed up, I got my confirmation e-mail and API key very fast!)
+    After confirming your e-mail address, you'll get your token. <code>Token</code> in this context is just another word
+    for <code>API key</code>. The token is just a string
+    of letters and numbers.</li>
+    <li>Whenever you make a request to that API, you'll need to include your key in the
+      request.</li>
+    </ul>
+  </li>
+  <li> <span class = "highLightExColor">Look at the
+        documentation</span>
+        <ul>
+        <li>The documentation for a web API usually describes what the API can do in terms of the URLs you can access, the
+    patterns that those URLs follow, and the format of the responses. Here's an example
+    screenshot of the documentation page for the <code>search
+      function</code> of the <a href="https://aqicn.org/json-api/doc/#api-Search">World Air Quality Index
+      API</a>: <figure><img class = "exImg" src="media/searchQueries_ex1.jpg"/></figure>
+      <li>The box under <code>GET</code> shows you what the URL path should look
+        like to make this request.</li>
+      <li>Inside the path, the words preceded by colons (like `:keyword`) are
+        intended to be <code>placeholders</code>: you should replace those with
+        the values that correspond to what you want the request to do.</li>
+      <li>The <code>Parameter</code> table shows what the placeholder values
+        mean. (Don't worry about the `callback` parameter—that's only useful if
+        you're a Javascript programmer.)</li>
+      <li>The <code>Success 200</code> field shows what the
+        <code>response</code> looks like. It tells you the names and types of
+        the values in the JSON object returned in the response.</li>
+    </ul>
+  </li>
+  <li> <span class = "highLightExColor">Write the initial
+        request</span> 
+        <ul>
+        <li>So: you are now ready to write the initial search request in your python script... I will help you get started...</li>
+         <li>You will write a <code>request</code> to give back all the results for <code>montreal</code>: 
+        <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
+        <code>
+          import requests
+          token = "your api key" # replace this with your own key
+          url = "https://api.waqi.info/search/"
+          response = requests.get(url, params={"token": token, "keyword":"montreal"})
+          results = response.json()
+          print(results)
+        </code>
+        </pre>
+        </li>
+      <li>Run the code above</li>
+      <li>Add comments to what each line does</li>
+    </ul>
+  </li>
+  <li><span class = "highLightExColor">Write the code and or answer the
+        questions as comments in the code NEATLY so that I can read it :)
+      </span>
+      <br/> <span class = "justHighLight">Also note how in the first couple of questions I am
+    helping you to get the answers .... (I am not trying to trick you ;))</span>
+    <ul>
+      <li>In your script write the code to get the <code>type</code> of the
+        <code>results</code> variable. Run the code and document the answer.
+      </li>
+      <li>In your script write the code to get the <code>keys</code> of the
+        <strong>results</strong> variable. Run the code and document the answer
+      </li>
+      <li>The first key of the <code>results</code> variable is called
+        <code>data</code>. If you <em> look</em> in the documentation: <a
+          href="https://aqicn.org/json-api/doc/#api-Search">response fields</a>: you will access all the necessary info:). So - now write the code to access the content
+        associated with the <code> data </code> field.</li> 
+        <li>Save the result from the expression as a variable called <code>responseData</code>.</li>
+        Then find out the <code>type</code> of <code>responseData</code>. Document your
+        findings.</li>
+      <li>What is the result of running the following code (put the code after
+        the assignment above):
+        <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
+        <code>
+        for item in responseData:
+           print(item)
+        </code>
+        </pre>
+        What does each <code> item</code> represent?</li>
+        <li>Write the code to determine the type of the <code> item</code> variable</li>
+        <li>Write the code to determine the keys associated with the <code> item</code> variable</li>
+        <li>Modify the code above to now print out the <code>name</code> of each
+        <code>station</code> from the responseData. Document the results.</li>
+      <li>Append the code above to also print out the <code>geolocations</code>
+        of each <code>station</code> from the responseData. 
+        <br/>The output for the geolocation should look like the following example - then document your results:
+        <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
+        <code>
+          lat: 45.426509
+          long: -73.928944
+        </code>
+        </pre>
+     </li>
+      <li>Append the code above to print out the <code>air quality index</code>
+        for each item AND the <code>uid</code> for each item. The output needs
+        to be neat and labelled!</li>
+    </ul>
+  </li>
+  <li> <span class = "highLightExColor">Access the <em> feed </em>
+        results:</span>
+        <ul>
+        <li> Now you have gotten a response from the API, and you have parsed it into a Python data structure that you know how to use
+    (a dictionary :)).</li>
+    <li>But now what do we do with it? Look next at the <a href="https://aqicn.org/json-api/doc/#api-City_Feed">feed</a> resource for
+    the Air Quality API.</li>
+    <li>According to the documentation, you can make a request to get air quality information about a particular city by accessing a path
+    with the following format: <code>/feed/:city/?token=:token</code>.</li>
+    <li>Here <code>:city</code> -&gt; will be replaced with one or more of the
+    <code>uid's</code> that you obtained from the previous query.</li>
+    <li>And<code>:token</code>-&gt; is your api key.</li>
+    <li>Lets start a new request ... and say that we wanted the results for the city with <code>uid
+      == 5468</code> then this is the script: 
+      <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
+      <code>
+      url_feed ="https://api.waqi.info/feed/@5468"
+      response_feed = requests.get(url_feed, params={"token":token})
+      results_feed = response_feed.json()
+      print(results_feed)
+      </code>
+      </pre>
+      The documentation also states that if you use the ID, you need to precede it
+    with a `@` symbol, which is reflected in the code. </li>
+      <li>Add the above code and run it</li>
+      <li>So - now write the code to access the content associated with the
+        <code>data</code> field. Save the result from the expression as a
+        variable called <code>response_data_feed</code>. What is the
+        <code>type</code> of this variable?</li>
+      <li>Write a <code> for loop to iterate through the
+          `response_data_feed`</code> variable . Document the results</li>
+      <li>Next write the expression to access the <code>aqi</code> field and the
+        <code>dominentpol</code>field - according to the documentation what does
+        this field represent? Save both values in new variables.</li>
+      <li>OK ... now access you will access the <code> iaqi</code> field. You
+        will see that the result is another dictionary, with keys for different
+        pollutants. Each one of those keys—somewhat inexplicably—has
+        <strong>another</strong> dictionary for its values, whose only key (`v`)
+        points to the actual value for that pollutant... Write the code and
+        document your results</li>
+      <li>Let's use the value from the <code>dominentpol</code> field to access the actual value for that pollutant... (i.e. <code>dominentpol =so</code>) - how can we use the data from the <code>
+          iaqi</code> field to access the actual value? </li>
+        <li>Hint: the keys from the iaqi dictionary map directly to the <code>dominentpol</code>
+          field. Write the code to access this value...and document
+        your results</li>
+    </ul>
+  </li>
+  <li>So - now that you can access the feed for a specific station in a
+    particular city, and from that feed you can access the value of its dominant
+    pollutant.... : <span class = "highLightExColor"> explain theoretically</span> (you do not have to write the
+    code) what the process would be to access the value of the dominant pollutant value from <strong> different cities </strong> ...</li>
+</ol>
+      
+    
+    </section>
+  </main>
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+</body>
+
+</html>

@@ -14,6 +14,8 @@
     --code-color: #dd7edb;
     --back-customP:#d4abca;
     --back-sched-mod-a:#d4abca;
+    --high-light-color: #1888c9;
+    --customp_sub-color: rgba(175, 76, 150,0.45);
 
 
     /* 
@@ -540,5 +542,18 @@ code{
 /* Show the menu when hovering over the parent dropdown container */
 .quick-menu:hover .quick-dropdown-menu {
   display: block;
+}
+.highLightExColor{
+    color:var(--high-light-color);
+    text-transform: uppercase;
+}
+.justHighLight{
+    color:var(--high-light-color);
+}
+
+.customP_sub {
+    color: white;
+    background: var(--customp_sub-color);
+    padding:var(--space-4);
 }
 
