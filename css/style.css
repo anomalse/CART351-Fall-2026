@@ -408,12 +408,12 @@ nav ul li a:hover {
      color: var(--body-color);
      padding:var(--space-4);
 }
-.sched-mod span{
+/* .sched-mod span{
      background:rgba(76, 116, 175, 0.2);
      color: var(--body-color);
      padding:var(--space-4);
 
-}
+} */
 
 .sched-mod a:hover {
     text-decoration: none;
@@ -556,4 +556,17 @@ code{
     background: var(--customp_sub-color);
     padding:var(--space-4);
 }
-
+li .sched-due{
+    line-height: 1.6;
+}
+.sched-due{
+    display:inline-block;
+    margin-left:4px;
+    padding-top:0px;
+    padding-bottom:0px;
+    padding-left:8px;
+    padding-right:8px;
+    /* background:rgb(255, 255, 255); */
+    background:var(--back-sched-mod-a);
+    color:var(--body-color);
+}
