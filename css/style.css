@@ -7,15 +7,15 @@
     --padding-nav-vert: 1.5vh;
     --padding-vert-p: .5rem;
     --header-padding: 16px;
-    --space-32:32px;
-    --space-24:24px;
-    --space-12:12px;
-    --space-4:4px;
+    --space-32: 32px;
+    --space-24: 24px;
+    --space-12: 12px;
+    --space-4: 4px;
     --code-color: #dd7edb;
-    --back-customP:#d4abca;
-    --back-sched-mod-a:#d4abca;
+    --back-customP: #d4abca;
+    --back-sched-mod-a: #d4abca;
     --high-light-color: #1888c9;
-    --customp_sub-color: rgba(175, 76, 150,0.45);
+    --customp_sub-color: rgba(175, 76, 150, 0.45);
 
 
     /* 
@@ -53,10 +53,10 @@ header h1 {
     background: white;
     width: max-content;
     padding-left: var(--header-padding);
-    padding-right:  var(--header-padding);
-    padding-top:  var(--header-padding);
-    padding-bottom:  var(--header-padding);
-    
+    padding-right: var(--header-padding);
+    padding-top: var(--header-padding);
+    padding-bottom: var(--header-padding);
+
 }
 
 
@@ -87,7 +87,7 @@ header h1 {
     background-color: white;
     width: max-content;
     padding-left: var(--space-12);
-    padding-right:var(--space-12);
+    padding-right: var(--space-12);
     padding-top: 4px;
     padding-bottom: 4px;
     margin-top: 4px;
@@ -101,18 +101,20 @@ p {
 
 }
 
-figure{
-margin-top:var(--padding-vert-p);
-margin-bottom:var(--padding-vert-p);
-background:orange;
-display:flex;
+figure {
+    margin-top: var(--padding-vert-p);
+    margin-bottom: var(--padding-vert-p);
+    background: orange;
+    display: flex;
 
-justify-content: center;       /* 2. Centers the image horizontally */
+    justify-content: center;
+    /* 2. Centers the image horizontally */
 
 }
-figure img{
-   width:80%;  
-  
+
+figure img {
+    width: 80%;
+
 }
 
 li {
@@ -138,7 +140,7 @@ ul {
 
 .section-s p {
     /* background-color: #a8e6ce; */
-     background-color: #af4c98;
+    background-color: #af4c98;
     color: white;
 }
 
@@ -212,7 +214,7 @@ nav ul li a:hover {
     padding-left: var(--space-32);
 }
 
-.contents-notes{
+.contents-notes {
     background: white;
     padding-right: var(--space-32);
     padding-top: var(--space-24);
@@ -224,7 +226,8 @@ nav ul li a:hover {
 
 
 
-.contents h3,.contents-notes h3 {
+.contents h3,
+.contents-notes h3 {
     padding: var(--padding-vert-p);
     color: white;
     background: var(--body-color);
@@ -234,63 +237,71 @@ nav ul li a:hover {
     width: max-content;
 }
 
-.contents h4, .contents-notes h4{
+.contents h4,
+.contents-notes h4 {
     padding: var(--padding-vert-p);
     color: white;
     background: var(--body-color);
-    margin-top:var(--space-12);
-    margin-bottom:var(--space-12);
-   /* background:rgba(76, 175, 80,0.7); */
-   font-weight: normal;
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-12);
+    /* background:rgba(76, 175, 80,0.7); */
+    font-weight: normal;
     width: max-content;
 }
 
-.contents h4.new-contents{
-     color: white;
+.contents h4.new-contents {
+    color: white;
     background: var(--code-color);
 
 }
 
-.contents h5, .contents-notes h5{
+.contents h5,
+.contents-notes h5 {
     padding: var(--padding-vert-p);
     color: white;
     background: var(--body-color);
-    margin-top:var(--space-12);
-    margin-bottom:var(--space-12);
-   /* background:rgba(76, 175, 80,0.7); */
-   font-weight: normal;
+    margin-top: var(--space-12);
+    margin-bottom: var(--space-12);
+    /* background:rgba(76, 175, 80,0.7); */
+    font-weight: normal;
     width: max-content;
 }
 
-.contents h5.new-contents{
-     color: white;
+.contents h5.new-contents {
+    color: white;
     background: var(--code-color);
 
 }
 
-.new-contents-list{
+.new-contents-list {
 
     color: var(--code-color);
 
 }
 
-.contents a, .contents-tasks a, .contents-notes a {
+.contents a,
+.contents-tasks a,
+.contents-notes a {
     text-decoration: none;
     color: var(--code-color);
 }
 
-.contents h3 a, .contents-tasks h3 a{
+.contents h3 a,
+.contents-tasks h3 a {
     text-decoration: none;
     color: white;
- }
+}
 
-.contents a:hover,.contents-tasks a:hover,.contents-notes a:hover {
+.contents a:hover,
+.contents-tasks a:hover,
+.contents-notes a:hover {
     text-decoration: none;
     background: var(--code-color);
     color: white;
 }
 
-.contents h3 a:hover, .contents-tasks h3 a:hover {
+.contents h3 a:hover,
+.contents-tasks h3 a:hover {
     text-decoration: none;
     color: var(--body-color);
     background: white;
@@ -311,11 +322,12 @@ nav ul li a:hover {
     color: var(--body-color);
     margin-top: 12px;
     margin-bottom: 12px;
-    background:white;
+    background: white;
     width: max-content;
 }
-.contents-tasks ul{
-    background:rgba(255,255,255,0.9);
+
+.contents-tasks ul {
+    background: rgba(255, 255, 255, 0.9);
     padding-right: var(--space-24);
     padding-top: var(--space-24);
     padding-bottom: var(--space-24);
@@ -323,8 +335,8 @@ nav ul li a:hover {
 
 }
 
-.contents-tasks ol{
-    background:rgba(255,255,255,0.7);
+.contents-tasks ol {
+    background: rgba(255, 255, 255, 0.7);
     padding-right: var(--space-24);
     padding-top: var(--space-24);
     padding-bottom: var(--space-24);
@@ -332,44 +344,46 @@ nav ul li a:hover {
 
 }
 
-.contents-tasks ul li{
-    margin-left:var(--space-12);
-
-}
-.contents-tasks ol li{
-    margin-left:var(--space-12);
+.contents-tasks ul li {
+    margin-left: var(--space-12);
 
 }
 
-.contents-tasks ol{
-    margin-top:var(--space-12)
+.contents-tasks ol li {
+    margin-left: var(--space-12);
+
+}
+
+.contents-tasks ol {
+    margin-top: var(--space-12)
 }
 
 .customP {
     color: white;
     background: var(--body-color);
-    padding:var(--space-4);
+    padding: var(--space-4);
 }
-.contents-notes .customP{
-      background:var(--back-customP);
-     /* background:rgba(76, 116, 175, 0.2); */
-     color: var(--body-color);
-    padding:var(--space-4);
+
+.contents-notes .customP {
+    background: var(--back-customP);
+    /* background:rgba(76, 116, 175, 0.2); */
+    color: var(--body-color);
+    padding: var(--space-4);
 
 }
 
 .table-grade {
-     border:1px;
-    border-color:var(--body-color);
-    border-style: solid; 
-    padding:var(--space-12);
+    border: 1px;
+    border-color: var(--body-color);
+    border-style: solid;
+    padding: var(--space-12);
     font-weight: 500;
     background: var(--body-color);
     color: white;
 }
 
-.content-sched-mod{
-     background: var(--body-color);
+.content-sched-mod {
+    background: var(--body-color);
     padding-right: var(--space-32);
     padding-top: var(--space-24);
     padding-bottom: var(--space-24);
@@ -386,7 +400,7 @@ nav ul li a:hover {
 /*} */
 
 .sched-mod ul {
-    background: rgba(255, 255, 255,.9);
+    background: rgba(255, 255, 255, .9);
     padding-right: var(--space-24);
     padding-top: var(--space-24);
     padding-bottom: var(--space-24);
@@ -394,20 +408,22 @@ nav ul li a:hover {
 }
 
 .sched-mod ul li {
-    padding-bottom:var(--space-12);
+    padding-bottom: var(--space-12);
     /* font-size: clamp(1.1rem, 1.1vw, 1.5rem); */
     list-style-type: none;
-    margin-left:var(--space-12);
-    
+    margin-left: var(--space-12);
+
 
 }
+
 .sched-mod a {
     text-decoration: none;
-     /* background:rgba(76, 116, 175, 0.2); */
-     background:var( --back-sched-mod-a);
-     color: var(--body-color);
-     padding:var(--space-4);
+    /* background:rgba(76, 116, 175, 0.2); */
+    background: var(--back-sched-mod-a);
+    color: var(--body-color);
+    padding: var(--space-4);
 }
+
 /* .sched-mod span{
      background:rgba(76, 116, 175, 0.2);
      color: var(--body-color);
@@ -421,22 +437,22 @@ nav ul li a:hover {
     color: white;
 }
 
-.sched-mod .due_over{
+.sched-mod .due_over {
     text-decoration: none;
-    background: rgba(221, 126, 219,0.5);
+    background: rgba(221, 126, 219, 0.5);
     color: white;
 
 }
 
-.sched-mod .due_over:hover{
+.sched-mod .due_over:hover {
     text-decoration: none;
-    background: rgba(221, 126, 219,1.0);
+    background: rgba(221, 126, 219, 1.0);
     color: white;
 
 }
 
 
- .sched-mod h2 {
+.sched-mod h2 {
     background: rgb(255, 255, 255);
     width: max-content;
     padding-left: var(--space-12);
@@ -444,56 +460,59 @@ nav ul li a:hover {
     padding-top: 4px;
     padding-bottom: 4px;
     margin-top: var(--space-24);
-} 
+}
 
- .sched-mod h3 {
+.sched-mod h3 {
     background: white;
     width: max-content;
     padding-left: var(--space-12);
-    padding-right:var(--space-12);
+    padding-right: var(--space-12);
     padding-top: 4px;
     padding-bottom: 4px;
     /* margin-bottom: var(--space-12); */
-} 
-
-
-
-code{
-    color:white;
-    background-color: var(--code-color);
-    background-color:rgba(221, 126, 219,0.2);
-    color: var(--code-color);
-    font-size:14px;
-    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-    border-radius:1px;
-    padding:var(--space-4);
 }
+
+
+
+code {
+    color: white;
+    background-color: var(--code-color);
+    background-color: rgba(221, 126, 219, 0.2);
+    color: var(--code-color);
+    font-size: 14px;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    border-radius: 1px;
+    padding: var(--space-4);
+}
+
 /* .heading-list{
     text-transform: uppercase;
 
 } */
-.table-contents h3{
+.table-contents h3 {
     color: var(--body-color);
-    margin:1px;
-    padding:2px;
-    background-color:white;
+    margin: 1px;
+    padding: 2px;
+    background-color: white;
 }
-.heading-list li{
-     list-style-type: none;
+
+.heading-list li {
+    list-style-type: none;
 
 }
-.heading-list li mark{
+
+.heading-list li mark {
     color: white;
-    background-color:var(--body-color);
-    padding:var(--space-4)
-   
+    background-color: var(--body-color);
+    padding: var(--space-4)
 }
+
 /* contains inner list */
 .quick-menu {
-  display: inline-block;
- color: var(--text-color);
-  padding:0;
-  margin:0;
+    display: inline-block;
+    color: var(--text-color);
+    padding: 0;
+    margin: 0;
 }
 
 
@@ -501,11 +520,11 @@ code{
 
 /* Style for the element you hover over */
 .quick-menu-trigger {
-    padding:0;
-    margin:0;
+    padding: 0;
+    margin: 0;
     color: var(--text-color);
     cursor: pointer;
-   padding: var(--padding-nav-vert);
+    padding: var(--padding-nav-vert);
 
 }
 
@@ -519,54 +538,79 @@ code{
 
 /* Hide the menu by default and position it absolutely */
 .quick-dropdown-menu {
-  display: none;
-  position: absolute;
-  background-color: #ffffff;
-  overflow: hidden;
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    overflow: hidden;
+    z-index: 1;
 }
 
 
 /* Style the individual menu items */
 .quick-dropdown-item {
-  cursor: pointer;
-  width:100%;
+    cursor: pointer;
+    width: 100%;
 
 }
 
 /* Change background color of items on hover */
 .quick-dropdown-item:hover {
-  background-color: #f1f1f1;
+    background-color: #f1f1f1;
 }
 
 /* Show the menu when hovering over the parent dropdown container */
 .quick-menu:hover .quick-dropdown-menu {
-  display: block;
+    display: block;
 }
-.highLightExColor{
-    color:var(--high-light-color);
+
+.highLightExColor {
+    color: var(--high-light-color);
     text-transform: uppercase;
 }
-.justHighLight{
-    color:var(--high-light-color);
+
+.justHighLight {
+    color: var(--high-light-color);
 }
 
 .customP_sub {
     color: white;
     background: var(--customp_sub-color);
-    padding:var(--space-4);
+    padding: var(--space-4);
 }
-li .sched-due{
+
+li .sched-due {
     line-height: 1.6;
 }
-.sched-due{
-    display:inline-block;
-    margin-left:4px;
+
+.sched-due {
+    display: inline-block;
+    margin-left: 4px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-left: 8px;
+    padding-right: 8px;
+    /* background:rgb(255, 255, 255); */
+    background: var(--back-sched-mod-a);
+    color: var(--body-color);
+}
+
+.horiz-list {
+    display: flex;
+  
+    /* background: orange; */
+    flex-wrap: wrap;
+    font-size: clamp(1rem, 1vw, 1.25rem);
+    list-style: none;
+    width:85%;
+
+}
+.horiz-list li{
+    /* background:blue; */
+    /* min-width:20%; */
+    margin:1px;
+    padding:2px;
     padding-top:0px;
     padding-bottom:0px;
-    padding-left:8px;
-    padding-right:8px;
-    /* background:rgb(255, 255, 255); */
-    background:var(--back-sched-mod-a);
-    color:var(--body-color);
+    text-align: center;
+    color:var(--code-color)
 }
