@@ -9,7 +9,7 @@
  async function loadNav(){
 
     let elContainer = document.querySelector("#cart351Nav");
-    let response = await fetch('/nav.html')
+    let response = await fetch('../nav.html')
     let htmlNav = await response.text();
     elContainer.innerHTML =htmlNav;
 }
