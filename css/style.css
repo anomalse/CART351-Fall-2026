@@ -104,10 +104,11 @@ p {
 figure {
     margin-top: var(--padding-vert-p);
     margin-bottom: var(--padding-vert-p);
-    background: orange;
+    /* background: orange; */
     display: flex;
 
     justify-content: center;
+    width:90%;
     /* 2. Centers the image horizontally */
 
 }
