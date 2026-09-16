@@ -1,1 +1,0 @@
-# Journal-Fall-2026
