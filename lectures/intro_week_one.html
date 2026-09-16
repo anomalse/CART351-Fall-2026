@@ -213,9 +213,9 @@
           </ul>
         </li>
 
-      <li>For each <em>distinct</em> <code>image element</code>, the browser will perform <code>another HTTP request</code> to fetch the relevent image.
-       In this case: the image <em>sunflower.jpg</em> is fetched from the server  -  as all four image tags contain the same <code>source</code> only one request needs to
-        be made. The details of the request are as follows:</li>
+      <li>For each <em>distinct</em> <code>image element</code>, the browser will perform <code>another HTTP request</code> to fetch the relevent image.<br/>
+       In this case: the image <code>sunflower.jpg</code> is fetched from the server  -  as all <strong>four</strong> image tags contain the same <code>source</code> only one request needs to
+        be made. <br/>The details of the request are as follows:</li>
         </ul>
         <figure><img src="../resources/week_one/images/6.png" /></figure>
       <ul>
@@ -240,25 +240,30 @@
       <li>First, the browser sends an HTTP GET request to the server to fetch the HTML code of the page.</li>
         <li>The <code>img tag</code> in the HTML prompts the browser to fetch the image: <code>sunflower.jpg</code>.</li> 
           <li>The browser renders the HTML page and the image to the screen.</li>
-        <li><em>Even though it is difficult to notice, the HTML page begins to render before the image has been fetched from
-          the server</em>.</li>
+        <li><strong>Even though it is difficult to notice, the HTML page begins to render before the image has been fetched from
+          the server</strong>.</li>
         </ul>
       <h4> TRADITIONAL WEB APPS </h4>
-      <p>The homepage of our example application works like a <code>traditional web application</code>.
-        When entering the page, the browser fetches the HTML document detailing the structure and the textual content of
-        the page from the server.</p>
-        <p>The server has formed this document somehow. The document can be a <code>static text file saved
-          into the server's directory</code> - which it is in our case:).</p>
-        <p>The server can also form the HTML documents <em>dynamically according to the application's code</em>, using, for example, data from a database.</p>
-        <p>In traditional web applications, the browser<em>only</em> fetches HTML data from the server, and all <code>application logic</code> is on the server.</p>
-         <p> A <code>server</code> can be created using <a href="https://spring.io/projects/spring-framework">Java Spring</a>, <a
+       <ul>
+      <li>The homepage of our example application works like a <code>traditional web application</code>.
+        <br/>When entering the page, the browser fetches the HTML document detailing the <code>structure</code> and the <code>textual</code> content of
+        the page from the server.</li>
+       
+        <li>The server has formed this document somehow: this document can be a <code>static text file saved
+          into the server's directory</code> - which it is in our case:).</li>
+        <li>The server can also form the HTML documents <code>dynamically according to the application's code</code>, using, for example, data from a database.</li>
+        <li>In <code>traditional web applications</code>, the browser <em>only</em> fetches HTML data from the server, and all <code>application logic</code> is on the server.</li>
+         <li> A <code>server</code> can be created using <a href="https://spring.io/projects/spring-framework">Java Spring</a>, <a
           href="https://flask.palletsprojects.com/en/stable/"> Python Flask</a>, <a href="https://rubyonrails.org/">Ruby
           on Rails</a>, <a href="https://expressjs.com/"> Express</a> with Node.js, <a
-          href="https://www.php.net/">PHP</a>... to name just a few examples. The example application that we just accessed uses <code>PHP</code>.</p>
-        <p>In CART 351 - we  will use <code>Python Flask</code> (a lightweight WSGI web app framework.)</p>
+          href="https://www.php.net/">PHP</a>... to name just a few examples.<br/>
+          The example application that we just accessed uses <code>PHP</code>.</li>
+        <li>In CART 351 - we  will use <code>Python Flask</code> (a lightweight WSGI web app framework.)</li>
+        </ul>
       <h4>Running application logic in the browser</h4>
-      <p> Let's keep the Developer Console open. You should have noticed already (from looking at the <code>Network Tab</code>)that when the
-      html page is fetched - before fetching the image - the <code>style.css</code> and the <code>client.js</code> are fetched... (as they are parsed before the images...) </p>
+      <p> Let's keep the Developer Console open.<br/>
+      You should have noticed already (from looking at the <code>Network Tab</code>), that when the
+      html page is fetched: the <code>style.css</code> and the <code>client.js</code> are fetched <em>before the images</em></p>
       <p>So: essentially after fetching <code>client.js</code> - the browser will begin to execute the code
       in the script:
 <!--<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">-->
@@ -339,7 +344,7 @@ window.onload = async function () {
 </code>
 </pre>
   <p> OK: - again: as this is the <code> intro class :) to CART 351 </code> we will not go into
-  details... RATHER this is to give you context for what you will be able to do by the end of the semester :) --- so
+  details... <br/>RATHER this is to give you context for what you will be able to do by the end of the semester :) --- so
   just bear with me:</p>
   <ul>
   <li> We make a GET request to the **server side script** (<code>getData.php</code>):
@@ -368,8 +373,8 @@ if (file_exists($filePath)) {
 </code>
 </pre>
 </li>
-<li> Data is returned from the server side script - (NOTE: we will review the <code>FETCH API</code> in class later in the semester :)) </li>
-<li> The data returned is in <code> json </code> format and we then use javascript to create html elements dynamically and append them to the page:
+<li> Data is returned from the server side script - (NOTE: we will review the <code>FETCH API</code> in class later in the semester) </li>
+<li> The data returned is in <code>json</code> format and we then use javascript to create html elements dynamically and append them to the page:
 <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-javascript line-numbers">
 <code>
 //go through returned data
@@ -386,14 +391,14 @@ if (file_exists($filePath)) {
 </pre>
 </li>
 </ul>
-  <p> Lets review what has just happened with another sequence diagram ... why? Because, in this introduction we are
-  concerned with how communication (<code>(client)request -> (server) response</code>) occurs between the client and the webserver:</p>
+  <p> Lets review what has just happened with another sequence diagram ... why? <br/>Because, in this introduction we are
+  concerned with how communication: <code>(client)request -> (server) response</code> occurs between the client and the webserver:</p>
   <figure><img src="../resources/week_one/images/sequence_2.jpg" /></figure>
       <ul>
         <li>The browser fetches the HTML code defining the content and the structure of the page from the server using
           an HTTP GET request.</li>
         <li>Links in the HTML code cause the browser to also fetch the CSS style sheet <code>style.css</code>... and the JavaScript code file <code>client.js</code></li>
-        <li>The browser executes the JavaScript code. The code makes an HTTP GET request to the address <code>https://intrval.xyz/cart351Example/getData.php</code>, which returns the notes as JSON data.
+        <li>The browser executes the JavaScript code. <br/>The code makes an HTTP GET request to the address <code>https://intrval.xyz/cart351Example/getData.php</code>, <br/>which returns the notes as JSON data.
         </li>
         <li>When the data has been fetched, the browser executes an event handler, which renders the notes to the page
           using the DOM-API.</li>
@@ -423,26 +428,26 @@ if (file_exists($filePath)) {
         <figure><img src="../resources/week_one/images/9.png" /></figure>
       <p>
         It is an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/POST"> HTTP POST</a>
-        request to the php page.. and if you click on <code> Payload tab </code>:</p>
+        request to the php page.. and if you click on <code>Payload tab</code>:</p>
         <figure><img src="../resources/week_one/images/10.png" /></figure>
       <p> What you see is that the data in the form of <code>key-value pairs has been sent to the server</code> ... (as part of the
         request)</p>
-      <p> So I will not go into great detail here - as this is what the course is for ... but essentially what do we do
-        with the data? Well we append it to the json file... so that next time you reload the page there will be one
+      <p> So I will not go into great detail here - as this is what the course is for ... <br>but essentially what do we do
+        with the data? <br> Well we append it to the json file... so that next time you reload the page there will be one
         more note!</p>
         <figure><img src="../resources/week_one/images/11.png" /></figure>
       <h4>So what is CART 351 about? </h4>
       <p>
         Well - instead of just developing on the client side (i.e. events in javascript) you will learn to make <code> full-stack web applications </code>.</p>
         <p>Practically all web applications have (at least) two <code>layers</code>: the browser, being
-        closer to the end-user, is the top layer, and the server the bottom one. There is often also a database layer
+        closer to the end-user, is the top layer, and the server the bottom one. <br>There is often also a database layer
         below the server.</p>
         <p><code>We can therefore think of the architecture of a web application as a stack of
           layers</code>. No really - it will be fun:)</p>
         <p>Ultimately you will be able to build web apps that can evolve and change (are not static) depending on input
         from <code>clients</code>.</p>
         <p>And what is a <code>client</code>? Well not only is the <code>browser</code> a client, rather <code>touchdesigner, maxmsp, unity, arduino, rasberryPi
-        unreal, unity etc ...</code> all have libraries that allow for one to communicate via <code>HTTP</code> (they can act as clients)!
+        unreal, unity etc ...</code> all have libraries that allow for one to communicate via <code>HTTP</code> (they can act as clients)!<br/>
         Even better - we will also learn in this class to use <code>web sockets</code> - which will allow for <code>
           realtime, bi directional communication between client(s) and server(s)</code>!
       </p>
