@@ -1,2 +1,2 @@
 # CART351-Fall-2026
-test emoji :sparkles: \
+test emoji :star:
