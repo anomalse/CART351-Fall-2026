@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+
+<head>
+  <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>FLASK I</h1>
+    </div>
+  </header>
+  <main>
+
+    <section class="contents-notes">
+<p>The purpose of this workshop is to build our first website using <a href = "https://flask.palletsprojects.com/en/stable/">Flask</a> !It will be the simplest site possible  - so in the future can be used as a sort of template project...</p>
+<h3> What is Flask?</h3>
+<p>Flask is a lightweight and flexible Python web framework. As a micro framework, it provides the minimum essential tools to build web applications. Flask is known for its simplicity, making it easy to get started with web development. </p>
+<p>It does not provide built-in functionality for tasks like database handling or form validation. Instead, Flask allows developers to choose the tools and libraries they want to use, resulting in a highly customizable development experience.</p>
+<p>To make use of Flask in a production environment, it needs <code>a web server to handle incoming HTTP requests</code> and route them to the appropriate Flask application for processing. This is where <a href = "https://httpd.apache.org/">Apache</a> comes in. Apache acts as the intermediary between the client (e.g., web browser) and the Flask application.</p>
+<p>When deploying Flask with Apache, a module called <code>mod_wsgi</code> is used. This module allows Apache to serve Python web applications using the Web Server Gateway Interface (WSGI). The WSGI interface is a standard for Python web applications to communicate with web servers. <strong>(No need to go into great detail here..)</strong>.</p>
+<p>Let’s illustrate the relationship between Flask and Apache using a diagram:
+<figure><img src="../resources/week_four/diagram_sm.jpg" /></figure>
+</p>
+<ul>
+<li>The Web Browser sends an <strong>HTTP request</strong> to Apache over port 80.</li>
+<li>Apache, acting as the web server, listens for incoming HTTP requests on port 80.</li>
+<li>When Apache receives an <strong>HTTP request</strong>, it <code>passes the request to the appropriate Flask app</code> based on the URL routing configured in Apache using mod_wsgi.</li>
+<li>The Flask app processes the request and generates an <strong>HTTP response</strong>.</li>
+<li>The <strong>HTTP response</strong> travels back through Apache and is finally sent back to the Web Browser.</li>
+</ul>
+<h3> Lets go!</h3>
+<ul>
+<li> Ok - we will start from the very beginning ... so of course first you will need to set up a new project and a new environment:
+<ul>
+<li> So lets start a new project in VSCode</li>
+<li> Then lets create a new virtual environment with conda:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+conda create --name flaskEnv python=3.13
+</code>
+</pre>
+</li>
+<li>Then we activate out virtual environment:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+conda activate flaskEnv
+</code>
+</pre>
+</li>
+<li> And now we can use the package manager called <code>pip</code>: the standard package installer and dependency manager to install the <code>flask module</code> package. In your terminal type:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+pip install flask
+</code>
+</pre>
+</li>
+</ul>
+</li>
+<li>Next - we will open a new python file (i.e. <code>main.py</code>) and import the flask class from the Flask package. 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+from flask import Flask
+</code>
+</pre>
+<p>Notice the capitalization... (<code>F</code>lask => class and <code>f</code>lask => package)</p>
+</li>
+<li> Now we will create the variable <code>app</code> to hold an instance of the <code>imported Flask class</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+app = Flask(__name__)
+</code>
+</pre>
+<p>Note: the <code> __name__</code> parameter being passed into the flask instance:</p>
+<p>This variable passed to the Flask class is a Python predefined variable, which is set to the name of the module in which it is used. Flask uses the location of the module passed here as a starting point when it needs to load associated resources such as <code>template files</code> - to be discussed later on! For all practical purposes, passing <code> __name__</code> is almost always going to configure Flask in the correct way.</p>
+<p>The application then imports the routes module, which doesn't exist yet.</p> </li>
+<li> So - once we have created the application we can add <code>pages</code> to it. So, lets make a function to setup the first "page" called <code>index</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+def index():
+    return '<h1> Hello CART 351!</h1>'
+</code>
+</pre>
+<p>So - this function defines a page/view: <code>index</code> and its going to return the string "Hello CART 351!".
+Later on, well look at rendering an entire template of HTML code - but for now we  will just return a single string (with HTML within).</p>
+</li>
+<li>
+<p>But - <code>when should this html string be rendered in the browser?</code> - And to answer this question we need to define some <code> routes</code>.<br/>A route is essentially a pathway: the user will enter in a <code>path (URL)</code> and our web application needs to take that path and map it to a particular function.  So in this case, we will create a route for the default path:<code>"/"</code>.</p> 
+<p>We will use a <code>decorator</code> function provided to use by the flask library <code>which will essentially link that page to the specified route</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route("/")
+</code>
+</pre>
+</li>
+<li> And - then to start the app you need to call the <code>run()</code> -- to start the dev server:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+app.run()
+</code>
+</pre>
+</li>
+<li>
+<p>If you run the script ... and open your browser to your local host at the correct port - you should have the text <strong>Hello CART 351</strong>- being displayed in your browser! Yay your first flask app is running!</li>
+</ul>
+
+<h3>Basic Routes </h3>
+<p>Just before we set the <code>default route</code>, if we now wanted to create <code>multiple routes</code> for different pages/views, all we would need to do is re-use our <code>decorator function</code> and pass a different string (path) to it and that in turn <em>will link to the associated function</em> otherwise known as a <code>view</code>. 
+<p>Let's say I want another <code>view</code> at the path <code>/about</code>:</p>
+<ul>
+  <li> First: I will make a new function (view) for this path:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+def about():
+    return '&lth1 style = "color:purple"&gt About Cart 351!&lt/h1&gt'
+</code>
+</pre> 
+</li>
+<li> And then I will set the route:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route("/about")
+</code>
+</pre>
+</li>
+<li> Test ... Note: your <code>view</code> function need NOT have the same name as the <code>route string</code> ... BUT it is good practice to have associated names</li>
+<li> AS practice: <code>create another view function and route</code> ... and test</li>
+</ul>
+<h3>Dynamic Routes </h3>
+<p>We are on a roll... we will now discuss <code> dynamic routing</code>. Often we want URL routes (paths) to be dynamic based on a particular situation.</p> 
+<p>Example: Say you have a web application with <code> many users</code> and each of those users should have their <code>own separate view (profile page)</code>.</p>
+<p>Essentially, we want a unique url for every user :) - i.e. /user/<em>&ltunique_user_url&gt</em> .</p>
+<p>We do NOT want to have a unique view function for each user... why? Because the view functions are created independently of the data (i.e. number of users etc) - we want ONE view function for a user's profile and so we can use dynamic routes. 
+<br/><strong>Dynamic routes have two key aspects:</strong></p>
+<ol>
+<li> A <code>variable</code>: within ANGLE brackets in the route string inside the decorator</li>
+<li> A <code>parameter</code> (<strong>same name as variable</strong>) passed in to the associated function </li>
+</ol>
+<p> Let's show this through code:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route("/user/&ltname&gt")
+def user_profile(name):
+    # we will use templates sooN!
+    return f"&lth2&gt This is &ltspan style = 'color:orange'&gt{name}'s&lt/span&gt profile page" 
+</code>
+</pre>
+</p>
+<ul>
+<li> You have the variable <code>&ltname&gt</code> in the decorator parameter</li>
+<li> We then pass that SAME<code>name</code> variable to the user_profile()</code> - which can then be used within the body of the function ... </li>
+</ul>
+<p>Please note - that this is a simple example ... i.e. you could take the variable - use it for a database query - retrieve results based on that user and then output a lot more info ...
+Anyway - try out the above example :) </p>
+<h3> Debug Mode </h3>
+<p>This is a super important section - because you will often while developing, make errors and it is really important to have help in catching the errors ... </p>
+<p>So we will activate <code> the debug mode</code> in our application. Lets start with our previous app - and effectively set up an error:
+<br/>say you want to output the the hundredth letter of the variable associated with another dynamic route:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route("/another/&ltdynamicVar&gt")
+def another_route(dynamicVar):
+    # we will use templates sooN!
+    return f"&lth2&gt the 100th letter of {dynamicVar} is {dynamicVar[99]}&lt/h2&gt"
+</code>
+</pre>
+
+<p>If you run this... and your dynamic variable DOES NOT have 100 letters - well you get an Internal Server Error :( This does not kill your server , but it is not helpful in terms of debugging in the browser.</p>
+<p>So within the <code>app.run()</code> add the parameter <code>debug =True</code>. Then try the page again .... oh wow :) Now you get alot more information about what is going wrong with the code.</p>
+<p>What is super cool is ... that if you hover over the <code> traceback messages</code> - you see a an icon for an interactive console. ... if you click on it - you will be first asked for a PIN..</p>
+<p>How to find the pin:</p>
+<p>Go into your terminal - and scroll up (there was the whole traceback there) - at the top is the debugger pin i.e.: * Debugger PIN: 831-287-748 </p>
+<p>Use this...</p>
+<p>Now - we have a debugger console available in our browser at that traceback point. So if you type i.e <code> dynamicVar</code> - it will return the string.</p>
+<p>And then if you try <code>dynamicVar[99]</code> .. it will give you the error!</p>
+<p>Finally - remove <code>degug=True</code> when you are deploying ...:)</p>
+<h3> Routing Exercise </h3>
+<ul>
+<li><code>Task:</code> You will creating a simple web page that converts cat names into cat-latin:) - made up..</li>
+<li><code>Rules:</code>
+<ul>
+<li>If a cat name does NOT end in a 'y' add a 'y' onto the name. (i.e. Bernard -> Bernardy)</li> 
+<li>If a cat name does end in a 'y', replace the y with 'iful' (i.e.Spunky -> spunkiful)</li>
+</ul>
+</li>
+<li><code>Huh?:</code> Make a  new dynamic route - taking in a cat name and output the converted string.</li>
+</ul>
+<h3> Templates! </h3>
+<p>So far we have only returned back HTML manually through a python string.</p>
+<p>But in the *real world* it would make much more sense to connect a <code>view function </code> with an associated <code>HTML Template</code>.</p>
+<p>Flask will <em>automatically</em> look for HTML templates in the <code>templates</code> directory.</p>
+<p>We will then <code>render templates</code> simply by importing the <code> render_template</code> function from flask and returning an .html from our view function.</p>
+<p>Ok -  you can start with the existing project/ environment... we will just start with a new python file called <code> server_week_4.py</code>.</p>
+<ul>
+<li> Next: At the root of the project create a new folder called <code>templates</code></li>
+<li> Then inside the templates folder - lets create a file called <code>pineapples.html</code> </li>
+<li> Next, in the html page generate the standard html markup and add an h1 tag saying: <code>pineapples in flask </code></li>
+<li>Ok - so now we want to link this template to our flask application - go to your <code> server_week_4.py"</code> and type:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+from flask import Flask,render_template
+</code>
+</pre>
+</li>
+<li>
+then create your flask app:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+app = Flask(__name__)
+</code>
+</pre>
+</li>
+<li>
+then we create the default route - but instead of returning an HTML string - we will render our template!
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route('/')
+def index():
+    return render_template("pineapple.html")
+</code>
+</pre>
+</li>
+<li>
+Flask will look in the <code>templates</code> folder for the file called <code>pineapple.html</code>. Finally add the <code>run()</code> and test.
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+app.run(debug=True)
+</code>
+</pre>
+</li>
+</ul>
+<p>You should quickly see already that this is definitely expandable by creating more view functions and html files...</p>
+<p>So html files inside the <code>templates folder </code> are <strong>templates</strong> -- which means:</p>
+<ul>
+<li>We will soon be able add/pass dynamically driven data to them</li>
+<li><code>But they need to be rendered by flask</code> ... they are not accessible just by typing the URL (i.e. pineapple.html) in the browser.</li>
+</ul>
+<p>So - the question is what if we want to reference and render <code> static files?</code></p>
+<p>For example: we will add an image to  another html page called <code>pineapple_2.html</code>:</p>
+<ul>
+<li>Inside the templates folder create a file called <code>pineapples_two.html</code> </li>
+<li> Add the following markup (NOTE:: you can download your own image if you wish. - or <a href = "../resources/week_four/images.zip">download these here</a>)
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+&lt!DOCTYPE html&gt
+&lthtml lang="en"&gt
+&lthead&gt
+    &ltmeta charset="UTF-8"&gt
+    &ltmeta name="viewport" content="width=device-width, initial-scale=1.0"&gt
+    &lttitle&gtpineapples again in flask&lt/title&gt
+&lt/head&gt
+&ltbody&gt
+    &lth1&gtpineapples again in flask&lt/h1&gt
+    &ltimg src = "../static/images/pineapple_2.jpg"&gt
+&lt/body&gt
+&lt/html&gt
+</code>
+</pre>
+</li>
+<li> Add another route in the python file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route('/another')
+def another():
+    return render_template("pineapple_two.html")
+</code>
+</pre>
+</li>
+<li> And create a new folder called <code>static</code> at the root. Then, within that folder, a folder called <code>images</code>. Then place your image there.</li>
+<li>Note by default your static files have to be saved in a folder called <code>static</code></li>
+<li> Test .... </li>
+</ul>
+<h3> Template variables </h3>
+<p>So: we are now able to render HTML templates YAY. But we have not at all leveraged the power of python... </p>
+<p>What we want to be able to do is: <code>to use python code in our app</code>: <em>changing and updating variables and logic</em>, and <code>then send that info to the template</code>.</p>
+<p>We can use the <a href = "https://jinja.palletsprojects.com/en/stable/">Jinja</a> template engine to do this.</p>
+<ul>
+<li><code>Jinja</code> templating will let us directly insert variables from python code into the HTML template</li>
+<li> The syntax for inserting a variable is: <code> {{some_variable}} </code></li>
+<li> You can pass in python strings, lists, dictionaries and more into our templates</li>
+<li> We will set parameters in the <code>render_template</code> function and then use the  <code>{{}}</code> syntax to insert into the template</li>
+</ul>
+<p>The best way to understand this is to see some examples in action:</p>
+<ul>
+<li> Start with the example from before (we were at <code>pineapple_two.html</code>).</li>
+<li> Go ahead and create another html file called <code>pineapple_three.html</code> with the following markup:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+&lt!DOCTYPE html&gt
+&lthtml lang="en"&gt
+&lthead&gt
+    &ltmeta charset="UTF-8"&gt
+    &ltmeta name="viewport" content="width=device-width, initial-scale=1.0"&gt
+    &lttitle&gtpineapples again in flask and vars&lt/title&gt
+&lt/head&gt
+&ltbody&gt
+    &lth1&gtpineapples again in flask number three&lt/h1&gt
+    &ltimg src = "../static/images/pineapple.jpeg"/&gt
+&lt/body&gt
+&lt/html&gt
+</code>
+</pre>
+</li>
+<li>As well, add another new route in the python file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route('/three')
+def three():
+    return render_template("pineapple_three.html")
+</code>
+</pre>
+</li>
+<li> Next: we will look at passing a <code>variable to the template</code>.<br/>
+So, within the view function <code>three()</code> add the following below, BEFORE rendering the template:
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+ someNewVar = "Sabine"
+ </code>
+</pre>
+</li>
+<li> Ok - now I want to <code>pass</code> this variable into my template ... I do that by adding another parameter to the <code>render_template()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+return render_template("pineapple_three.html",my_variable = someNewVar)
+</code>
+</pre>
+</li>
+<li>Then: we can inject the variable in our html... add the following to <code>pineapple_three.html</code>:and test ... 
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+  &lth2&gtHello {{my_variable}}&lt/h2&gt
+  </code>
+</pre>
+</li>
+<li>We can pass a <code>list</code> as a parameter as well. So, within the view function <code>three()</code> add the following code below, BEFORE rendering the template:
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+ someList = ["one","two","three"]
+ </code>
+</pre>
+</li>
+<li> Ok - now I want to <code>pass</code> this variable into my template ... I do that by adding another parameter to the <code>render_template()</code>:
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+   return render_template("pineapple_three.html",
+                           my_variable = someNewVar,
+                           my_list = someList)
+</code>
+</pre>
+</li>
+<li>Then: we can inject the list variable in our html... add the following to <code>pineapple_three.html</code>:and test ... 
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+  &lth2&gtHello {{my_list}}&lt/h2&gt
+</code>
+</pre>
+</li>
+<li> Because this variable is a list - I can access the <code>list values by index</code> as well:
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+   &lth2&gtHello First {{my_list[0]}}&lt/h2&gt
+</code>
+</pre>
+</li>
+<li> I can slice:
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+&lth2&gtHello First - second {{my_list[0:2]}}&lt/h2&gt
+</code>
+</pre>
+  <p>** Note can do loops etc... in JINJA ... but we will come back to this later...**</p>
+</li>
+<li>We can pass a <code>dictionary</code> as a parameter as well. So, within the view function <code>three()</code> add BEFORE rendering the template:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+ someDict = {"color":"yellow", "feature":"spiky","taste":"delicious"}
+</code>
+</pre>
+</li>
+<li> Ok - now I want to <code>pass</code> this variable into my template ... I do that by adding another parameter to the <code>render_template()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+    return render_template("pineapple_three.html",
+                           my_variable = someNewVar, 
+                           my_list = someList,
+                           my_dict = someDict)
+</code>
+</pre>
+</li>
+<li>Then: we can inject the list variable in our html... add the following to <code>pineapple_three.html</code>:and test ... 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+  &lth2&gtHello Dictionary {{my_dict}}&lt/h2&gt
+</code>
+</pre>
+</li>
+<li> I can also just access a value in a dictionary ... just like normal python :)
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+     &lth2&gtDictionary Item {{my_dict['color']}}&lt/h2&gt
+</code>
+</pre>
+</li>
+</ul>
+
+
+<h3> Template Control Flow </h3>
+<p>Ok ---  we now know how to <code>inject variables</code> with Jinja templating using the <code>{{}}</code> syntax ;) </p>
+<p>We will next look at how we ALSO have access to <code>control flow syntax in our templates (for loops, if statements...)</code> using the special <code>{% %}</code>syntax.</p>
+<p>Let's start with an example... we previously passed in a list to our template ... and we want to instead of outputting the entire list in one html tag -> we want to <code>iterate over each element</code> and output each one in a separate html tag:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+    &ltul&gt
+       &lt!-- JINJA syntax for loop --&gt
+        {% for item in my_list %}
+        &lt!-- output the item--&gt
+        &ltli style ="color:purple"&gtitem:{{item}}&lt/li&gt
+        &lt!-- close the for loop--&gt
+        {% endfor %}
+     &lt/ul&gt
+</code>
+</pre>
+<p>Nice...</p>
+<p>Let's continue with some more <code>control flow</code> examples:</p>
+<ul>
+<li> Start with the example from before (we were at <code>pineapple_three.html</code>).</li>
+<li> Go ahead and create another html file called <code>pineapple_four.html</code> with the following markup:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+&lt!DOCTYPE html&gt
+&lthtml lang="en"&gt
+&lthead&gt
+    &ltmeta charset="UTF-8"&gt
+    &ltmeta name="viewport" content="width=device-width, initial-scale=1.0"&gt
+    &lttitle&gtpineapples again in flask and control flow&lt/title&gt
+&lt/head&gt
+&ltbody&gt
+    &lth1&gtpineapples again in flask number four&lt/h1&gt
+&lt/body&gt
+&lt/html&gt
+</code>
+</pre>
+</li>
+<li>As well, add another route in the python file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route('/four')
+def four():
+    return render_template("pineapple_four.html")
+</code>
+</pre>
+</li>
+<li> Next: lets make a  <code>list</code> variable and assign it before calling the <code>render_template()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+a_new_list = [1,2,3,4,5]
+</code>
+</pre>
+</li>
+<li> And as before pass into the <code>render_template()</code>function:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+  return render_template("pineapple_four.html",a_num_list = a_new_list)  
+  </code>
+</pre>
+</li>
+<li> And in our html template just first output the entire list and test:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+&lth2&gt{{a_num_list}}&lt/h2&gt
+</code>
+</pre>
+</li>
+
+<li> Next we will add a <code>for loop</code> in our html template like before - and test:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+    &ltul&gt
+        &lt!-- JINJA syntax for loop--&gt
+        {% for singleEl in a_num_list %}
+        &lt!-- output the item--&gt
+        &ltli style ="color:rgb(216, 122, 216)"&gt{{singleEl}}&lt/li&gt
+        &lt!-- close the for loop--&gt
+        {% endfor %}
+     &lt/ul&gt
+  </code>
+</pre>
+</li>
+<li>We will continue now with the <code>if/else</code>. 
+Let's add another  <code>list</code> variable containing some colors and assign it before calling the <code>render_template()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+b_new_list = ["yellow","orange","blue", "green", "turquoise","fuscia","navy"]
+</code>
+</pre>
+</li>
+
+<li> And then add a reference in the <code>render_template()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+    return render_template("pineapple_four.html",
+                           a_num_list = a_new_list,
+                           color_list = b_new_list)  
+</code>
+</pre>
+</li>
+
+<li> Then for the sake of repetition :) :) maker another list using a for loop in the html and test:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+ &ltul&gt
+    &lt!-- JINJA syntax for loop--&gt
+    {% for singleCol in color_list %}
+    &lt!-- output the item--&gt
+    &ltli style ="color:rgb(216, 122, 216)"&gt{{singleCol}}&lt/li&gt
+    &lt!-- close the for loop--&gt
+    {% endfor %}
+  &lt/ul&gt
+</code>
+</pre>
+</li>
+<li> Now for the <code>if/else</code>: add the following logic after the list: output some text <code> if the color yellow is in the list: </code>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+   &lt!-- JINJA syntax if --&gt
+   {% if "yellow" in color_list %}
+     &ltp>Found YELLOW in the list!&lt/p&gt
+     &lt!-- close the if--&gt
+    {% endif %}
+</code>
+</pre>
+</li>
+<li> We can add in an  <code>else</code> clause:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+    &lt!-- JINJA syntax if --&gt
+     {% if "yellow" in color_list %}
+     &ltp&gtFound YELLOW in the list!&lt/p&gt
+     &lt!-- JINJA syntax else --&gt
+     {% else %}
+     &ltp&gt YELLOW is not in the list!&lt/p&gt
+     &lt!-- close the if--&gt
+     {% endif %}
+</code>
+</pre>
+</li>
+</ul>
+<p>OK .. so when would this be useful?</p>
+<p>Let's say we want to render different HTML based on <code>whether a user is logged in or not</code>.
+<ul>
+<li> Go ahead and create another html file called <code>pineapple_five.html</code> with the following markup:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-html line-numbers">
+<code>
+&lt!DOCTYPE html&gt
+&lthtml lang="en"&gt
+&lthead&gt
+    &ltmeta charset="UTF-8"&gt
+    &ltmeta name="viewport" content="width=device-width, initial-scale=1.0"&gt
+    &lttitle&gtpineapples and users :)&lt/title&gt
+&lt/head&gt
+&ltbody&gt
+    &lth1&gtpineapples and users&lt/h1&gt
+     &ltp style ="color:rgb(216, 122, 216); text-transform: uppercase"&gt User is not Logged In &lt/p&gt
+     &ltimg src = "../static/images/Lemon.jpg"/&gt
+&lt/body&gt
+&lt/html&gt
+</code>
+</pre>
+</li>
+<li>As well, add another route in the python file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+@app.route('/five')
+def five():
+    return render_template("pineapple_five.html")
+</code>
+</pre>
+</li>
+<li> Next: lets add a variable and assign it before calling the <code>render_template()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+ userLoggedIn = True
+</code>
+</pre>
+</li>
+<li> And as before pass into the <code>render_template()</code>function:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+  return render_template("pineapple_five.html",user_bool = userLoggedIn)  
+  </code>
+</pre>
+</li>
+<li> Replace the body of the html with the following: <code>we will render different html depending on whether the user is logged in or not</code>: then test:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers">
+<code>
+   &lth1&gtpineapples and users&lt/h1&gt
+     {% if user_bool %}
+        &ltp style ="color:rgb(122, 133, 216); text-transform: uppercase"&gt User is Logged In&lt/p&gt 
+        &ltimg src = "../static/images/pineapple_2.jpg"/&gt
+     {% else %}
+        &ltp style ="color:rgb(216, 122, 216); text-transform: uppercase"&gt User is not Logged In&lt/p&gt 
+        &ltimg src = "../static/images/Lemon.jpg"/&gt
+    {% endif %}
+</code>
+</pre>
+</li>
+<li> Set the <code>userLoggedIn</code> variable to <code>False</code> and test again...</li>
+</ul>
+<h3>Next week:</h3>
+<ul>
+<li>We will continue with templates: template inheritance</li> 
+<li>User Input via Webforms</li>
+<li>Reading and writing files</li>
+</ul>
+
+<h3> Side topic: python and decorator functions </h3>
+<p>I need to briefly discuss a more advanced topic in python known as <code>decorators</code>:
+<ul>
+<li>Imagine you just created a function in Python.</li>
+<li>You have the simple function and it does some stuff and then returns something.</li>
+<li>Now imagine that you wanted to add some new capabilities to the function.</li>
+<li>You want it to <code>keep the original simple stuff</code>, but now you want to <code>add more capabilities by doing some more things and then returning something else</code>.</li>
+<li>So now you have two options:
+  <ul>
+<li> You could just add that extra code, that extra functionality to your old function.</li>
+<li> Or you could create a brand new function that contains the old code and then add the new code to that.</li>
+</ul>
+</li>
+<li>But what if you then want to remove that extra functionality?</li>
+<li>So neither of these solutions is actually pretty good because then you'd either have to use the old function or delete the new code manually.</li>
+<li>So is there a better way?</li>
+<li>Maybe if we could have some sort of quick on/off switch to quickly add this functionality or remove it at our leisure.</li>
+<li>Well ...  Python has <code> decorators that allow you to tack on this extra functionality to an already existing function</code>, and they're going to use the <code> at operator (@) and are then placed on top of the original function</code>.</li>
+<li>So now you can actually easily add on extra functionality with a decorator!</li>
+<li>So here we have our original simple function and then we can decorate it with some decorator to add in that extra functionality to the function... Example? ;) </li>
+</ul>
+
+</section>
+  </main>
+  
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+
+</body>
+
+</html>
+
+    
