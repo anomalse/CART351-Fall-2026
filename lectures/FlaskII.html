@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+
+<head>
+  <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>FLASK II</h1>
+    </div>
+  </header>
+  <main>
+
+<section class="contents-notes">
+  <h3>Template Inheritance</h3>
+  <p>Most web applications will have the same elements on different pages (i.e. header, nav bar, footer etc).... 
+    so instead of re-making the same element from scratch on different pages, or even in different sections - 
+    we can use Jinja to help us :)</p>
+  <p>Jinja has a template inheritance feature that specifically addresses this.</p>
+  <p>The idea is that you can  move the parts of the page layout that are common to all templates to a <code>base template</code>, from which all other templates are derived.</p>
+<p>Then we use <code> {% extend "base.html" %}</code> and <code> {% extend block %}</code> statements to extend these reusable aspects to other pages.</p>
+<p>So lets set up a small example:</p>
+<p> In VS Code - <code>set up a new project</code> (folder) and add a folder called <code>templates</code></p>
+<p>Create a base template called <code>base.html</code>, and place inside the <code>templates</code> directory:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers">
+<code>
+
+&lt!DOCTYPE html&gt
+&lthtml&gt
+    &lthead&gt
+    &ltlink rel="preconnect" href="https://fonts.googleapis.com"&gt
+    &ltlink rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt
+    &ltlink href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"&gt
+    &ltlink rel="stylesheet" href="../static/css/base.css"&gt
+    &lttitle&gtCART 351 FLASK TEST :)&lt/title&gt
+
+    &lt/head&gt
+    &ltbody&gt
+        &ltheader&gt 
+            &lth2&gt WEB APP HEADER &lt/h2&gt
+            &ltnav&gt
+                &ltul&gt
+                    &ltli&gt &lta href="/index"&gtHome &lt/a&gt &lt/li&gt
+                    &ltli&gt &lta href="/about"&gtAbout&lt/a&gt &lt/li&gt
+                &lt/ul&gt
+                &lt/nav&gt
+        &lt/header&gt
+        &ltmain&gt
+        {% block content %}{% endblock %}
+        &lt/main&gt
+        &ltfooter&gt
+            footer info ** footer info **
+        &lt/footer&gt
+    &lt/body&gt
+&lt/html&gt
+ </code>
+</pre>
+<p>Add a new folder in the root called <code>static</code>and within a folder called <code>css</code>. Now add a <code>base.css</code> with the following styles:</p>
+<pre id = "writeA" data-line="" class="language-css line-numbers">
+<script>
+let s = ""
+for(let i = 1; i< 84; i++){
+    if(i%2 ===0){
+        s+=`${i},`
+    }
+}
+document.querySelector("#writeA").setAttribute("data-line",s)
+</script>
+<!-- <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-css line-numbers"> -->
+<code>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: rgb(191, 246, 255);
+  font-family: "Roboto", sans-serif;
+}
+
+h2 {
+  font-size: 32px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  color: rgb(191, 246, 255);
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  background-color: rgb(232, 178, 233);
+}
+nav ul {
+  display: flex;
+  justify-content: right;
+  background-color: rgb(217, 55, 220);
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+nav ul li {
+  width: 10%;
+  text-transform: uppercase;
+  text-decoration: none;
+  list-style-type: none;
+}
+nav li a {
+  text-decoration: none;
+  color: rgb(191, 246, 255);
+}
+main {
+  margin: 10px;
+  margin-bottom: 0;
+  background-color: rgb(229, 243, 245);
+  min-height: calc(90vh - 5vh - 100px);
+}
+.flex-intro {
+  display: flex;
+  width: 90%;
+}
+.items {
+  width: 50%;
+}
+.items p {
+  text-transform: uppercase;
+  color: rgb(123, 99, 91);
+  margin: 20px;
+}
+.img_div {
+  width: 40%;
+}
+.img_div img {
+  width: 100%;
+}
+.dict_key,
+.dict_value {
+  padding: 2px;
+  background-color: rgb(240, 158, 242);
+  color: white;
+}
+
+footer {
+  background-color: rgb(217, 55, 220);
+  min-height: 5vh;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding: 10px;
+  color: rgb(191, 246, 255);
+}
+
+  
+
+</code>
+</pre>
+<p>In this template, we use the <code>block control statement</code> to define the place where the <code>derived/child templates can be injected </code>. Blocks are given a unique name, which child templates can reference when they provide their content.</p>
+<p>So, with the base template (base.html) in place, we can now create <code>an index.html that will <strong>inherit</strong> from base.html</code>.<br/> Add to your project, a new file called <code>index.html</code>, - put into the <code>templates</code> folder, and then add the following:</p>
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+<code>
+<!-- will be a child of base-->
+{% extends "base.html" %}
+
+{% block content %}
+    &lth1&gtHi, We are using inheritance :)!&lt/h1&gt
+    &ltsection class = "flex-intro"&gt
+   &ltp&gt A BD &lt/p&gt
+    &lt/section&gt
+{% endblock %}
+  </code>
+</pre>
+<p>In order to test:) - remember the steps:</p>
+<ul>
+  <li>Create a new virtual environment with conda / or activate the one from last week </li>
+  <li>If it is a new environment then run <code>pip install flask</code></li>
+  <li>Create a <code>main.py</code> file and add in the skeleton code+route:</li>
+</ul>
+
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-python line-numbers"> 
+<code>
+from flask import Flask,render_template
+app = Flask(__name__)
+@app.route('/')
+
+def index():
+    return render_template("index.html")
+
+app.run(debug=True)
+</code>
+</pre>
+<p> And ... run the <code>main.py</code> ...</p>
+
+<p>Next: let's change the <em>routing function </em> in <code>main.py</code> to pass some data:
+<p> Note: this example will once again rely on the images from last week - download them again <a href = "../resources/week_four/images.zip">here</a> - and place them in the static directory within their images folder</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-python line-numbers"> 
+<code>
+@app.route("/")
+def index():
+
+    return render_template("index.html",
+                           user={"username":"sabine"},
+                           passedDictionary={
+                                            "fav_color":"fuscia", 
+                                             "fav_veg":"cauliflower",
+                                             "fav_fruit":"kiwi",
+                                             "fav_animal":"toucan"
+                                             },
+                            imgPath = "../static/images/pineapple_2.jpg"
+                                        
+                        )
+</code>  
+</pre>
+<p> So - then let's replace the content in index.html with the following more <code> dynamically driven</code> content:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+<code>
+<!-- will be a child of base-->
+{% extends "base.html" %}
+
+{% block content %}
+    &lth1&gtHi, {{ user.username }}!&lt/h1&gt
+    &ltsection class = "flex-intro"&gt
+    &ltdiv class="items"&gt
+    {% for item in passedDictionary %}
+    
+        &ltp&gtThe key is: &ltspan class ="dict_key"&gt{{item}}&lt/span&gt and the value is: 
+        &ltspan class ="dict_value"&gt{{passedDictionary[item]}}&lt/span&gt
+    &lt/p&gt
+
+    {% endfor %}
+    &lt/div&gt
+    &ltdiv class = "img_div"&gt
+        &ltimg src = {{imgPath}} /&gt
+    &lt/div&gt
+    &lt/section&gt
+{% endblock %}
+</code>
+</pre>
+
+<p>Since the base.html template will now take care of the general page structure, we  need to only have the <em>content</em> part</span> in the <code>index.html</code>.</p>
+<p>The <code>extends</code> statement establishes the inheritance link between the two templates, so that Jinja knows that when it is asked to render index.html it needs to embed it inside base.html.</p>
+<p>The two templates have matching block statements with the name <code>content</code>, and this is how Jinja knows how to combine the two templates into one.</p>
+<p>Now, if we need to create additional pages for the application, we can create them as derived templates from the same <code>base.html</code> template ...  :)</p>
+<p>We already have our base.html and so we will create a new <em>parent</em> template named <code>pineappleParent.html</code>, which will be <code>derived</code> from the <code>base.html</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+<code>
+{% extends "base.html" %}
+
+{% block content %}
+    &ltsection class = "pineAppleParent"&gt
+        &lth3&gt This h3  is in the Pineapple Parent template &lt/h3&gt
+        {% block pine %}{% endblock %}
+    &lt/section&gt
+{% endblock %}
+</code>
+</pre>
+<p>This template has another block named <code>pine</code>... so we will create <code>two children templates</code> -> both derived from  <code>pineappleParent.html</code>:</p>
+<code>pineappleChild.html:</code>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+<code>
+{% extends "pineappleParent.html" %}
+{% block pine %}
+    &ltp&gt Hi child Pineapple: &ltspan class = "highlight"&gt{{dataPassedA}}&lt/span&gt
+{% endblock %}
+</code>
+</pre>
+<p> and <code>pineappleChild_B.html:</code></p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+<code> 
+{% extends "pineappleParent.html" %}
+{% block pine %}
+    &ltp&gt PineApple child B!&lt/p&gt
+    &ltimg src = {{passedImg}}/&gt
+{% endblock %}
+</code>
+</pre>
+
+<p>Place the additional css for testing purposes in <code>base.css</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-css line-numbers"> 
+<code> 
+/**** new ***/
+.pineAppleParent{
+    padding-top: 10px;
+    background-color:rgb(4, 83, 67);
+    padding-bottom:10px;
+}
+.pineAppleParent h3{
+    font-size:24px;
+     color: rgb(5, 230, 204);
+     margin-left:10px;
+     margin-right:10px;
+     margin-top:10px;
+    background-color: rgb(6, 165, 133);
+
+}
+.pineAppleParent p{
+    color:white;
+    margin-top:20px;
+     margin-left:10px;
+     margin-right:10px;
+    margin-bottom:20px;
+}
+
+.pineAppleParent img{
+    margin-left:10px;
+    width:50%;
+}
+
+.highlight{
+    background: rgb(255, 0, 93);
+}
+</code>
+</pre>
+<p>Now - lets add the new routes in main.py:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-python line-numbers"> 
+<code> 
+@app.route("/pineappleA")
+def pineAppleA():
+
+    return render_template("pineappleChild.html",
+                           dataPassedA = "child A!" )
+
+@app.route("/pineappleB")
+def pineAppleB():
+
+    return render_template("pineappleChild_B.html",
+                           passedImg = "../static/images/pineapple_2.jpg" )
+</code>
+</pre>
+<p>So - if you now test the new routes... you will see that both <code>pineappleChild.html and pineappleChild_B.html</code> inherit from pineappleParent.html ... who inherits from <code>base.html</code> ...:)</p>
+<h3> URL Links with Templates</h3>
+<p>Flask comes with a super convenient <a href = "https://flask.palletsprojects.com/en/stable/api/#flask.url_for">url_for()</a> helper function that allows us to easily connect other template pages or files within our templates.
+ <br/>So far, if we would have wanted to connect one html file to another, we would have had to hardcode in the url to that html file.. :( - not very flexible...
+<br/>So the <code>url_for()</code> will change all that!</p>
+<p>We will start with linking to other <code> templates</code>:
+So lets go back to our <code> base.html</code> with the nav bar, and recall the following:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+<code> 
+ &ltli&gt&lta href="/index"&gtHome &lt/a&gt&lt/li&gt
+  &ltli&gt&lta href="/about"&gtAbout &lt/a&gt &lt/li&gt
+ </code>
+</pre>
+<p>So - these links currently do not work. ... and now we will use the <code>url_for()</code> to link to the <code>correct views</code>: - 
+<br/>Recall in your <code>main.py</code> - you have the <code>routes</code> & their <code>associated functions</code> ... it is these <code> functions</code> that we will refer to. <br/>So replace with:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+<code>
+   &ltli&gt &lta href="{{url_for('index')}}"&gtHome &lt/a&gt &lt/li&gt
+   &ltli&gt &lta href="{{url_for('pineAppleA')}}"&gtAbout&lt/a&gt &lt/li&gt
+  </code>
+</pre>
+<p>And tadah! links are working</p>
+<p>Next - we can use the <code>url_for()</code> helper function to also link to <code>static</code> files (images etc...)</p>
+<p>We will edit the path for the img ref in <code>pineAppleChild_B.html</code>. So first, we will remove the hard coded path in <code> main.py</code> and replace with:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-python line-numbers"> 
+<code>
+return render_template("pineAppleChild_B.html",
+                           passedImg = "pineapple_2.jpg" ) 
+</code>
+</pre>
+And then in <code>pineAppleChild_B.html</code>, we can specify the link using the <code>url_for()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31" class="language-html line-numbers"> 
+  <code>
+     &ltimg src = "{{url_for('static' , filename ='images/'+passedImg)}}"/&gt
+  </code>
+</pre>
+<p>Note: here because we are linking to a <strong>static</strong> file - we need to pass also the top level folder that it is located in, and then the <em>second parameter is the file name</em>.</p>
+<h3> Connecting an HTML Form with Flask </h3>
+<p>This section will <code>introduce</code> the fundamental concepts for connecting HTML forms with Flask. We will cover this topic a lot more in detail in the future: i.e. better strategies and techniques, storing and retrieving items from a db  - but for now we will start <strong>simple</strong>...</p>
+<p>First: we will create a <code>simple html template for allowing for a user to input some data</code>.</p>
+<p>We will extend our current web experience :) - to include the feature that one can <code>maintain a repository of plants</code>.</p> 
+<p>Our new html template will include an HTML form for <strong>inputting the data</strong>...:</p>
+<h4>The HTML templates</h4>
+<ul>
+<li> Create a new html template called <code>addPlantData.html</code>. Then, we will add the following markup (note the inheritance):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers"> 
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+{% block content %}
+&ltsection class = "plant-collect"&gt
+&ltdiv class= "formContainer"&gt
+&lt!--form done using more current tags... --&gt
+&ltform id = "insertPlantForm"&gt
+&lt!-- group the related elements in a form --&gt
+&lth3&gt ADD A NEW PLANT&lt/h3&gt
+&ltfieldset&gt
+ &ltp&gt
+    &ltlabel&gtOwner Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "o_name" required&gt 
+&lt/p&gt
+
+&ltp&gt
+    &ltlabel&gtPlant Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "a_name" required&gt 
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtGeographic Location:&lt/label&gt
+    &ltinput type = "text" size="24" maxlength = "40" name = "a_geo_loc" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtBirth Date (DD-MM-YYYY):&lt/label&gt
+    &ltinput type="date" name="a_date" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtDescription:&lt/label&gt
+    &lttextarea type = "text" rows="4" cols="50" name = "a_descript" required&gt&lt/textarea&gt
+&lt/p&gt
+ &ltp&gt
+    &ltlabel&gt&lt/label&gt
+    &ltinput id = "submitPlant" type = "submit" name = "submit" value = "submit my info" id =buttonS /&gt
+&lt/p&gt
+ &lt/fieldset&gt
+
+&lt/form&gt
+&lt/div&gt
+&lt/section&gt
+{% endblock %}
+
+</code>
+</pre>
+</li>
+<li>
+  Next: extend our <code>base.css</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-css line-numbers"> 
+<code>
+/*********** for the form input ***/
+.plant-collect{ padding-top: 10px;background-color:rgb(246, 227, 245);padding-bottom:10px;}
+label{display:inline-block; width:30%; margin-top:1%;text-transform: uppercase;}
+textarea{margin-top:10px;width:50%;margin-left:2%;}
+input{margin-left:2%;width:50%;}
+fieldset{width:75%;color:#302e2e;margin:0 auto;margin-top:2%;border:none;font-size:14px;text-transform: uppercase;}
+select{width:50%;}
+#submitPlant{width:auto;margin-top:10px;}
+.plant-collect h3{padding:5px;text-align: center; font-size:24px;color:rgb(191, 147, 189);}
+</code>
+</pre>
+</li>
+<li> And then lets add the new route functionality in <code>main.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route("/inputPlant")
+def addPlantData():
+    return render_template("addPlantData.html") 
+</code>
+</pre>
+</li>
+<li>
+And finally - we can add a new link in our nav bar  - in <code> base.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&ltli&gt &lta href="{{url_for('addPlantData')}}"&gtAdd Plant&lt/a&gt &lt/li&gt
+</code>
+</pre>
+<p>And we are ready!</p>
+</li>
+<li> Ok - since we will be extending our flask application with the capability for receiving data from an HTML form we need to import the <code>python <em>request</em> package</code>
+In your <code>main.py</code> - replace:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+from flask import Flask,render_template,request
+</code>
+</pre>
+</li>
+<li><p>Next: we need to add the <code>action</code> attribute in our HTML form tag in the <code>addPlantData.html</code>.</p>
+<p>The value for this <code>action</code> attribute  will be the page we will link to once the user has added in the data...</p>
+<p>In the future, you will see how to stay on the SAME page once data has been submitted - but since we are keeping things simple - for now the user will be directed to a new page. So let's add:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+ action = "{{url_for('thank_you')}}"
+</code>
+</pre>
+to the line:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&ltform id = "insertPlantForm"&gt
+</code>
+</pre>
+<p>Please - note that the <strong>route functionality (view function) to this url does does not yet exist ;)</strong></p>
+</li>
+<li> First we create another html template in preparation... called <code>thankyou.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+{% block content %}
+  &ltsection class = "thank-collect"&gt
+        &lth3&gt Thank you for adding a new plant into the plant repo!&lt/h3&gt
+&lt/section&gt
+{% endblock %}
+</code>
+</pre>
+<p>Add also a small bit of css to <code>base.css</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-css line-numbers">
+<code>
+/**** new ***/
+.thank-collect{
+    padding-top: 10px;
+    background-color:rgb(203, 218, 215);
+    padding-bottom:10px;
+}
+.thank-collect h3{
+    font-size:24px;
+     color: rgb(87, 77, 85);
+     margin-left:10px;
+     margin-right:10px;
+     margin-top:10px;
+    background-color: rgb(248, 249, 248);
+
+}
+</code>
+</pre>
+</li>
+<li> Nowowowow: we can define the <code> thank_you() </code> in <code>main.py</code>: first:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-css line-numbers">
+<code>
+@app.route("/thank_you")
+def thank_you():
+</code>
+</pre>
+</li>
+<li> So: when the user clicks the <code> submit</code> button in the add plant form, a <strong>GET request will be automatically made</strong> for the "<code> /thank_you" route</code>. 
+<br>AND: <strong>the DATA that is in the HTML</strong> form will be automatically included in the <code> request object</code>. 
+<br>Why? WELL because we are using the GET method ... we will get into detail on this later.. <em>for now lets just observe</em>:
+<br>Replace the <code>def thank_you()</code> in main.py with the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route("/thank_you")
+def thank_you():
+    app.logger.info(request.args)
+    return render_template("thankyou.html")  
+</code>
+</pre>
+Now - when you insert data in the form, click submit - you will see that one DOES route to the <code> thank_you() </code> and if you look in the terminal - you will see some super useful info:
+<ol>
+<li>In the response object-> the key <strong>args</strong> is a dictionary of key/value pairs, that are in actually <code>the names and values of the form fields!</code></li>
+<li>The original <code>GET</code> request - with the values formatted in the URL - standard for a <code>GET</code> request....!</li>
+</ol>
+</li>
+<li> 
+You would possibly now save the data to a file / database etc... but we are not doing that yet - we will though pass the <code>owner field</code> on to the thank you page though :)
+<br>So, replace the h3 in the <code>thankyou.html</code> template with:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+&lth3&gt Thank you &ltspan class = "highlight"&gt{{owner_name}}&lt/span&gt for adding a new plant into the plant repo!&lt/h3&gt
+</code>
+</pre>
+And then in <code>def thank_you()</code> in main.py replace the return statement with:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+return render_template("thankyou.html",owner_name = request.args["a_name"]) 
+</code>
+</pre>
+So - it should all be working now ... do not worry about the fact that the data is still in the url when we go to the new template - coming later ;)
+</li>
+<li> What we will do is add our own <code>Error 404 page...</code>. 
+<br>Create a new template page called <code>404.html</code>. Add the following markup:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+
+{% block content %}
+    &ltsection class = "four-oh-four"&gt
+        &lth3&gt&ltspan class = "highlight"&gtError 404 &lt/span&gt&lt/h3&gt
+&lt/section&gt
+{% endblock %}
+</code>
+</pre>
+and css:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-css line-numbers">
+<code>
+/**404**/
+.four-oh-four{
+    padding-top: 10px;
+    background-color:rgb(203, 218, 215);
+    padding-bottom:10px;
+}
+.four-oh-four h3{
+    font-size:24px;
+     color: rgb(87, 77, 85);
+     margin-left:10px;
+     margin-right:10px;
+     margin-top:10px;
+    background-color: rgb(248, 249, 248);
+
+}
+</code>
+</pre>
+</li>
+<li> And then we need to make a custom route for this page  - go to your <code>main.py</code> and add the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"),404
+</code>
+</pre>
+<p>Note: this is a special routing function - specifically for 404 errors... :) - test -</p>
+</li>
+</ul>
+</section>
+</main>
+  
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+
+</body>
+
+</html>
+
+    
