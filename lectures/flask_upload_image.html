@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+
+<head>
+  <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>FLASK II</h1>
+    </div>
+  </header>
+  <main>
+
+<section class="contents-notes">
+ <h3> Uploading an image :) </h3>
+<p>In this section we will look at sending <code>multi part form data</code>. 
+<br/>It is a strategy/method for <code>sending multiple types of data in a single HTTP request</code>, commonly used for <code>file uploads</code> and submitting forms with various input types.</p>
+ <p>Start <a href = "data/starter_upload.zip">with this project</a>.
+<br/>We will use the same HTML form as the one we used to <code>add-to-the-plant-repository</code>, 
+<br/>but we will <em> extend</em> and <em>adapt</em> the functionality to include the ability to upload a file to the web server. 
+ <br/>The steps will be:</p>
+<ul>
+<li> Create a new html template with an HTML form that includes the capability to upload a file as part of the data packet being sent to the server </li>
+<li> Add a new route to the html in python </li>
+<li> Update the navigation bar to reference the new link</li>
+<li> Create another html page (a new thank you page) to route to once the request has been made </li>
+<li> Create a route for this page - which will also handle the data packet from the form...</li>
+<li> Save the uploaded file in the correct directory </li>
+<li> Display the uploaded image in the new thank you page </li>
+</ul>
+<p>Again - note that we will complete only the rudimentary steps - i.e. I will not cover checking the file type etc...
+<br/>Ok lets go:</p>
+<ul>
+<li> Create a new html template and save as <code>addPlantExtended.html</code>. Add the following markup:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+
+{% block content %}
+    &ltsection class = "plant-collect"&gt
+    &ltdiv class= "formContainer"&gt
+&lt!--form done using more current tags... --&gt
+&ltform id = "insertPlantForm"&gt
+&lt!-- group the related elements in a form --&gt
+&lth3&gt ADD A NEW PLANT AND AN IMAGE &lt/h3&gt
+&ltfieldset&gt
+ &ltp&gt
+    &ltlabel&gtOwner Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "o_name" required&gt 
+&lt/p&gt
+
+&ltp&gt
+    &ltlabel&gtPlant Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "a_name" required&gt 
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtGeographic Location:&lt/label&gt
+    &ltinput type = "text" size="24" maxlength = "40" name = "a_geo_loc" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtBirth Date (DD-MM-YYYY):&lt/label&gt
+    &ltinput type="date" name="a_date" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtDescription:&lt/label&gt
+    &lttextarea type = "text" rows="4" cols="50" name = "a_descript" required&gt&lt/textarea&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtUpload Image:&lt/label&gt 
+    &ltinput type ="file" name = 'the_file' size=10 required/&gt
+&lt/p&gt
+ &ltp&gt
+    &ltlabel&gt&lt/label&gt
+    &ltinput id = "submitPlant" type = "submit" name = "submit" value = "submit my info" id =buttonS /&gt
+&lt/p&gt
+ &lt/fieldset&gt
+&lt/form&gt
+&lt/div&gt
+&lt/section&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+<li> Add a new route + view function in <span class = "customP">main.py</span>:
+<pre line="1" lang="html"> 
+@app.route("/inputPlantEx")
+def addPlantDataEx():
+    return render_template("addPlantDataExtended.html") 
+</pre>
+</li>
+<li> Update the navigation in the <span class = "customP">base.html</span>:
+<pre line="1" lang="html"> 
+ <li> <a href="{{url_for('addPlantDataEx')}}">Add Plant V2</a> </li>
+</pre>
+At this point make sure the page is correctly linked and viewable.
+</li>
+<li>Create a new thank you HTML template (which will also display the uploaded image), called <span class = "customP"> thankyou_plant_rev.html</span>. Add the following markup:
+<pre line="1" lang="html"> 
+<!-- will be a child of base-->
+{% extends "base.html" %}
+
+{% block content %}
+    <section class = "thank-collect">
+    <h3> Thank you for adding a new plant into the plant repo!</h3>
+    <div class = "imgContainer">
+           <!-- will hold the image-->
+    </div>
+</section>
+{% endblock %}
+</pre>
+And css:
+<pre line="1" lang="html"> 
+/*** img plant **/
+
+.thank-collect .imgContainer{
+   background-color: rgb(232, 178, 233);
+    width:50%;
+    margin-top:10px;
+    margin-left:25%;
+}
+.thank-collect .imgContainer img{
+    display:inline-block;
+    width:70%;
+    margin-left:15%;
+}
+</pre>
+</li>
+<li> Make a route and view function in <span class = "customP">main.py</span>
+<pre line="1" lang="html"> 
+@app.route("/thank_plant_two",methods = ['POST', 'GET'])
+def thank_you_two():
+    return render_template("thankyou_plant_rev.html") 
+</pre>
+Note: for this HTML form we will be using <span class = "customP">POST</span> - because you cannot send files / binary data via a GET request...<span class = "customP">so we needed to include the methods attribute to the decorator function</span>.
+</li>
+<li>
+Next: we need to add the <span class="customP">action</span> attribute,AND the <span class="customP"> method</span>, AND **new** the <span class="customP"> enctype </span>. 
+The enctype attribute specifies how the form-data should be encoded when submitting it to the server - and in this case it will be <span class = "customP"> multipart/form-data </span>. Note that the default encoding (if not specified is <span class = "customP">application/x-www-form-urlencoded</span>).
+So: replace the form tag in the <span class = "customP">addPlantDataExtended.html</span> to:
+<pre line="1" lang="html"> 
+<form id = "insertPlantForm"
+ method = "post" 
+action = "{{url_for('thank_you_two')}}" 
+enctype="multipart/form-data"
+>
+</pre>
+</li>
+<li> 
+We will also add some configuration to our flask app:
+1/ import os package (as we will be accessing the file system)
+2/ we will need to specify what folder files will be uploaded to
+3/ we will set a size limit for the max file size to be uploaded.
+
+So - fist make a folder in the folder named 'static' of your project and call it <span class = "customP">uploads</span>.
+Then add the following <span class = "customP">import</span> statement:
+<pre line="1" lang="html">
+import os
+</pre>
+Next, add the following to <span class = "customP">main.py</span>:
+<pre line="1" lang="html">
+UPLOAD_FOLDER = 'static/uploads' 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB limit
+</pre>
+</li>
+<li> Now we are ready to handle the incoming data packet :): so replace the code in <span class = "customP">thank_you_two()</span> in  <span class = "customP">main.py</span> with the following:
+<pre line="1" lang="html">
+    if request.method == 'POST':
+        #key is the same as in the form :)
+        uploadedfile = request.files['the_file']
+        #save file to uploads folder
+        uploadedfile.save(os.path.join(app.config['UPLOAD_FOLDER'], uploadedfile.filename))
+        app.logger.info(uploadedfile.filename)
+
+    return render_template("thankyou_plant_rev.html") 
+</pre>
+And test :) - the file should upload...
+</li>
+<li> If your logger has output the correct filename and the files has been uploaded successfully -then we can completer the last part! We will pass the filename and the owner name to the template and  then display.
+Since we used the <span class = "customP">POST</span> method the text data from the form will be accessible via the <span class = "customP">request.form</span> attribute. So , replace the <span class = "customP">render_template()</span> with:
+<pre line="1" lang="html"> 
+    return render_template("thankyou_plant_rev.html",
+                           imgPath = uploadedfile.filename, 
+                           owner = request.form["o_name"]) 
+</pre>
+</li>
+<li> And then in the <span class = "customP">thankyou_plant_rev.html</span> we can call the image to be displayed and the owner name:
+<pre line="1" lang="html"> 
+<!-- will be a child of base-->
+{% extends "base.html" %}
+{% block content %}
+    <section class = "thank-collect">
+    <h3> Thank you <span class = "highlight">{{owner}}</span> for adding a new plant into the plant repo!</h3>
+    <div class = "imgContainer">
+             <img src = "{{url_for('static' , filename ='uploads/'+imgPath)}}"/> 
+    </div>
+</section>
+{% endblock %}
+</pre>
+</li>
+</ul>
+<h2> NEXT TIME </h2>
+<h3> SESSIONS </h3>
+<h3> AJAX</h3>
+<h3>FLASK FORM TEMPLATES</h3>
+<h3> USING POSTMAN </h3>
+
+</section>
+</main>
+  
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+
+</body>
+
+</html>
+
+    
