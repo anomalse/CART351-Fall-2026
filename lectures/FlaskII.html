@@ -65,7 +65,7 @@
 &lt/html&gt
  </code>
 </pre>
-<p>Add a new folder in the root called <code>static</code>and within a folder called <code>css</code>. Now add a <code>base.css</code> with the following styles:</p>
+<p>Add a new folder in the root called <code>static</code> and within a folder called <code>css</code>. Now add a <code>base.css</code> with the following styles:</p>
 <pre id = "writeA" data-line="" class="language-css line-numbers">
 <script>
 let s = ""
@@ -337,7 +337,8 @@ def pineAppleB():
 <p>So - if you now test the new routes... you will see that both <code>pineappleChild.html and pineappleChild_B.html</code> inherit from pineappleParent.html ... who inherits from <code>base.html</code> ...:)</p>
 <h3> URL Links with Templates</h3>
 <p>Flask comes with a super convenient <a href = "https://flask.palletsprojects.com/en/stable/api/#flask.url_for">url_for()</a> helper function that allows us to easily connect other template pages or files within our templates.
- <br/>So far, if we would have wanted to connect one html file to another, we would have had to hardcode in the url to that html file.. :( - not very flexible...
+<br/> So include <code>url_for</code>in the import statement at the top of <code>main.py</code>.
+<br/>So far, if we would have wanted to connect one html file to another, we would have had to hardcode in the url to that html file.. :( - not very flexible...
 <br/>So the <code>url_for()</code> will change all that!</p>
 <p>We will start with linking to other <code> templates</code>:
 So lets go back to our <code> base.html</code> with the nav bar, and recall the following:</p>
@@ -557,8 +558,42 @@ And then in <code>def thank_you()</code> in main.py replace the return statement
 return render_template("thankyou.html",owner_name = request.args["a_name"]) 
 </code>
 </pre>
-So - it should all be working now ... do not worry about the fact that the data is still in the url when we go to the new template - coming later ;)
+<!-- So - it should all be working now ... do not worry about the fact that the data is still in the url when we go to the new template - coming later ;) -->
 </li>
+
+<li><strong>An issue</strong>: you will see that <code>the url still contains all the request's arguments</code>, even when flask routes to the <strong>thankyou.html</strong> page.
+<br/> We do not want to keep these variables in the url  - they will potentially cause conflicts, security issues etc... 
+<br/>The reason that they remain in the url - is because when flask loads the  thankyou.html, it is <strong>not reloading the HTML page</strong> (there is still traces of the orginal request).
+<br/>The solution to remove this information is to have the <strong>web server trigger a <a href = "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Redirections">redirect</a></strong>.
+<br/><code>In main.py</code> replace the <code>def thankyou()</code> with:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route("/thank_you")
+def thank_you():
+    app.logger.info(request.args)
+  
+    if('a_name' in request.args):
+        owner_name = request.args["a_name"] 
+        app.logger.info("first run to redirect")
+         #url is not clean
+        #return render_template("thankyou.html",owner_name = request.args["a_name"]) 
+        
+        # issue we lose the parameters! - but url is clean :)
+        return redirect(url_for("thank_you")) 
+    #part of the reloading process... we redirect - then headers rewritten and reload the template
+    else:
+        app.logger.info("reloaded and redirected")
+        return render_template("thankyou.html") 
+</code>
+</pre>
+</li>
+<li> you will also need to include the <code>redirect</code> module in your import statement at the top of <code>main.py</code>. </li>
+<li>When you run it now - you will see that the url is clean :) - <code>but we have no access to the form variables</code> :(</li>
+<li>This is correct and makes sense :) - so the question is now <code>how can we store the data if we want to have access to it later? ...</code> - We will look at this NEXT CLASS:) </li>
+
+</ul>
+<h4>ERROR PAGE</h4>
+<ul>
 <li> What we will do is add our own <code>Error 404 page...</code>. 
 <br>Create a new template page called <code>404.html</code>. Add the following markup:
 <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
@@ -603,6 +638,201 @@ def page_not_found(e):
 </code>
 </pre>
 <p>Note: this is a special routing function - specifically for 404 errors... :) - test -</p>
+</li>
+</ul>
+<p>Ok - so you have the basic functionality for connecting an HTML form with Flask - though there are alot of issues and constraints right now ... but do not worry...</p>
+<h3> MORE ON HTTP METHODS </h3>
+<p>The most <strong>conventional method</strong> for getting data from the user is via an HTML form. And so that is what we just did in the previous example :) </p>
+<p>We will now go a little more in detail into <code>the various HTTP methods</code> and their usage within the Flask Framework.</p>
+<p>We already know: <code>that in order to send data to the server, an HTTP request must be  made by a client (i.e. web browser)</code>.<br>
+<p>The two most common  HTTP methods for packaging the data that we want sent as part of the HTTP request: is <code>POST</code> and <code>GET</code>.
+
+
+<h4>*GET* FEATURES</h4>
+<ul>
+<li>A GET request encodes the form parameters in the URL, in what is called a query string.</li>
+<li>With the GET method, we can send data ONLY in form of pairs (KEY => VALUE).</li>
+<li>When data is sent from a form with the GET method: the data to be sent is visible to everyone (displayed in the URL).</li> 
+<li>The GET also has limits on the amount of information to send. The limitation is 2048 ASCII characters. </li> 
+<li>However, because the variables are displayed in the URL, it is possible to bookmark the page.</li>
+<li>Never send sensitive data using the GET protocol!</li>
+</ul>
+<h4>*POST* FEATURES</h4>
+<ul>
+<li>Data sent from a form with the POST method is invisible to others:
+all names/values are <strong>embedded within the body of the HTTP request.</strong> </li>
+<li>There no limits on the amount of information to send when using POST.</li>
+<li>Moreover POST supports advanced functionality such as support for multi-part binary input while uploading files to server.</li>
+<li>Because the variables are not displayed in the URL, it is not possible to bookmark the page.</li>
+</ul>
+<p>So in Flask, there are different methods to handle HTTP requests.<br/><code>By default, the Flask route responds to GET requests</code> - as we have by default implemented up until now.
+<br/>However, you can <em>change</em> this preference by <code>providing method parameters for the route () decorator</code>.
+Let's add to our current project <code> a registration form</code> ... Note we will not yet save any of the data ... and we will not do any authentication/or error handling .... (but we will do a bit in future classes). 
+<br>The point of this form will be to demonstrate using the <code> POST </code> method :)</p>
+<h4> SETTING UP A *POST* REQUEST </h4>
+<ul>
+<li> Create a new html page in the templates folder called <code>register.html</code>. Add the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+{% block content %}
+    &ltsection class = "register-collect"&gt
+    &ltdiv class= "formContainer"&gt
+&lt!--form done using more current tags... --&gt
+&ltform id = "insertRegForm" action = ""&gt
+&lt!-- group the related elements in a form --&gt
+&lth3&gtWELCOME! PLEASE REGISTER BELOW &lt/h3&gt
+&ltfieldset&gt
+ &ltp&gt
+    &ltlabel&gtLast Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "l_name" required&gt 
+&lt/p&gt
+
+&ltp&gt
+    &ltlabel&gtFirst Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "f_name" required&gt 
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtemail:&lt/label&gt
+    &ltinput type = "email" size="24" maxlength = "40" name = "email_name" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtPassword:&lt/label&gt
+    &ltinput type = "password" size="24" maxlength = "40" name = "p_word" required&gt
+&lt/p&gt
+
+ &ltp&gt
+    &ltlabel&gt&lt/label&gt
+    &ltinput id = "submitRegister" type = "submit" name = "submit" value = "submit my info" id =buttonS /&gt
+&lt/p&gt
+ &lt/fieldset&gt
+&lt/form&gt
+&lt/div&gt
+&lt/section&gt
+{% endblock %} 
+</code>
+</pre>
+<p>and the extra css (base.css):</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-css line-numbers">
+<code>
+.register-collect{ padding-top: 10px;background-color:rgb(246, 227, 245);padding-bottom:10px;}
+#submitRegister{width:auto;margin-top:10px;}
+.register-collect h3{padding:5px;text-align: center; font-size:24px;color:rgb(191, 147, 189);}
+</code>
+</pre>
+</li>
+<li> Add a new route in <code>main.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route("/register")
+def register():
+     return render_template("register.html")
+</code>
+</pre>
+</li>
+<li>
+And then <code>url_for()</code> link in our navigation in <code>base.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+ &ltli&gt &lta href="{{url_for('register')}}">Register&lt/a&gt &lt/li&gt
+</code>
+</pre>
+</li>
+<li> Ok - now we need to set the <code>action</code> attribute in our HTML form tag in the <code>register.html</code>. 
+<br/>The value for this <code>action</code> attribute  will be the page we will link to once the user has added in the data.
+<br/>We also need to set the <code>method attribute</code> in the form - as the default is <strong>GET</strong>and we will use <strong>POST</strong>.
+So replace with the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&ltform id = "insertRegForm" action ="{{url_for('reg_thank_you')}}" method = "post"&gt
+</code>
+</pre>
+Again - note that the route functionality (view function) to this url does does not yet exist ;)
+</li>
+<li> And create a html template in preparation... called <code>thankyou_reg.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+
+{% block content %}
+    &ltsection class = "thank-collect"&gt
+        &lth3&gt Thank you for registering!&lt/h3&gt
+&lt/section&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+<li>Next  we define the <code> reg_thank_you() </code> in <code> main.py</code> - But note here we ALSO need to add the supported methods...:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route("/reg_thank_you",methods = ['POST', 'GET'])
+def reg_thank_you():
+     return render_template("thankyou_reg.html")
+</code>
+</pre>
+</li>
+<li>
+OK - so now you can test ...
+<br/>Note that the variables passed from the form are NOT in the url as previously with the GET request (when we added a plant ... )
+</li>
+<li><code>Small segway :lets look at the Request Object in Flask::</code>
+<br/>In Flask, <code>the Request Object</code>is an object that contains all the data sent from the Client to Server. 
+<br/>This data can be recovered using the GET/POST Methods. 
+<br/>Here is a partial list of some important properties and what they contain:
+<ul>
+<li><code>request.method</code>: Returns the HTTP method used for the request (e.g., "GET", "POST", "PUT", "DELETE").</li>
+<li><code>request.url</code>: Provides the full URL of the requested page.</li>
+<li><code>request.form</code>: A dictionary-like object containing data submitted in the request's form, typically used for POST</span> requests.</li>
+<li><code>request.args</code>: A dictionary-like object containing query parameters passed in the URL, commonly used for GET requests.</li>
+<li><code>request.files</code>: A dictionary-like object holding information about any files uploaded in the request.</li>
+<li><code>request.cookies</code>: A dictionary-like object containing any cookies sent with the request by the client.</li>
+<li><code>request.data</code>: Returns the raw, buffered request body, useful for handling non-form data like JSON or XML.</li>
+<li><code>request.json</code>: If the request body contains JSON, this attribute automatically parses it into a Python dictionary or list.</li>
+</ul>
+</li>
+<li> So - to complete this example - we will access the data that was passed with the post request in python. 
+<br/>In <code>main.py</code>, within the <code>reg_thank_you()</code> add: 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+app.logger.info(request.method)
+</code>
+</pre>
+<p>Test again - you should see in your console that "POST" is output.</p>
+<p>Note - here the data from the form is NOT in the same place as with the GET request ... 
+<br>rather it is found at the property referenced by the key: <code>form</code> so add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+app.logger.info(request.form)
+</code>
+</pre>
+</li>
+<li> then to access the first and last name:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+   app.logger.info(request.form["f_name"])
+   app.logger.info(request.form["l_name"])
+   </code>
+</pre>
+</li>
+<li> Now - normally we would save this data somewhere but ..in this situation we will just pass a few bits of data onwards to the thank you page: so add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+ fName = request.form["f_name"]
+ lName = request.form["l_name"]
+ return render_template("thankyou_reg.html", fName = fName, lName=lName)
+ </code>
+</pre>
+</li>
+<li>
+And then change the h3 in the <code>thankyou_reg.html</code> to:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+   &lth3&gt Thank you for registering &ltspan class = "highlight"&gt{{fName}} {{lName}}&lt/span&gt!&lt/h3&gt
+  </code>
+</pre>
+Success?
 </li>
 </ul>
 </section>
