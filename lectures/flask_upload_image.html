@@ -92,35 +92,43 @@
 </code>
 </pre>
 </li>
-<li> Add a new route + view function in <span class = "customP">main.py</span>:
-<pre line="1" lang="html"> 
+<li> Add a new route + view function in <code>main.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-python line-numbers">
+<code>
 @app.route("/inputPlantEx")
 def addPlantDataEx():
-    return render_template("addPlantDataExtended.html") 
+    return render_template("addPlanExtended.html") 
+</code>
 </pre>
 </li>
-<li> Update the navigation in the <span class = "customP">base.html</span>:
-<pre line="1" lang="html"> 
- <li> <a href="{{url_for('addPlantDataEx')}}">Add Plant V2</a> </li>
+<li> Update the navigation in the <code>base.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-html line-numbers">
+<code>
+ &ltli&gt&lta href="{{url_for('addPlantDataEx')}}"&gtAdd Plant V2&lt/a&gt&lt/li&gt
+ </code>
 </pre>
 At this point make sure the page is correctly linked and viewable.
 </li>
-<li>Create a new thank you HTML template (which will also display the uploaded image), called <span class = "customP"> thankyou_plant_rev.html</span>. Add the following markup:
-<pre line="1" lang="html"> 
-<!-- will be a child of base-->
+<li>Create a new thank you HTML template (which will also display the uploaded image), called <code> thankyou_plant_rev.html</code>. 
+<br/>Add the following markup:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
 {% extends "base.html" %}
 
 {% block content %}
-    <section class = "thank-collect">
-    <h3> Thank you for adding a new plant into the plant repo!</h3>
-    <div class = "imgContainer">
-           <!-- will hold the image-->
-    </div>
-</section>
+    &ltsection class = "thank-collect"&gt
+    &lth3&gt Thank you for adding a new plant into the plant repo!&lt/h3&gt
+    &ltdiv class = "imgContainer"&gt
+           &lt!-- will hold the image--&gt
+    &lt/div&gt
+&lt/section&gt
 {% endblock %}
+</code>
 </pre>
 And css:
-<pre line="1" lang="html"> 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-css line-numbers">
+<code>
 /*** img plant **/
 
 .thank-collect .imgContainer{
@@ -134,48 +142,61 @@ And css:
     width:70%;
     margin-left:15%;
 }
+</code>
 </pre>
 </li>
-<li> Make a route and view function in <span class = "customP">main.py</span>
-<pre line="1" lang="html"> 
+<li> Make a route and view function in <code>main.py</code>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-python line-numbers">
+<code>
 @app.route("/thank_plant_two",methods = ['POST', 'GET'])
 def thank_you_two():
     return render_template("thankyou_plant_rev.html") 
+</code>
 </pre>
-Note: for this HTML form we will be using <span class = "customP">POST</span> - because you cannot send files / binary data via a GET request...<span class = "customP">so we needed to include the methods attribute to the decorator function</span>.
+For this HTML form we will be using <code>POST</code> - because you cannot send files / binary data via a GET request...
+<code>So we need to include the methods attribute to the decorator function</code>.
 </li>
 <li>
-Next: we need to add the <span class="customP">action</span> attribute,AND the <span class="customP"> method</span>, AND **new** the <span class="customP"> enctype </span>. 
-The enctype attribute specifies how the form-data should be encoded when submitting it to the server - and in this case it will be <span class = "customP"> multipart/form-data </span>. Note that the default encoding (if not specified is <span class = "customP">application/x-www-form-urlencoded</span>).
-So: replace the form tag in the <span class = "customP">addPlantDataExtended.html</span> to:
-<pre line="1" lang="html"> 
-<form id = "insertPlantForm"
+Next: we need to add the <code>action</code> attribute, AND the <code> method</code>, AND **new** the <code> enctype </code>. 
+The enctype attribute specifies how the form-data should be encoded when submitting it to the server - and in this case it will be <code> multipart/form-data </code>. 
+<br/>Note that the default encoding (if not specified is <code>application/x-www-form-urlencoded</code>).
+So: replace the form tag in the <code>addPlantExtended.html</code> to:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-html line-numbers">
+<code>
+&ltform id = "insertPlantForm"
  method = "post" 
 action = "{{url_for('thank_you_two')}}" 
 enctype="multipart/form-data"
->
+&gt
+</code>
 </pre>
 </li>
 <li> 
-We will also add some configuration to our flask app:
-1/ import os package (as we will be accessing the file system)
-2/ we will need to specify what folder files will be uploaded to
-3/ we will set a size limit for the max file size to be uploaded.
-
-So - fist make a folder in the folder named 'static' of your project and call it <span class = "customP">uploads</span>.
-Then add the following <span class = "customP">import</span> statement:
-<pre line="1" lang="html">
+We will also add some <code>configuration</code> to our flask app:
+<ol>
+<li>import the <code>os package</code> (as we will be accessing the file system)</li>
+<li>we will need to specify which folder files should be uploaded to </li>
+<li>we will set a size limit for the max file size to be uploaded.</li>
+</ol>
+So - fist make a folder inside the <strong>static</strong> folder of your project and call it <code>uploads</code>.
+<br/>Then add the following <code>import</code> statement:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-python line-numbers">
+<code>
 import os
+</code>
 </pre>
-Next, add the following to <span class = "customP">main.py</span>:
-<pre line="1" lang="html">
+Next, add the following to <code>main.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-python line-numbers">
+<code>
 UPLOAD_FOLDER = 'static/uploads' 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB limit
+</code>
 </pre>
 </li>
-<li> Now we are ready to handle the incoming data packet :): so replace the code in <span class = "customP">thank_you_two()</span> in  <span class = "customP">main.py</span> with the following:
-<pre line="1" lang="html">
+<li> Now we are ready to handle the incoming data packet :): so replace the code in <code>thank_you_two()</code> in  <code>main.py</code> with the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-python line-numbers">
+<code>
     if request.method == 'POST':
         #key is the same as in the form :)
         uploadedfile = request.files['the_file']
@@ -184,37 +205,38 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB limit
         app.logger.info(uploadedfile.filename)
 
     return render_template("thankyou_plant_rev.html") 
+</code>
 </pre>
 And test :) - the file should upload...
 </li>
 <li> If your logger has output the correct filename and the files has been uploaded successfully -then we can completer the last part! We will pass the filename and the owner name to the template and  then display.
-Since we used the <span class = "customP">POST</span> method the text data from the form will be accessible via the <span class = "customP">request.form</span> attribute. So , replace the <span class = "customP">render_template()</span> with:
-<pre line="1" lang="html"> 
+Since we used the <code>POST</code> method the text data from the form will be accessible via the <code>request.form</code> attribute. 
+<br/>So, replace the <code>render_template()</code> with:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-python line-numbers">
+<code>
     return render_template("thankyou_plant_rev.html",
                            imgPath = uploadedfile.filename, 
                            owner = request.form["o_name"]) 
+</code>                        
 </pre>
 </li>
-<li> And then in the <span class = "customP">thankyou_plant_rev.html</span> we can call the image to be displayed and the owner name:
-<pre line="1" lang="html"> 
-<!-- will be a child of base-->
+<li> And then in the <code>thankyou_plant_rev.html</code> we can call the image to be displayed and the owner name:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47" class="language-html line-numbers">
+<code> 
+&lt!-- will be a child of base--&gt
 {% extends "base.html" %}
 {% block content %}
-    <section class = "thank-collect">
-    <h3> Thank you <span class = "highlight">{{owner}}</span> for adding a new plant into the plant repo!</h3>
-    <div class = "imgContainer">
-             <img src = "{{url_for('static' , filename ='uploads/'+imgPath)}}"/> 
-    </div>
-</section>
+    &ltsection class = "thank-collect"&gt
+    &lth3&gt Thank you &ltspan class = "highlight">{{owner}}&lt/span&gt for adding a new plant into the plant repo!&lt/h3&gt
+    &ltdiv class = "imgContainer"&gt
+             &ltimg src = "{{url_for('static' , filename ='uploads/'+imgPath)}}"/&gt
+    &lt/div&gt
+&lt/section&gt
 {% endblock %}
+</code>
 </pre>
 </li>
 </ul>
-<h2> NEXT TIME </h2>
-<h3> SESSIONS </h3>
-<h3> AJAX</h3>
-<h3>FLASK FORM TEMPLATES</h3>
-<h3> USING POSTMAN </h3>
 
 </section>
 </main>
