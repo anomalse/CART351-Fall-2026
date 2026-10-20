@@ -380,7 +380,7 @@ And then in <code>pineAppleChild_B.html</code>, we can specify the link using th
 <h4>The HTML templates</h4>
 <ul>
 <li> Create a new html template called <code>addPlantData.html</code>. Then, we will add the following markup (note the inheritance):
-<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers"> 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69" class="language-html line-numbers"> 
 <code>
 &lt!-- will be a child of base--&gt
 {% extends "base.html" %}
@@ -399,11 +399,36 @@ And then in <code>pineAppleChild_B.html</code>, we can specify the link using th
 
 &ltp&gt
     &ltlabel&gtPlant Name:&lt/label&gt
-    &ltinput type="text" size="24" maxlength = "40" name = "a_name" required&gt 
+    &ltinput type="text" size="24" maxlength = "40" name = "p_name" required&gt 
 &lt/p&gt
+
 &ltp&gt
-    &ltlabel&gtGeographic Location:&lt/label&gt
-    &ltinput type = "text" size="24" maxlength = "40" name = "a_geo_loc" required&gt
+    &ltlabel&gtPlant Color:&lt/label&gt
+    &ltinput type="color" name = "p_color" required&gt 
+&lt/p&gt
+&ltdiv class="range-ui"&gt
+
+&ltlabel&gtPlant Condition:&lt/label&gt
+
+&ltdiv&gt
+  &ltinput type="range" name="p_condition" min="0" max="100" value="0" step="1" list="values" /&gt
+  &ltdatalist id="values"&gt
+  &ltoption value="0" label="almost dead!"&gt&lt/option&gt
+  &ltoption value="100" label="super-alive"&gt&lt/option&gt
+&lt/datalist&gt
+&lt/div&gt
+
+&lt/div&gt
+
+&ltp&gt
+  &ltlabel&gtHome of Plant:&lt/label&gt
+  &ltselect name="plant-home" &gt
+  &ltoption value="Montreal"&gtMontreal&lt/option&gt
+  &ltoption value="Quebec City"&gtQuebec City&lt/option&gt
+  &ltoption value="Ottawa"&gtOttawa&lt/option&gt
+  &ltoption value="Winnipeg"&gtWinnipeg&lt/option&gt
+    &ltoption value="Vancouver"&gtVancouver&lt/option&gt
+&lt/select&gt
 &lt/p&gt
 &ltp&gt
     &ltlabel&gtBirth Date (DD-MM-YYYY):&lt/label&gt
@@ -424,15 +449,16 @@ And then in <code>pineAppleChild_B.html</code>, we can specify the link using th
 &lt/section&gt
 {% endblock %}
 
+
 </code>
 </pre>
 </li>
 <li>
   Next: extend our <code>base.css</code>:
-<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-css line-numbers"> 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45" class="language-css line-numbers"> 
 <code>
 /*********** for the form input ***/
-.plant-collect{ padding-top: 10px;background-color:rgb(246, 227, 245);padding-bottom:10px;}
+.plant-collect{ padding-top: 10px;background-color:rgb(246, 227, 245);padding-bottom:10px;min-height:70vh;}
 label{display:inline-block; width:30%; margin-top:1%;text-transform: uppercase;}
 textarea{margin-top:10px;width:50%;margin-left:2%;}
 input{margin-left:2%;width:50%;}
@@ -440,6 +466,11 @@ fieldset{width:75%;color:#302e2e;margin:0 auto;margin-top:2%;border:none;font-si
 select{width:50%;}
 #submitPlant{width:auto;margin-top:10px;}
 .plant-collect h3{padding:5px;text-align: center; font-size:24px;color:rgb(191, 147, 189);}
+input[type ="range"]{margin-left:5%;width:100%;}
+select{margin-left:2%;width:50%;}
+.range-ui{display:flex;width:100%;}
+.range-ui div{width:50%;}
+datalist {display: flex;flex-direction: row;justify-content: space-between;}
 </code>
 </pre>
 </li>
@@ -555,10 +586,33 @@ You would possibly now save the data to a file / database etc... but we are not 
 And then in <code>def thank_you()</code> in main.py replace the return statement with:
 <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
 <code>
-return render_template("thankyou.html",owner_name = request.args["a_name"]) 
+return render_template("thankyou.html",owner_name = request.args["o_name"]) 
 </code>
 </pre>
 <!-- So - it should all be working now ... do not worry about the fact that the data is still in the url when we go to the new template - coming later ;) -->
+</li>
+<li>If we were to instead pass all the data from the request we can easily pass the whole request object to the template:
+    <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+return render_template("thankyou.html",plantData = request.args) 
+</code>
+</pre>
+</li>
+<li>Then: in the template add and replace the h3 tag:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+     &lth3&gt Thank you &ltspan class = "highlight"&gt{{plantData['o_name']}}&lt/span&gt for adding a new plant into the plant repo!&lt/h3&gt
+            &ltp&gtAdditional Plant info:&lt/p&gt
+            &ltul&gt
+            {% for p_item in plantData %}
+            &ltli style = "color:rgb(87, 77, 85);margin-top:10px;"&gt{{p_item}}: 
+            &ltspan style = "background-color: aqua;"&gt{{plantData[p_item]}}&lt/span>
+            &lt/li&gt
+            &lt/ul&gt
+            {%endfor %}
+
+</code>
+</pre>
 </li>
 
 <li><strong>An issue</strong>: you will see that <code>the url still contains all the request's arguments</code>, even when flask routes to the <strong>thankyou.html</strong> page.
@@ -572,11 +626,11 @@ return render_template("thankyou.html",owner_name = request.args["a_name"])
 def thank_you():
     app.logger.info(request.args)
   
-    if('a_name' in request.args):
-        owner_name = request.args["a_name"] 
+    if('o_name' in request.args):
+        owner_name = request.args["o_name"] 
         app.logger.info("first run to redirect")
          #url is not clean
-        #return render_template("thankyou.html",owner_name = request.args["a_name"]) 
+        #return render_template("thankyou.html",plantData = request.args) 
         
         # issue we lose the parameters! - but url is clean :)
         return redirect(url_for("thank_you")) 
@@ -584,6 +638,24 @@ def thank_you():
     else:
         app.logger.info("reloaded and redirected")
         return render_template("thankyou.html") 
+</code>
+</pre>
+</li>
+<li> And now add the following <code>if statement</code> to check if the data has been passed or not:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+     {%if plantData%}
+            <h3> Thank you <span class = "highlight">{{plantData['o_name']}}</span> for adding a new plant into the plant repo!</h3>
+            <p>Additional Plant info:</p>
+            <ul>
+            {% for p_item in plantData %}
+            <li style = "color:rgb(87, 77, 85);margin-top:10px;">{{p_item}}: <span style = "background-color: aqua;">{{plantData[p_item]}}</span></li>
+            </ul>
+            {%endfor %}
+            {%else%}
+            <h3> Thank you for adding a new plant into the plant repo!</h3>
+
+            {%endif %}
 </code>
 </pre>
 </li>
@@ -641,6 +713,16 @@ def page_not_found(e):
 </li>
 </ul>
 <p>Ok - so you have the basic functionality for connecting an HTML form with Flask - though there are alot of issues and constraints right now ... but do not worry...</p>
+<h3> IN CLASS EXERCISE </h3>
+Ok - so now for a small exercise on your own  - or in teams and then one team/individual will present:
+<ul>
+    <li> Attatch a new html page to the existing project....</li>
+    <li> The html template needs to allow for a user to give information on their favourite pet - must be either a cat, dog, duck, mouse or chincilla</li>
+    <li> Then make another html template to receive the data from the pet input page </li>
+    <li> This new html template will output a different message / text/image depending on what the type of pet was input (cat, dog, duck, mouse or chincilla).</li>
+    <li> Write all the necessary python code to implement the required functionality</li>
+
+</ul>
 <h3> MORE ON HTTP METHODS </h3>
 <p>The most <strong>conventional method</strong> for getting data from the user is via an HTML form. And so that is what we just did in the previous example :) </p>
 <p>We will now go a little more in detail into <code>the various HTTP methods</code> and their usage within the Flask Framework.</p>
