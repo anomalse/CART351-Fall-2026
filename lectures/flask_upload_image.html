@@ -62,11 +62,36 @@
 
 &ltp&gt
     &ltlabel&gtPlant Name:&lt/label&gt
-    &ltinput type="text" size="24" maxlength = "40" name = "a_name" required&gt 
+    &ltinput type="text" size="24" maxlength = "40" name = "p_name" required&gt 
 &lt/p&gt
+
 &ltp&gt
-    &ltlabel&gtGeographic Location:&lt/label&gt
-    &ltinput type = "text" size="24" maxlength = "40" name = "a_geo_loc" required&gt
+    &ltlabel&gtPlant Color:&lt/label&gt
+    &ltinput type="color" name = "p_color" required&gt 
+&lt/p&gt
+&ltdiv class="range-ui"&gt
+
+&ltlabel&gtPlant Condition:&lt/label&gt
+
+&ltdiv&gt
+  &ltinput type="range" name="p_condition" min="0" max="100" value="0" step="1" list="values" /&gt
+  &ltdatalist id="values"&gt
+  &ltoption value="0" label="almost dead!"&gt&lt/option&gt
+  &ltoption value="100" label="super-alive"&gt&lt/option&gt
+&lt/datalist&gt
+&lt/div&gt
+
+&lt/div&gt
+
+&ltp&gt
+  &ltlabel&gtHome of Plant:&lt/label&gt
+  &ltselect name="plant-home" &gt
+  &ltoption value="Montreal"&gtMontreal&lt/option&gt
+  &ltoption value="Quebec City"&gtQuebec City&lt/option&gt
+  &ltoption value="Ottawa"&gtOttawa&lt/option&gt
+  &ltoption value="Winnipeg"&gtWinnipeg&lt/option&gt
+    &ltoption value="Vancouver"&gtVancouver&lt/option&gt
+&lt/select&gt
 &lt/p&gt
 &ltp&gt
     &ltlabel&gtBirth Date (DD-MM-YYYY):&lt/label&gt
@@ -77,14 +102,15 @@
     &lttextarea type = "text" rows="4" cols="50" name = "a_descript" required&gt&lt/textarea&gt
 &lt/p&gt
 &ltp&gt
-    &ltlabel&gtUpload Image:&lt/label&gt 
-    &ltinput type ="file" name = 'the_file' size=10 required/&gt
+    &ltlabel&gtUpload Image:&lt/label&gt
+    &ltinput type="file" name='the_file' size=10 required /&gt
 &lt/p&gt
  &ltp&gt
     &ltlabel&gt&lt/label&gt
     &ltinput id = "submitPlant" type = "submit" name = "submit" value = "submit my info" id =buttonS /&gt
 &lt/p&gt
  &lt/fieldset&gt
+
 &lt/form&gt
 &lt/div&gt
 &lt/section&gt
