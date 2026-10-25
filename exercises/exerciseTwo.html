@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<!-- https://images.nasa.gov/docs/images.nasa.gov_api_docs.pdf -->
+
+<head>
+  <title></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+  <script src = "../js/ex2.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>EXERCISE II</h1>
+    </div>
+  </header>
+  <main>
+    <section class="contents-notes">
+<h3>DESCRIPTION</h3>
+<ul>
+  <li>The purpose of this exercise is to:
+     <ul>
+      <li>set up a Flask Application</li>
+    <li>create/modify/extend HTML Templates WITH JINJA</li>
+    <li>process some GET requests</li>
+    <li>access the <a href = "https://images.nasa.gov/docs/images.nasa.gov_api_docs.pdf">NASA Public Images API</a></li>
+    <li> and then display the results back in HTML :) </li>
+      </ul>
+    </li>
+  <li>This is <code>not a test</code>: you can discuss
+    solutions, issues with each other and the instructor.</li>
+  <li>PLEASE do <code>not use AI tools for this
+      exercise</code>.</li>
+  <li>You will be required to <code>complete all items
+      in the list below</code> in order to get full marks. This exercise is
+    <code>worth 5%</code> of your grade</li>
+  <li><code>WHO</code>: Please work individually. You can get help from others, but you need to submit individually</li>
+  <li><code>WHERE</code>: Please submit the link to the exercise on moodle before midnight
+    <code>NOVEMBER 2ND 2026</code></li>
+  <li><code>THE DELIVERABLE</code>: Upload the python project (with all comments and code
+    included NEATLY and NUMBERED) <br>to your own CART 351 Github repository and provide the
+    url in the submission box</li>
+</ul>
+<h3>TASKS</h3>
+  <p><span class = "part-button" data-assoc = "a_part" is_active ="notactive" >1: Set up your
+        workspace</span></p>
+      <div class = "ex_2div" id ="a_part">
+      <ul>
+      <li>Create a new project called <code>student-name-1_exercise_two</code> in
+    Visual Studio Code.</li>
+    <li>Copy all the files from the <a href="../resources/exercises/ex_2_starter.zip">ex2_starter.zip</a>
+    into your new project folder. You must start with the files given to you.</li>
+    <li>Activate or create a new virtual environment with python =3.13, and activate
+    it with necessary <code>conda</code> commands.</li> 
+    <li> Note that in the zip is an folder called <code>EXAMPLE OUTPUT</code> - these are just examples ... you do not need to replicate them! </li>
+    <li>Use <code>pip</code> within your activated virtual environment to install the <code>flask</code> library (if it is not already
+    there).</li>
+    <li>And you are set up! Run the python file called <code>exercise-two.py</code> and make sure that the web server is serving
+    the <code>index.html</code> by default in your browser.</li>
+  </div>
+  <p><span class = "part-button" data-assoc = "b_part" is_active ="notactive">2: A GET Request to retrieve search criteria and display single result</span></p>
+    <div class = "ex_2div" id ="b_part">
+    Ok - you already have the route:<code>"/t1"</code> and the associated view function defined - uncomment it
+    :).
+    <ol>
+    <li> Add a link in the nav bar to this html page (hint: use
+    <code>url_for()</code>in base.html</code>)</li>
+    <li>Create the specified HTML template - and make sure it inherits from base.html. </li>
+    <li>Design an html page that is <code>visually enticing</code> (layout, color choices do matter :) The page needs to include:
+      <ul>
+        <li> An HTML form with a text input field and a submit button</li>
+        <li> A placeholder container for possible result data: a textual description and an image </li> 
+        </ul>
+        </li>
+
+    <li>Implement a <code>GET request</code> to pass the user input to the server... note that in your python script the route <strong>("/getSearchCriteria")</strong> & associated function  has already been set up.</li>
+
+    <li>In the python script: <code>exercise-two.py</code> -> at the function associated with the route <strong>("/getSearchCriteria")</strong> implement the following:
+      <ul>
+        <li> Take the user input from the client (hint - see : request.args) and formulate the url to pass to the NASA Image API:
+          <ul>
+            <li> the base url: <strong>https://images-api.nasa.gov/search</strong></li>
+              <li> the search parameter:<strong>q= &ltuser input&gt</strong></li>
+              <li> the media type parameter:<strong>media_type=image</strong></li>
+          </ul>
+        </li>
+        <li>Use the <code>requests</code> module to perform the API request (hint: remember Star Wars)</li>
+        <li>Use the <code>json()</code> function to retrieve the result</li>
+        <li>Access the <code>data['collection']['items']</code> part of the result ... it is a list.
+          <ol>
+          <li>Access the <code>first</code> element in the list - which is a dictionary.</li>
+          <li>Access the first <code>image href attribute</code> from the <code>links</code> key and store the result in a variable called <code>imgFromNasa</code>.</li>
+          <li>Access the first <code> description attribute</code> from the <code>data</code> key and store that result in a variable called <code>description</code>.</li>
+          </ol>
+          </li>
+          <li><strong>The code to format the url is properly has already been done for you as well as the return statement (render_template....) - DO NOT CHANGE IT</strong></li>
+      </li> 
+      </ul>
+    <li>On the client side: <code>t1.html</code>: ensure that the description and image are being displayed... </li>
+    <li> Finally: write the logic (using Jinja), using the <code>have_results</code> variable: only show the container with image and description when that variable is set to <code>True</code>.</li>
+</ol>
+  </div>
+<!-- task two -->
+<p><span class = "part-button" data-assoc = "c_part" is_active ="notactive">3: A GET Request to retrieve search criteria and display multiple results </span></p>
+    <div class = "ex_2div" id ="c_part">
+  Ok - you already have the route:<code>"/t2"</code> and the associated view function defined - uncomment it
+    :).
+    <ol>
+    <li> Add a link in the nav bar to this html page (hint: use
+    <code>url_for()</code>in base.html</code>)</li>
+    <li>Create the specified HTML template - and make sure it inherits from base.html. </li>
+    <li>Design another html page that is <code>visually enticing</code> (layout, color choices do matter :) The page needs to include:
+      <ul>
+        <li> An HTML form with a text input field and a submit button</li>
+        <li> A placeholder container for a dynamic list of images (could be 0 1,2,n...)</li> 
+        </ul>
+        </li>
+
+    <li>Implement a <code>GET request</code> to pass the user input to the server... note that in your python script the route <strong>("/getSearchCriteriaAdv")</strong> & associated function  has already been set up.</li>
+
+    <li>In the python script: <code>exercise-two.py</code> -> at the function associated with the route <strong>("/getSearchCriteriaAdv")</strong> implement the following:
+      <ul>
+        <li> Take the user input from the client (hint - see : request.args) and formulate the url to pass to the NASA Image API:
+          <ul>
+            <li> the base url: <strong>https://images-api.nasa.gov/search</strong></li>
+              <li> the search parameter:<strong>q= &ltuser input&gt</strong></li>
+              <li> the media type parameter:<strong>media_type=image</strong></li>
+          </ul>
+        </li>
+        <li>Use the <code>requests</code> module to perform the API request (hint: this step, the next step and the one previously is the same as in the previous question :))</li>
+        <li>Use the <code>json()</code> function to retrieve the result</li>
+        <li>Access the <code>data['collection']['items']</code> part of the result ... it is a list. Iterate through this list with a for loop and for each element:
+          <ol>
+          <li>Access the first <code>image href attribute</code> from the <code>links</code> key and store the result in a variable called <code>singleImage</code>.</li>
+          <li>Use the <code>replace(' ', '%20')</code> on the <code>singleImage</code> variable and append <em> the new result</em> to a list called <code>encodedImageLinks</code></li>
+
+          </ol>
+          </li>
+          <li><strong>The code to return the new list to the correct page (render_template....) has been done for you  - DO NOT CHANGE IT</strong></li>
+      </li> 
+      </ul>
+    <li>On the client side: <code>t2.html</code>: write the logic (using Jinja), write a <code>for loop</code> to iterate through the result list and show all the results (as images). </li>
+</ol>
+  </div>
+    </section>
+  </main>
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+</body>
+
+</html>

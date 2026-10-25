@@ -615,3 +615,37 @@ li .sched-due {
     text-align: center;
     color:var(--code-color)
 }
+.ex_2div{
+    background:rgba(221, 126, 219, 0.1);
+    display:none;
+    width:80%;
+    padding:var(--space-12);
+}
+.part-button{
+    display:block;
+    background:var(--body-color);
+    color:rgb(236, 225, 235);
+    cursor:pointer;
+    padding:var(--space-4);
+    text-transform: uppercase;
+    margin-bottom:var(--space-4);
+    margin-top:var(--space-12);
+    width:max-content;
+    
+}
+.part-button:hover{
+    background:rgba(221, 126, 219, 0.2);
+    color:var(--code-color);
+
+}
+.active-button{
+    background:rgba(221, 126, 219, 0.2);
+    color:var(--code-color);
+
+}
+
+.active-button:hover{
+    background:var(--body-color);
+    color:rgb(236, 225, 235);
+
+}
