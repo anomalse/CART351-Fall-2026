@@ -20,6 +20,7 @@ window.onload = function () {
     elem.style.display = "none";
     elem.style.visibility = "";
     elem.style.height = "0px";
+    elem.style.opacity = 0;
   });
 
 
@@ -31,7 +32,9 @@ window.onload = function () {
   function displayStuff() {
 
     let id_of_part = this.getAttribute("data-assoc");
-    let height_of_part = divHeights[id_of_part]
+    let height_of_part = divHeights[id_of_part];
+    let animateStep = 3;
+    let opacityStep = (1/height_of_part)*animateStep;
 
 
     if (this.getAttribute("is_active") === "notactive") {
@@ -39,7 +42,8 @@ window.onload = function () {
       this.setAttribute("is_active", "active");
       this.classList.add("active-button");
       let ref = setInterval(function(){
-        document.querySelector(`#${id_of_part}`).style.height = (parseInt(document.querySelector(`#${id_of_part}`).style.height)+3)+"px";
+        document.querySelector(`#${id_of_part}`).style.height = (parseInt(document.querySelector(`#${id_of_part}`).style.height)+animateStep)+"px";
+        document.querySelector(`#${id_of_part}`).style.opacity = parseFloat(document.querySelector(`#${id_of_part}`).style.opacity)+opacityStep
         //console.log(document.querySelector(`#${id_of_part}`).style.height)
         if(parseInt(document.querySelector(`#${id_of_part}`).style.height) >=height_of_part){
             clearInterval(ref);
@@ -53,10 +57,13 @@ window.onload = function () {
       this.setAttribute("is_active", "notactive");
       this.classList.remove("active-button");
         let ref = setInterval(function(){
-        document.querySelector(`#${id_of_part}`).style.height = (parseInt(document.querySelector(`#${id_of_part}`).style.height)-3)+"px";
+        document.querySelector(`#${id_of_part}`).style.height = (parseInt(document.querySelector(`#${id_of_part}`).style.height)-animateStep)+"px";
+        document.querySelector(`#${id_of_part}`).style.opacity = parseFloat(document.querySelector(`#${id_of_part}`).style.opacity)-opacityStep;
         //console.log(document.querySelector(`#${id_of_part}`).style.height)
         if(parseInt(document.querySelector(`#${id_of_part}`).style.height) <=0){
             document.querySelector(`#${id_of_part}`).style.display = "none";
+             document.querySelector(`#${id_of_part}`).style.opacity = 0;
+              document.querySelector(`#${id_of_part}`).style.height = "0px";
             clearInterval(ref);
 
         }
