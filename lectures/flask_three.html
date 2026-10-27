@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+<head>
+  <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>FLASK III & FETCH</h1>
+    </div>
+  </header>
+  <main>
+
+<section class="contents-notes">
+<h3> Last week we covered: </h3>
+<ul>
+<li>Jinja Templates & Inheritance</li>
+<li>Passing variables into the Jinja HTML templates</li>
+<li>Reviewing if statements and for loops in using Jinja </li>
+<li> Using url_for()</li>
+<li>Implementing an HTML form and sending a GET request with arguments to Flask, processing those arguments and passing the arguments into another HTML page... </li> 
+</ul>
+<h3> This week we will cover: </h3>
+<ul>
+<li> More on Get Requests </li>
+<li> Sessions </li>
+<li> The Post Request </li>
+<li> Using client side Javascript to send/receieve data from the web server</li>
+</ul>
+<h3> More on GET Requests</h3>
+<p>Recall last week: 
+<br> - we had issues whereby once we sent data with the GET request:</p>
+<ul>
+<li> we either could choose to have access to the data BUT <code>the url would not be reset</code>,</li>
+<li>or we performed a <code>REDIRECT and lost access to the data</code>.</li>
+</ul>
+<p>So the question is now <code>how can we store the data if we want to have access to it later?</code> ... and so we start with sessions:</p>
+ <h3> Sessions in Flask </h3>
+ <p>Since HTTP is a <code>stateless protocol</code>, each request has no knowledge of any requests previously executed ... <br/>
+<p>While this greatly simplifies client/server communication, web applications typically need a way to store data between each request as a user interacts with the application itself.</p> 
+<p>For example, on a shopping site: <em>one needs to store items that a non authenticated user has added to their "cart"  - and not necessarily in a database</em>... so you can use <code> sessions </code>.
+<p>A <code>session</code> is used to store information related to a particular user, across different requests. The data stored for a session should be considered <code>temporary data</code> - because the session will eventually expire. 
+<br/>To permanently store data, you need to use a database. There are two types of commonly used sessions in web dev:</p>
+<ol>
+<li><code>Client-side</code>:sessions are stored client-side in browser cookies</li>
+<li><code>Server-side</code>:sessions are stored server-side (typically a session identifier is then created and stored client-side in browser cookies) </li>
+</ol>
+<p><code>Flask uses the client-side approach</code>: To store data across multiple requests, Flask utilizes cryptographically-signed cookies (stored on the web browser) to store the data for a session. 
+<br>This cookie is sent with each request to the Flask app on the server-side where it's decoded... 
+<br>Note: this is <strong>not</strong> a secure option  - so these type of sessions should not be used to store sensitive information.</p>
+<p>Let's build a couple of examples to show how sessions work and how we can use them to our benefit:</p>
+<h4> Adding session variables </h4>
+<ul>
+<li> We can start with this <a href = "../resources/FLASKIII_start.zip">starter project</a> from last week:</li>
+<li> Start by creating a new HTML template ie <code>inputSessionData.html </code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+{% block content %}
+&lth3&gtSAVE SESSION VARS&lt/h3&gt
+&ltdiv class= "sessionVars"&gt
+&lt!-- take out the form action etc..--&gt
+&ltform id="sessionStore" method = "GET" action="/saveSession"&gt
+    &ltp&gt&ltlabel&gtDATA A:&lt/label&gt
+    &ltinput type="text" size="24" maxlength="40" name="data_a" required&gt
+  &lt/p&gt  
+  &ltp&gt&ltlabel&gtDATA B:&lt/label&gt
+    &ltinput type="text" size="24" maxlength="40" name="data_b" required&gt
+  &lt/p&gt  
+ &ltp&gt&ltlabel&gt&lt/label&gt
+  &ltinput type="submit" name="submit" value="send" id=buttonS /&gt&lt/p&gt
+&lt/form&gt
+&lt/div&gt
+{% endblock %}
+</code>
+</pre>
+Also add to base.css:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-css line-numbers">
+<code>
+.sessionVars{
+    background:white;
+    width:50%;
+    padding:10px;
+}
+.sessionVars input[type=submit]{
+    width:100px;
+    margin-top:10px;
+}
+</code>
+</pre>
+</li>
+<li> We will also add a route in main.py:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+#add session route
+@app.route('/inputSessionData')
+def inputSessionData():
+    return render_template("inputSessionData.html")
+</code>
+</pre>
+</li>
+<li>
+Ok - we are ready to handle sessions:)
+<br>First: we need to add a secret key in main.py (is a property of the <code>app</code> variable):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+# Details on the Secret Key: https://flask.palletsprojects.com/en/2.3.x/config/#SECRET_KEY
+# NOTE: The secret key is used to cryptographically-sign the cookies used for storing
+#       the session data.
+app.secret_key = 'BAD_SECRET_KEY'
+</code>
+</pre>
+<br>and ensure that you <code>import 'session'</code> (your import statement should look like):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+from flask import Flask, render_template, request, session, redirect,url_for
+</code>
+</pre>
+</li>
+<li>
+Next: you can see in the HTML form that we want to send the data to <code>/saveSession</code>:
+<br>So lets set that up in main.py:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route('/saveSession')
+def saveSession():
+    app.logger.info(request.args['data_a'])
+    #reload  - use url_for() here :) - the function...
+    #but note that the data will be gone
+    # so add in a session variable
+    session['data_a'] = request.args['data_a']
+    session['data_b'] = request.args['data_b']
+    return redirect(url_for('inputSessionData'))
+</code>
+</pre>
+<p>So - Flask uses an inbuilt dictionary object called <code>session</code> to store the session variables... 
+<br>and we can so easily just save to them :) -  and then we redirect!</p>
+</li>
+<li> Now - we can add in some more content in our HTML template... why? 
+<br>Because you will see that you can super easily access the session data within your Jinja template ;)
+<br>So add to <code>inputSessionData.html</code> (after the <strong>div tag</strong>):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+{%if session['data_a']%}
+&lth3&gtLOAD SESSION VARS&lt/h3&gt
+&ltp&gt Data A: {{session['data_a']}}&lt/p&gt
+&ltp&gt Data B: {{session['data_b']}}&lt/p&gt
+{% endif %}
+</code>
+</pre>
+</li>
+<li> Super! So the view has changed because the session vars are active :) And if you go in your browser to the <code>Application Tab > Storage > Cookies</code>.. you should see an entry :)
+    <br><code>Details to view and decode in the browser:</code>
+    <ol>
+        <li>Press F12 (or Cmd + Option + I on Mac) to open Chrome DevTools.</li>
+        <li>Click on the Application tab at the top of the DevTools panel</li>
+        <li>From the <strong>Storage</strong> heading in the left side bar expand the <strong>Cookies dropdown</strong> and select your Flask app's URL (e.g., http://127.0.0.1:5000).</li>
+        <li>Look for the cookie named <code>session</code>. The long string of text in the <code>Value</code> column is your <strong>signed session data</strong></li>
+        <li>Flask cookie values look like this: <em>eyJ1c2VyX2lkIjoxfQ.ZxeHIw...</em> (three sections separated by periods). 
+            <br>The very first section contains your session variables encoded in Base64. You can decode it using a quick method:</li>
+        <li>Double-click the <code>Value cell of the session cookie</code> in DevTools and copy the text.</li>
+        <li>Switch to the <strong>Console</strong> tab in DevTools.</li>
+        <li>Paste the first segment of the cookie <code>(everything before the first period .)</code> into the following code and run it
+        <br>(<code>atob()</code> is a built-in JavaScript function that decodes a string of Base64-encoded data back into its original form.):
+    <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+    <code>atob("YOUR SEGMENT HERE")</code>
+    </pre>
+    </li>
+    </ol>
+</li>
+</ul>
+<h4> Modifying session variables </h4>
+<p>Let's add on here and say you want to modify the session variables ;)</p>
+<ul>
+<li>Start by making a new html page - i.e. <code> modifySessionData.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+{% block content %}
+
+{%if session['data_a']%}
+&lth3&gtA NEW PAGE WITH THE SESSION VARS&lt/h3&gt
+&ltp&gt Data A: {{session['data_a']}}&lt/p&gt
+&ltp&gt Data B: {{session['data_b']}}&lt/p&gt
+
+&lth4 style = "margin-top:20px"&gt Modify session vars:&lt/h4&gt
+&ltform method = "get" action = "/modifySession"&gt
+&ltdiv class= "sessionVars"&gt
+&ltp&gt&ltlabel&gtDATA A:&lt/label&gt
+&ltinput type="text" size="24" maxlength="40" name="data_a" value = {{session['data_a']}} required&gt
+&lt/p&gt  
+&ltp&gt&ltlabel&gtDATA B:&lt/label&gt
+    &ltinput type="text" size="24" maxlength="40" name="data_b" value = {{session['data_b']}} required&gt
+  &lt/p&gt   
+  &ltp&gt&ltlabel&gt&lt/label&gt
+&ltinput type = "submit" value = "submit"/&gt
+  &lt/p&gt
+&lt/form&gt
+&lt/div&gt
+
+{% else %}
+&lth3&gtNO SESSION VARS &lt/h3&gt
+&lta href = "{{url_for('inputSessionData')}}"&gtback to input session vars&lt/a&gt
+{% endif %}
+{% endblock %}
+</code>
+</pre>
+</li>
+<li> And add a route to <code>main.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+#modify session route
+@app.route('/modifySessionData')
+def modifySessionData():
+    return render_template("modifySessionData.html")
+</code>
+</pre>
+</li>
+<li> So - you should see already when we load this page that you have access to the session data...
+<br/>we can then make a route in <code>main.py to process the modifications</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route('/modifySession')
+def modifySession():
+    app.logger.info(request.args['data_a'])
+
+    #reload  - use url_for here :) - the function...
+    #but note that the data will be gone
+    # so add in a session variable
+    session['data_a'] = request.args['data_a']
+    session['data_b'] = request.args['data_b']
+    return redirect(url_for('modifySessionData'))
+</code>
+</pre>
+And now when you rerun - and submit the form ... the session variables change!
+</li>
+<li> We can easily verify that this change carries over to the <code>inputSessionData.html</code>.
+    <br>Add in the current html (<code>modifySessionData.html</code>) another link (after the form)
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lta href = "{{url_for('inputSessionData')}}"&gtback to input session vars&lt/a&gt
+</code>
+</pre>
+</li>
+</ul>
+<h4> Delete Session Data</h4>
+<ul>
+<li> Lastly, lets in the <code> modifySessionData.html</code> add in the option to <strong>delete</strong> the session data... 
+<br/>Add the following to the page: 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&ltdiv class= "sessionVars" style = "background: rgb(232, 178, 233);"&gt
+&lth4&gt CLICK the button to DELETE session vars:&lt/h4&gt
+&ltform method = "get" action = "/deleteSession"&gt
+&ltinput type = "submit" value = "submit"/&gt
+&lt/form&gt
+&lt/div&gt
+</code>
+</pre>
+</li>
+<li> And then of course a route in <code>main.py</code> to process the form:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code> 
+@app.route('/deleteSession')
+def deleteSession():
+    # Clear the session data stored in the session object
+    session.pop('data_a', default=None)
+    session.pop('data_b', default=None)
+    return redirect(url_for('modifySessionData'))
+</code>
+</pre>
+</li>
+<li>You can also add another link in the FIRST if block in the <code>inputSessionData.html</code>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code> 
+&lta href = "{{url_for('modifySessionData')}}"&gtgo to modify page&lt/a&gt
+</code>
+</pre>
+And test :) :)
+</li>
+</ul>
+<p><code> Small Exercise::: lets add a counter that will increment every time we modify the session data ... - and store it as its own session variable</code>
+<h3>Submit A Form Without Reloading the Page using the Fetch API using GET</h3>
+<p>In this section, we are going to submit a form once again using <code>GET</code> an but we will use now use JavaScript and the Fetch API in order to circumvent the need for page reloading / redirection. 
+<br/>We will submit the SAME form that we did last week (with plants) - but reworked ;) Let us continue with the <em>same</em> project as before:
+<ul>
+<li> We will add another block to <code>base.html</code>, to dynamically add <strong>js</strong> to a page:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code> 
+    &lt!--new add a custom block for the script--&gt
+    {% block scriptblock %}
+    {% endblock %}
+</code>
+</pre>
+</li>
+<li>So, with the base template (base.html) already in place, we will generate a new page for inserting the data: 
+<br><code>form_fetch.html</code>, making them it inherit from base.html.
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-html line-numbers">
+<code> 
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+&lt!-- js for this page--&gt
+{% block scriptblock %}
+  &ltscript src="{{url_for('static',filename='js/script_get.js')}}"&gt&lt/script&gt
+{% endblock %}
+
+{% block content %}
+&lth3&gt PROCESS FORM WITH GET AND FETCH&lt/h3&gt
+    &ltsection class = "plant-collect"&gt
+    &ltdiv class= "formContainer"&gt
+&ltform id = "insertPlantFormFetch"&gt
+&lt!-- group the related elements in a form --&gt
+&lth3&gt ADD A NEW PLANT&lt/h3&gt
+&ltfieldset&gt
+ &ltp&gt
+    &ltlabel&gtOwner Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "o_name" required&gt 
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtPlant Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "p_name" required&gt 
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtPlant Color:&lt/label&gt
+    &ltinput type="color" name = "p_color" required&gt 
+&lt/p&gt
+&ltdiv class="range-ui"&gt
+&ltlabel&gtPlant Condition:&lt/label&gt
+&ltdiv&gt
+  &ltinput type="range" name="p_condition" min="0" max="100" value="0" step="1" list="values" /&gt
+  &ltdatalist id="values"&gt
+  &ltoption value="0" label="almost dead!"&gt&lt/option&gt
+  &ltoption value="100" label="super-alive"&gt&lt/option&gt
+&lt/datalist&gt
+&lt/div&gt
+&lt/div&gt
+&ltp&gt
+  &ltlabel&gtHome of Plant:&lt/label&gt
+  &ltselect name="plant-home" &gt
+  &ltoption value="Montreal"&gtMontreal&lt/option&gt
+  &ltoption value="Quebec City"&gtQuebec City&lt/option&gt
+  &ltoption value="Ottawa"&gtOttawa&lt/option&gt
+  &ltoption value="Winnipeg"&gtWinnipeg&lt/option&gt
+  &ltoption value="Vancouver"&gtVancouver&lt/option&gt
+&lt/select&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtBirth Date (DD-MM-YYYY):&lt/label&gt
+    &ltinput type="date" name="a_date" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtDescription:&lt/label&gt
+    &lttextarea type = "text" rows="4" cols="50" name = "a_descript" required&gt&lt/textarea&gt
+&lt/p&gt
+ &ltp&gt
+    &ltlabel&gt&lt/label&gt
+    &ltinput id = "submitPlant" type = "submit" name = "submit" value = "submit my info" id =buttonS /&gt
+&lt/p&gt
+ &lt/fieldset&gt
+&lt/form&gt
+&lt/div&gt
+&ltdiv id="results"&gt
+  &lth4&gtRESULTS&lt/h4&gt
+  &ltdiv id="result-container"&gt
+    &lt/div&gt
+&lt/div&gt
+&lt/section&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+<li>
+OK - so this is very similar to the previous form examples EXCEPT:
+<ul>
+<li> We left the <code> action</code> attribute of the form empty</li>
+<li>We took out the <code>method</code> attribute of the form</li>
+<li>We added an <code>id called "insertPlantFormFetch"</code> to the form</li>
+<li>We added a <code>div with id called "result"</code> in order to hold the results....</li>
+</li>
+</ul>
+<li> Let's add some css for the result container to <code> base.css</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-css line-numbers">
+<code>
+/*** results **/
+#results{
+  margin-top:4vh;
+  margin-bottom:4vh;
+  color:rgb(211, 172, 209);
+  font-size:18px;
+}
+#result-container{
+    padding:1%;
+    background: rgb(211, 172, 209);
+    width:50%;
+    font-size:14px;
+    color:white;
+  
+}
+#result-container p{
+  padding:4px;
+   font-size:16px;
+}
+#result-container p mark{
+  color: rgb(211, 172, 209);
+  background:white;
+  padding:2px;
+}
+#result-container img{
+  width:80%;
+  height: auto;
+
+}
+</code>
+</pre>
+</li>
+
+</ul>
+<h4>ACCESS THE FORM WITH JS</h4>
+<p>Instead of automatically sending the form as was done earlier, we will instead use the <code>fetch</code> function to access the form data.
+<br>If you see - in the <code>form_fetch_get.html</code> page, we included a link to a javascript file -- you will need to create it: <code>js/script_get.js</code></p>
+<ul>
+<li>
+We first need to detect when the form is to be submitted -> add the following into the script :
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code> 
+window.onload = function () {
+  console.log("loaded script_get.js");
+  document
+    .querySelector("#insertPlantFormFetch")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+      console.log("button clicked");
+    });
+};
+</code>
+</pre>
+</li>
+<li> Now - add the route to this new page in main.py:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code> 
+# aroute
+@app.route('/getForm')
+def getFetchForm():
+    return render_template("form_fetch.html")
+</code>
+</pre>
+</li>
+<li>
+If you now run the page -> and click on the submit button, the line <code>button clicked</code> should be output to the console. 
+<br>If you have not input data into all the required fields, then the initial validation still occurs:: why? 
+<br/>We are <strong>still</strong> using the <code>submit</code> event - > which triggers the basic form validation.. -
+</li>
+</ul>
+<h5> GETTING THE DATA FROM THE FORM</h5>
+<ul>
+<li>
+  Now we want to access the form data - there are multiple ways of doing this:
+<ol>
+<li> Get the value of each field -> this is really long winded and since we want <strong>all</strong> the fields in the form we will find another option:</li>
+<li> We will get the form element <code>by its id</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code> 
+ const htmlForm = document.querySelector("#insertPlantFormFetch");
+ </code>
+</pre>
+</li>
+<li> We will use the inbuilt JavaScript <a href = "https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData">FormData</a> object:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code> 
+ const formData = new FormData(htmlForm);
+ </code>
+</pre>
+</li>
+</ol>
+<p>This object: <code>FormData</code> can take an HTML form as a parameter upon making a new instance, and will <strong>automatically</strong> populate the object with the form's current <strong>keys & values</strong> using the name property of each element for the keys and their submitted value for the values. 
+</li>
+<li>
+We will next need to format our key value pairs as <code>query parameters</code> - we could do this manually, but thee is a super javascript object that will do it for us: <a href = "https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams"> URLSearchParams</a>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code> 
+const queryParams = new URLSearchParams(formData).toString();
+</code>
+</pre>
+</li>
+<li>
+Ok - now we can build the URL :remember we are doing a <strong>GET</strong> request...:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+const url = `/getDataFromForm?${queryParams}`;
+</code>
+</pre>
+</li>
+<li>
+Finally: the next step is to use  <code>a javascript method</code> to send the data to our <code>flask application</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+ try{
+     let res = await fetch(url)
+     let resJSON = await res.json()
+       console.log(resJSON)
+
+  }
+    catch(err) { 
+    console.log(err)
+  }
+  </code>
+</pre>
+</li>
+<li><p><code>SIDE TOPIC: THE JS FETCH REQUEST:</code></p>
+<ul>
+<li>You start a Fetch Request with the <code>fetch</code> function and pass it a <strong>URL</strong> (the location for where the data resides) as an argument.</li>
+<li>By default one will make a <code>request</code> for the resource, and the function will respond with a <code>promise</code>.</li>
+<li> A <a href = "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise </a> (which is a newish ->  now almost standard convention in JS) on a high level represents the <code> eventual fulfillment/failure of an asynchronous event (i.e. a request for a remote resource)</code>.</li>
+<li>In the case of the <code>fetch()</code> - the resulting promise will automatically resolve to the <code> Response object</code> representing the server's response</li>
+<li>You can then check the request status and extract the body of the response in various formats, including text and JSON, by calling the appropriate method on the response-> <code> text() or json()</code> </li>
+<li> It is good practise to execute the fetch request within a <code>try/catch clause</code></li> 
+<li>You will need to use the <code>await</code> keyword BOTH for fetching and parsing because these are operations that may take some time... </li>
+<li> AND we need to wrap the whole thing in an <code>async function</code>...</li>
+</ul>
+</li>
+</ul>
+<h5> BACK IN OUR FLASK APP</h5>
+<ul>
+<li>
+We will now write the python code to deal with this request.... very similar to what we did previously... The first step is to set up a new route in <code>main.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+# for the get
+@app.route('/getDataFromForm')
+def getDataFromForm():
+    app.logger.info(request.args)
+    return ({"data_received":"success",
+    "owner":request.args['o_name'],
+    "plantname":request.args['p_name']})
+</code>
+</pre>
+<p>Note:: the change is: <code>we are no longer going to reload/redirect to a new page</code> - rather we will send whatever response back to the caller (in this case the script.js) and then use javascript to dynamically generate markup :)</p>
+</li>
+<li>
+Back in the <code>script_get.js</code> -you see where we get a response back from the server?... Well that is where we will generate a the JS markup.
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+document.querySelector("#result-container").innerHTML += 
+       `<p> THE NEW RESULT: <mark>${resJSON.data_received}</mark></p>
+       <p> OWNER NAME : <mark>${resJSON.owner}</mark></p>
+        <p>PLANT NAME : <mark>${resJSON.plantname}</mark></p>`
+  </code>
+  </pre>
+<p>And we are done! ... It seems to be alot of work - but you will see in the next example that doing a POST request is very much the same...</p>
+</li>
+</ul>
+<h3> Uploading an image :) with FETCH </h3>
+<p>Ok! So as the last topic in this session, we will look at sending <code>multi part form data</code>. It is a strategy/method for <code>sending multiple types of data in a single HTTP request</code>, commonly used for <code>file uploads</code> and submitting forms with various input types.</p>
+<p>We will once again be continuing with the same project as before. We will use the same HTML form as the one we used to <code>add-to-the-plant-repository</code>, but we will <em> extend</em> and <em>adapt</em> the functionality to include the ability to upload a file to the web server. We wil  be using this time <code>POST and FETCH</code>.</p>
+<ul>
+<li> Create a new html template and save as <code>addPlantExtended.html</code>. Add the following markup:
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81" class="language-html line-numbers">
+<code>
+  &lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+<!-- js for this page-->
+{% block scriptblock %}
+  &ltscript src="{{url_for('static',filename='js/script_post.js')}}"&gt&lt/script&gt
+{% endblock %}
+{% block content %}
+    &ltsection class = "plant-collect"&gt
+    &ltdiv class= "formContainer"&gt
+&lt!--form done using more current tags... --&gt
+&ltform id = "insertPlantFormFetchPost"&gt
+&lt!-- group the related elements in a form --&gt
+&lth3&gt ADD A NEW PLANT AND AN IMAGE &lt/h3&gt
+&ltfieldset&gt
+ &ltp&gt
+    &ltlabel&gtOwner Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "o_name" required&gt 
+&lt/p&gt
+
+&ltp&gt
+    &ltlabel&gtPlant Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "p_name" required&gt 
+&lt/p&gt
+
+&ltp&gt
+    &ltlabel&gtPlant Color:&lt/label&gt
+    &ltinput type="color" name = "p_color" required&gt 
+&lt/p&gt
+&ltdiv class="range-ui"&gt
+
+&ltlabel&gtPlant Condition:&lt/label&gt
+
+&ltdiv&gt
+  &ltinput type="range" name="p_condition" min="0" max="100" value="0" step="1" list="values" /&gt
+  &ltdatalist id="values"&gt
+  &ltoption value="0" label="almost dead!"&gt&lt/option&gt
+  &ltoption value="100" label="super-alive"&gt&lt/option&gt
+&lt/datalist&gt
+&lt/div&gt
+
+&lt/div&gt
+
+&ltp&gt
+  &ltlabel&gtHome of Plant:&lt/label&gt
+  &ltselect name="plant-home" &gt
+  &ltoption value="Montreal"&gtMontreal&lt/option&gt
+  &ltoption value="Quebec City"&gtQuebec City&lt/option&gt
+  &ltoption value="Ottawa"&gtOttawa&lt/option&gt
+  &ltoption value="Winnipeg"&gtWinnipeg&lt/option&gt
+    &ltoption value="Vancouver"&gtVancouver&lt/option&gt
+&lt/select&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtBirth Date (DD-MM-YYYY):&lt/label&gt
+    &ltinput type="date" name="a_date" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtDescription:&lt/label&gt
+    &lttextarea type = "text" rows="4" cols="50" name = "a_descript" required&gt&lt/textarea&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtUpload Image:&lt/label&gt
+    &ltinput type="file" name='the_file' size=10 required /&gt
+&lt/p&gt
+ &ltp&gt
+    &ltlabel&gt&lt/label&gt
+    &ltinput id = "submitPlant" type = "submit" name = "submit" value = "submit my info" id =buttonS /&gt
+&lt/p&gt
+ &lt/fieldset&gt
+&lt/form&gt
+&lt/div&gt
+&ltdiv id="results"&gt
+  &lth4&gtRESULTS&lt/h4&gt
+  &ltdiv id="result-container"&gt
+    &lt/div&gt
+&lt/div&gt
+&lt/section&gt
+{% endblock %}
+  </code>
+  </pre>
+</li>
+<li> You will also need to set up a route to this page in <code>main.py</code>:
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+# another route
+@app.route('/addPlantExtended')
+def addPlantExtended():
+    return render_template("addPlantExtended.html")
+</code>
+</pre>
+</li>
+<li> We will use  a new js file linked to this page (<code> script_post.js </code>). So create this file, save in the js folder, and then we will process the form using js!
+So first we need to know when we have submitted the form - when the window has loaded the content:
+  <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+window.onload = function () {
+  console.log("loaded script_post.js");
+ document
+    .querySelector("#insertPlantFormFetchPost")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+      console.log("post form clicked")
+})
+};
+</code>
+</pre>
+</li>
+  <li>
+Next: as before -  we will format the data from the form and package it using the formData object:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+    let form = document.querySelector("#insertPlantFormFetchPost");
+    let data = new FormData(form);
+</code>
+</pre>
+</li>
+<li>
+And then: once again we will use the <code>fetch()</code> -  but this time we specify that the method to use is <code>POST</code> and also the data is assigned to the <code>body</code> property within the request ... 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+try {
+        let res = await fetch("/postPlantFormFetch", {
+          method: "POST",
+          body: data,
+        });
+        let resJSON = await res.json();
+        console.log(resJSON);
+      } catch (err) {
+        console.log(err);
+    }
+</code>
+</pre>
+</li>
+</ul>
+<h4> BACK IN THE FLASK APP </h4>
+<ul>
+<li> 
+We will need to add some configuration to our flask app:
+<ol>
+<li>import os package (as we will be accessing the file system)</li>
+<li>we will need to specify what folder files will be uploaded to</li>
+<li>we will set a size limit for the max file size to be uploaded.</li>
+</ol>
+So - fist make a folder in the folder named 'static' of your project and call it <code>uploads</code>.
+Then add the following <code>import</code> statement:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+import os
+</code>
+</pre>
+Next, add the following to <code>main.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+UPLOAD_FOLDER = 'static/uploads' 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB limit
+</code>
+</pre>
+</li>
+<li> Next: we need to set up a route for where the data should be received to: <code> 
+"/postPlantFormFetch"</code> and that this route must accept a request via the <code>POST</code> method:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+@app.route("/postPlantFormFetch",methods = ['POST'])
+</code>
+</pre>
+</li>
+<li> And we add the function associated ... 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code> 
+def postPlantFormFetch():
+     #key is the same as in the form :)
+    uploadedfile = request.files['the_file']
+    #save file to uploads folder
+    filePath = os.path.join(app.config['UPLOAD_FOLDER'], uploadedfile.filename)
+    app.logger.info(filePath)
+    uploadedfile.save(filePath)
+    app.logger.info(uploadedfile.filename)
+     # the textual data will be in request.form 
+    app.logger.info(request.form)
+    #return the file name + path
+    return({"imagePath":filePath})
+  </code>
+</pre>
+</li>
+<li>Again we are NOT redirecting/reloading the page ... no we are passing back the filepath of the saved image ... 
+And what we will do is - in the js we will dynamically display the new image - cause we have its file path ... 
+So - in the js add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code> 
+ document.querySelector("#result-container").innerHTML = `&ltimg src = ${resJSON.imagePath} /&gt`
+ </code>
+</pre>
+</li>
+</ul>
+</ul>
+</section>
+</main>
+  
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+
+</body>
+
+</html>
+
+    
