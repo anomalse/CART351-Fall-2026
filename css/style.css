@@ -649,3 +649,7 @@ li .sched-due {
     color:rgb(236, 225, 235);
 
 }
+.cancelled_div{
+    background:red;
+    color:white;
+}
