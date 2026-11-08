@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<!-- <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+  </code>
+  </pre> -->
+
+  <!-- https://clab.concordia.ca/wp-admin/post.php?post=8860&action=edit
+  //cart351issuperfun -->
+<head>
+  <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>FLASK IV</h1>
+    </div>
+  </header>
+  <main>
+
+<section class="contents-notes">
+  <h3> Reading/ writing to a text file </h3>
+<p>Python provides built-in functions for creating, writing and reading files. 
+  <br>Two types of files can be handled in Python, normal text files and binary files.</p>
+<ul>
+<li><code>Text file</code>: Each line of text is terminated with a special character called EOL (End of Line), which is new line character <em>'\n'</em> in Python by default.</li>
+<li><code>Binary files</code>: There is no terminator for a line and data is stored after converting it into machine-understandable binary format.
+</li>
+</ul>
+<ul>
+<li> To open a file: use the <code>open()</code>function: <code>file_object = open("File_Name","Access_Mode")</code></li>
+<li> An example: let's utilize the following texts:<a href = "media/files.zip">download the folder here</a>.
+<br>Create a new project - new environment etc in VS Code and add the <code>files</code> folder into the project root.
+<br>Also create a python file called <code>fileOps.py</code>.
+</li>
+<li> Now to open the <code>rainbow.txt</code> file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+# Open rainbow.txt in append mode
+rainbowFile = open("files/rainbow.txt", "a")
+</code>
+</pre>
+<p>We can open as many files as we want at one time, as long as they are all assigned to different variables.. ie:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+# Open sample_text.txt with write+ mode
+st = open("files/sample_text.txt", "w+")
+</code>
+</pre>
+Also note the second parameter: the <code> mode</code>: can take on different representations:
+<!-- sublist -->
+<ul>
+  <li>r – Read-only mode. This mode allows you to read from the file, but you can’t make any changes to it. It raises an error if the file is not existing on your system.</li>
+<li>w – Write-only mode. This mode allows you to write to the file, but you can’t read from it. It creates the file if it does not exist on your system. It will overwrite if the file is present in your system.</li>
+<li>a – Append-only mode. This mode allows you to write to the file, but you can’t read from this mode. It creates the file if it does not exist on your system. It will add new data if the file already has data.</li>
+<li>r+ – Read + Write mode. This mode allows you to read from and write to the file. It raises an error if the file is not existing on your system.</li>
+<li>w+ – Write + Read mode. This mode allows you to read from and write to the file. It creates the file if it does not exist on your system. It will overwrite if the file is present in your system.</li>
+<li>a+ – Append + Read mode. This mode allows you to read from and write to the file. It creates the file if it does not exist on your system. It will add new data if the file already has data.</li>
+</ul>
+<!--end sublist-->
+</li>
+</ul>
+<h4>Reading a Text file</h4>
+<p>There are three ways to read a text file:</p>
+<ul>
+<li> <code>read():</code> Returns the read bytes in form of a string. Reads "n" number bytes, if no "n" specified, reads the entire file.
+<code> file_object.read([n])</code><br>
+In the case of the rainbow.txt: -- also note the use of <code>seek()</code> in the example:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+rainbowFile_r = open("files/rainbow.txt", "r")
+#read first 4 bytes (1 char per byte)
+out4 = rainbowFile_r.read(4)
+print(out4)
+#read entire text - but note if we read before... 
+# then we will be reading from where we read last...
+#and once it has consumed the entire file - you can no longer read...
+out_all = rainbowFile_r.read()
+print(out_all)
+#so to go back to start then - > use the seek function...
+rainbowFile_r.seek(0)
+out_all_a = rainbowFile_r.read()
+print(out_all_a)
+</code>
+</pre>
+</li>
+<li> <code>readline():</code> Reads one line of the file and returns in form of a string. For specified number 'n', reads at most n bytes. 
+<br>However, this function does not reads more than one line, even if the number 'n' exceeds the length of the line:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+#go back to beginning
+rainbowFile_r.seek(0)
+oneLine = rainbowFile_r.readline()
+print(oneLine)
+</code>
+</pre>
+</li>
+<li> <code>readlines():</code> Reads all the lines and return them as each line a string element in an iterable list.
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+#go back to beginning
+rainbowFile_r.seek(0)
+#stored in a list - each line is one element in the list
+allLines = rainbowFile_r.readlines()
+print(allLines)
+print(allLines[0])
+</code>
+</pre>
+</li>
+</ul>
+<h4>Writing a Text file</h4>
+<p>There are two ways to write in a file:</p>
+<ul>
+<li>
+<code">write():</code> Inserts a given string in a single line in the text file. <code> file_object.write(str)</code>
+<br>Let's duplicate <code>sample_text.txt</code> - and call it <code>sample_text_rev.txt</code> - we will write to this file... so first open it:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+sampleFile = open("files/sample_text_rev.txt", "w")
+</code>
+</pre>
+<br/>Then we will ask the user for input three times - and every time we will add the input to the file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+for i in range(3): 
+    a_name = input("Enter the name of the animal: ") 
+    sampleFile.write(a_name) 
+    sampleFile.write("\n") 
+sampleFile.close() 
+print("Data is written into the file.") 
+</code>
+</pre>
+Note - that you are NOT appending to the file - rather you are overwriting the file each time you open it.
+</li>
+<li>
+<code>writelines():</code> For a list of string elements, each string is inserted in text file. 
+<br>This function is thus used to insert multiple strings at a single time:  <code>file_object.writelines(l) where l = [str1, str2, str3]</code>
+<br>Example:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+colorList = [] 
+for i in range(3): 
+    a_name = input("Enter the name of a color: ") 
+    colorList.append(a_name + '\n') 
+sampleFile.writelines(colorList) 
+sampleFile.close() 
+print("Data is written into the file.") 
+</code>
+</pre>
+</li>
+</ul>
+<h4>Appending to a Text file</h4>
+<p>If we do not want to ot <code>overwrite</code> a file - but rather <code>append</code> to the file - we will open the file in the <code>append mode</code> and then either call <code>write()</code> or <code>writelines()</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+sampleFile_a = open("files/sample_text.txt", "a")
+nameList = [] 
+for i in range(3): 
+    a_name = input("Enter the name of someone in your class: ") 
+    nameList.append(a_name + '\n') 
+sampleFile_a.writelines(nameList) 
+sampleFile_a.close() 
+print("Data is written into the file.") 
+</code>
+</pre>
+<h3> Reading JSON </h3>
+<p>Reading JSON in Python means retrieving JSON data from a file or string and converting it into Python objects like dictionaries or lists. 
+<br>This process is called <code>deserialization</code>. Python offers two main ways to <code>read JSON data</code>:</p>
+<h4>Using json.load()</h4>
+<p>The <code>JSON</code> package has <code>json.load()</code> function that loads JSON content from a JSON file into a <code>dictionary</code> or a  list of dictionaries.</p>
+<ol>
+<li>Take the following json str and save to a file in <code>files/test.json</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+[
+{
+    "employee": {
+        "id": "E00001",
+        "name": "Bryan Smith",
+        "position": "Chemical engineer",
+        "department": {
+            "id": "D080",
+            "name": "Incentivize",
+            "manager": {
+                "id": "M2858",
+                "name": "Rebecca Andrews",
+                "contact": {
+                    "email": "amanda52@example.net",
+                    "phone": "815-823-1247x52270"
+                }
+            }
+        },
+        "projects": [
+            {
+                "projectId": "P5216",
+                "projectName": "Multi-tiered discrete Internet solution",
+                "startDate": "2025-05-25",
+                "tasks": [
+                    {
+                        "taskId": "T522",
+                        "title": "Evolve Best-Of-Breed E-Tailers",
+                        "status": "In Progress",
+                        "details": {
+                            "hoursSpent": 41,
+                            "technologiesUsed": [
+                                "Python",
+                                "SQL"
+                            ],
+                            "expectedCompletion": "2025-09-11"
+                        }
+                    },
+                    {
+                        "taskId": "T405",
+                        "title": "Empower Cross-Media Users",
+                        "status": "In Progress",
+                        "details": {
+                            "hoursSpent": 41,
+                            "technologiesUsed": [
+                                "PyTorch",
+                                "JavaScript",
+                                "Python",
+                                "Scikit-learn"
+                            ],
+                            "expectedCompletion": "2025-08-17"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}
+]
+</code>
+</pre>
+</li>
+<li> To read from this file:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+# Read from file and parse JSON
+jsonFile = open("files/test.json", "r")
+data = json.load(jsonFile)
+print(data)
+print(type(data)) # a list
+</code>
+</pre>
+<p> You will need to include the <code>json module</code>:
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code> 
+import json
+</code>
+ </pre>
+</li>
+</ol>
+<h4>Using json.loads()</h4>
+<p>Alternatively, the <code>json.loads()</code> is a function simply used to parse a JSON string and convert it into a Python object.</p>
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code> 
+json_str = '{"name":"Sabs", "fav_col":"red", "fav_city":"montreal"}'
+data_2 = json.loads(json_str) 
+print(data_2)
+print(type(data_2))#converts to a dict
+</code>
+</pre>
+<p> And if we wanted ti then read from the file as a string and then convert:
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+jsonFile = open("files/test.json", "r")
+out_all_as_string = jsonFile.read()
+data_3 = json.loads(out_all_as_string) 
+print(data_3)
+print(type(data_3[0]))
+</code>
+</pre>
+</p>
+<h3> Writing JSON </h3>
+<p>Writing data to a JSON file in Python involves converting Python objects like dictionaries into JSON format and ten saving them to a file. 
+<br>This process is called <code>serialization</code>. Let's explore two methods to write a JSON file in Python:</p>
+<h4>Using json.dumps()</h4>
+<p><code>json.dumps()</code> is a function that <em>helps</em> converting a dictionary to a JSON object. It takes two parameters:</p>
+<ol>
+<li><code>the dictionary</code>: the name of a dictionary which should be converted to a JSON object.</li>
+<li><code>indent</code>:defines the number of units for indentation.</li>
+</ol>
+<p>After converting the dictionary to a JSON object, simply write it to a file using the <code>write()</code> function - as was discussed with text files :):</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+data_toSave = {"name":"mandy", "fav_col":"blue", "fav_city":"winnipeg"}
+#convert dictionary to str
+jsonStr = json.dumps(data_toSave, indent=4)
+#open or create if non existent
+fileOpen = open("files/new_sample.json","w")
+fileOpen.write(jsonStr)
+</code>
+</pre>
+</pre>
+<h4>Using json.dump()</h4>
+<p>Another way of writing JSON to a file is by using <code>json.dump()</code> method.
+<br>This function writes the dictionary to a file in the form of JSON, without needing to convert it into an actual JSON object.</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+jsonFile = open("files/new_sample_b.json", "w")
+data_toSave_2= {"name":"mandy", "fav_col":"blue", "fav_city":["list",3,4,True,"abc"]}
+json.dump(data_toSave_2,jsonFile, indent =4)
+</code>
+</pre>
+<h4> Appending to a json file </h4>
+<p>So - what if you want to append to a json file? - Well it is impractical to just <em>append</em> - what we actually will do 
+<br>(which is potentially very inefficient - and why we actually will use a data store in the next weeks :), is:</p>
+<ol>
+<li>read in the entire contents of the file</li>
+<li>append to the JSON object in python</li>
+<li>write out the entire JSON object (overwrite the file)</li>
+</ol>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+jsonFile = open("files/new_sample_b.json", "r+")
+data = json.load(jsonFile)
+print(data['fav_city'])
+print(type(data['fav_city']))
+# #go to beginning of file
+jsonFile.seek(0)
+data['fav_city'].append("another element")
+data["newKey"] = 1234
+#output to the file
+json.dump(data,jsonFile, indent =4)
+</code>
+</pre>
+<h3> P5 Breakout variation :) </h3>
+<p>Ok so we will start with a standard p5 app (as you could have made in CART 253 -- ) and 
+<a href = "media/p5Start.zip"> DOWNLOAD IT HERE </a> - unzip it, load it into VS Code and run with the <code> standard live server</code></p>
+<h3>CREATE A NEW FLASK APPLICATION</h3>
+<p>Ok - so now we want to <code>serve</code> our p5 (front end) app using the <code>Flask framework as the backend</code>. 
+<br>This example should be super useful for you in the future - enabling you to potentially feel comfortable enough to use any front end js with a backend of flask...</p>
+<ul>
+<li> First, I would recommend opening a second window in VS Code and opening a new Project called i.e. <code>P5AndFlask</code> </li>
+<li> Then create our python script - i.e. <code>main.py</code>, as well as a <code>static</code> folder and a <code>templates</code> folder. 
+<br/>Also  make sure you are using and have activated a virtual environment that supports flask :) </li>
+<li> We will now create a basic flask app with one default route:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code> 
+from flask import Flask,render_template,request
+app = Flask(__name__)
+# a route
+@app.route('/')
+def index():
+    return render_template("index.html")
+
+app.run(debug = True)
+</code>
+</pre>
+<li>
+We need an <code> index.html</code> in the <code> templates</code> folder and since we looovvveee template inheritance we will also make a <code>base.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-html line-numbers">
+<code> 
+&lt!doctype html&gt
+&lthtml&gt
+    &lthead&gt
+    &ltlink rel="preconnect" href="https://fonts.googleapis.com"&gt
+    &ltlink rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt
+    &ltlink href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"&gt
+    &ltlink rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}"&gt
+    &lttitle&gtFetch API in Flask Application&lt/title&gt
+    &lt!--new add a custom block for the script--&gt
+    {% block scriptblock %}
+    {% endblock %}
+
+    &lttitle&gtCART 351 FLASK TEST WITH p5:)&lt/title&gt
+
+    &lt/head&gt
+    &ltbody&gt
+        &ltheader&gt 
+            &lth2&gt CART 351 FLASK TEST WITH p5:) &lt/h2&gt
+    
+        &lt/header&gt
+        &ltmain&gt
+        {% block content %}{% endblock %}
+        &lt/main&gt
+        &ltfooter&gt
+            footer info ** footer info **
+        &lt/footer&gt
+    &lt/body&gt
+&lt/html&gt
+</code>
+</pre>
+</li>
+<li>
+<code>index.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-html line-numbers">
+<code> 
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+
+{% block content %}
+&ltp&gt IN MAIN CONTENT&lt/p&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+<li>Note: in the <code>base.html</code> we need to include some css ... <em>YOU HAVE THE CSS ALREADY IN THE <strong>p5Start</strong> folder</em>:
+  <br>just <code>copy the css folder into the static folder</code>.
+  <br>you can then do a test run of this NEW app with flask ;). -  just index.html -- yes? - </li>
+</ul>
+<h3>ADD p5 to FLASK</h3>
+<p> Ok - you have a flask app running - so we now very simply want to <code>integrate our existing p5 app to our flask app</code>:</p>
+<ul>
+<li>First: make a new route in flask to serve the html page that will run the p5 app:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-python line-numbers">
+<code>  
+# another route
+@app.route('/p5BreakOut')
+def runpP5():
+    return render_template("p5_BreakOut.html")
+</code>
+</pre>
+</li>
+<li> Inside the <code>templates</code> folder- add a new file <code>p5_BreakOut.html</code></li>
+<li> And --- since we want our new page to inherit from <code> base.html</code>, we add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-html line-numbers">
+<code>  
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+
+&lt!-- js for this page--&gt
+{% block scriptblock %}
+{% endblock %}
+
+{% block content %}
+{% endblock %}
+</code>
+</pre>
+</li> 
+<li>
+Now for the <code> content block </code>: access the html in the <em>p5Start Folder</em> and copy what was within the <code> &ltmain&gt &lt/main&gt tags</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-html line-numbers">
+<code>
+ &lth3&gtHELLO P5!&lt/h3&gt
+ &lth3 id="p5Score"&gtSCORE: 0&lt/h3&gt
+&ltdiv id="p5Container"&gt
+&lt/div&gt
+</code>
+</pre>
+</li>
+<li> Next .. we need the <code>js</code> -  so <em>JUST COPY the whole folder from the original example</em> and <code> paste into the static folder</code></li>
+<li> So, now we want to link correctly to all the js ... and we know that we can use the <code> url_for() </code>. - so add the following to the  <code>scriptblock</code> in <code>p5_BreakOut.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-html line-numbers">
+<code>
+&ltscript src="{{url_for('static',filename='js/libraries/p5.min.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/libraries/p5.sound.min.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/Brick.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/Ball.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/Paddle.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/game.js')}}"&gt&lt/script&gt
+</code>
+</pre>
+And test  - you should have p5 running !!!
+</li>
+</ul>
+<h3>Extending the app</h3>
+<p>Now, we want to add the following features:</p>
+<ol>
+<li> Upon choosing the quit option, the user will type their name</li>
+<li>The browser will take the user name and their score and make a GET request to send the data to the server (done with the <code>FETCH API</code>) </li>
+<li> The Flask app will receive data from the GET request, will open or create a JSON file </li>
+<li> Then, we will read the contents from the file into a list - and will check if the user exists</li>
+<li> If the user exists, it will save the <em>OLD</em> score into a variable , and will overwrite the entry in the list and save to the file. 
+<br>If the user is <em>NOT</em> found in the list, it will just save a new entry into the list and save to the file</li>
+<li> The server will respond to the client with either the OLD score of the user or just a message...</li>
+<li> So the client (the js) - will then end the game - either showing the user their OLD score and new or just new... phew!</li>
+</ol>
+Lets go!
+<h4> Adding the user name </h4>
+<p>This is a client side task ... it will be implemented within p5:</p>
+<ul>
+<li>
+First: currently in <code>game.js</code> when the user selects 'q' it goes directly to the 'end' state.
+ <br><code>Lets implement a state in between for typing</code>: add to top of <code>draw()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+  /*** gameState - save the name */
+  if (gameState === "saveName") {
+    displayInfo(label+nameToSave, width / 2, height / 2 + 20);
+  }
+  </code>
+  </pre>
+</li>
+<li>
+Then in the <code>keyPressed() in game.js</code> add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+// save user name
+  if (gameState === "saveName") {
+    //check if is lower /uppercase letter
+    if (
+      (e.keyCode >= 65 && e.keyCode <= 90) ||
+      (e.keyCode >= 97 && e.keyCode <= 122)
+    ){
+         nameToSave += key;
+
+    }
+    //user finished
+    else if(e.keyCode ===13){
+      gameState = "end"
+    }
+   
+  }
+</code>
+</pre>
+</li>
+<li>
+  And now - we need to set the <code>new state when user presses 'q'</code>: replace:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+//end
+if (keyCode === 81) {
+  gameState = "end";
+  }
+</code>
+</pre>
+with
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+if (keyCode === 81) {
+  gameState = "saveName";
+  }
+  </code>
+</pre>
+Also add into the <code>'end' clause a console.log(...)</code> - to check that you have the typed name saved ;)
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+  /*** once received notification from server that data is saved we can end */
+  if (gameState === "end") {
+    console.log(nameToSave);
+    displayInfo(`BYE!\n`, width / 2, height / 2 + 60);
+  }
+</code>
+</pre>
+</li>
+</ul>
+<p>You can now test the new feature : <code>when the user selects 'q'</code>: 
+<ul>
+<li>the user can type their name, press the ENTER key</li> 
+<li>Then they transition to the end screen and we have the name logged in the console.log(...)</li>
+</ul>
+<h4>Send Username and Score to Flask </h4>
+<p>Now, instead of going to the <code>'end' state after saving the username</code>:
+<br>we want to send this data to the server... We need another state <code>client side (game.js)</code> to allow for the request to be made :(</p>
+<ul>
+<li>At the top of <code>draw()</code>, lets add another condition:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+ /*** gameState - after save name save the score */
+  if(gameState === "saveData"){
+     displayInfo(`Saving ${nameToSave}'s score of ${score}...`, width / 2, height / 2 + 20);
+     sendData({ id:nameToSave, score: score });
+ }
+ </code>
+</pre>
+</li>
+<li><strong>We ALSO need to update the state change when the user has finished typing their name</strong>:
+<br>Change from:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+ //user finished
+    else if(e.keyCode ===13){
+      gameState = "end"
+    }
+</code>
+</pre>
+to 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+ //user finished
+    else if(e.keyCode ===13){
+      gameState = "saveData"
+    }
+</code>
+</pre>
+</li>
+<li>Now, we need to implement the <code> sendData()</code> <strong>STILL client side :) - after the keyPressed() function</strong>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+/* function to send data to server */
+async function sendData(params) {
+  const queryParams = new URLSearchParams(params).toString();
+  console.log(queryParams);
+  //build the url -end point
+  const url = `/getDataFromP5?${queryParams}`;
+  try {
+    let res = await fetch(url);
+    let resJSON = await res.json();
+    console.log(resJSON);
+    gameState = 'end'
+   
+  } catch (err) {
+    console.log(err);
+  }
+}
+</code>
+</pre>
+</li>
+</ul>
+<p>You <em>cannot</em> test anything new yet - because you have not implemented the <code>route</code> server side ;)</p>
+<h4>Add another route in Flask</h4>
+<p>We need to set up a route within p5 to receive this new GET request: 
+<br>So back in <code>main.py</code> let's add:</code>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-python line-numbers">
+<code>
+# for the get from p5
+@app.route('/getDataFromP5')
+def getDataFromP5():
+    #give back request.args
+    app.logger.info(request.args["id"])
+    app.logger.info(request.args["score"])
+    return({"inFile":"false"}) 
+</code>
+</pre>
+<p> So if you test now: <code>you should not have errors and data should be received in flask at the request of the client</code>... super!</p>
+<h4> Creating the JSON FILE</h4>
+<p>Yay! We are at the point where we can write data to the file. 
+<br>The following code will be added to <code>main.py</code>:</p>
+<ul>
+<li>First include the following packages:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-python line-numbers">
+<code>
+import os
+import json
+</code>
+</pre>
+</li> 
+<li> Next in the  the <code>getDataFromP5()</code> add : <strong> BEFORE the return</strong>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-python line-numbers">
+<code>
+  # Check if the file exists (can be a file or directory)
+    filePath="filesForP5/p5Data.json"
+    if os.path.exists(filePath):
+        app.logger.info("file exists")
+    else:
+        app.logger.info("file not exists")
+</code>
+</pre>
+</li>
+<p>If you test this now: <code>you should get a log in the server terminal saying the file does not exist</code>... </p>
+<li><strong>CREATE</strong> a folder called <code>filesForP5</code> <strong>NOT in the static folder</strong> - rather just at the root. <code>This is NOT meant to be a client side accessible file</code>.</li>
+<li> And now we will add the code to <code>either create the file from scratch or read the file</code>... 
+<br><strong>Replace the clauses above with:</strong>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-python line-numbers">
+<code>
+    # Check if the file exists (can be a file or directory)
+    filePath="filesForP5/p5Data.json"
+    if os.path.exists(filePath):
+        app.logger.info("file exists")
+        jsonFile = open(filePath, "r+")
+        theList = json.load(jsonFile)
+    else:
+        app.logger.info("file not exists")
+        #open file for writing
+        jsonFile = open(filePath, "w")
+        list_m = [request.args]
+        json.dump(list_m, jsonFile, indent =4)
+        jsonFile.close()
+</code>
+</pre>
+</li>
+<li>If you run it now - you should have the following behaviour:
+<ol>
+<li> a file will be created </li>
+<li>data will be saved to the file.</li>
+</ol>
+<p>Also - if you run a <em>second time</em> - a new file will <code>NOT be recreated, rather the file will be opened for reading</code>.
+</li>
+</ul>
+<h4> Writing to the JSON file</h4>
+<p>We have implemented the case <strong>where we check if the file exists</strong>.
+<br>Next, <code>we need to work on the case where the file <em>already</em>exists</code>:
+<br>Specifically we want to check <code>if the user has an entry in the file or not</code> and either:
+<ul>
+ <li>we then <em>overwrite</em> the entry</li>
+ <li style = "list-style: none;">OR </li>
+<li>we <em>add a new</em> one.</li>
+</ul>
+<p>Replace the <code>initial if()</code> with the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-python line-numbers">
+<code>
+# Check if the file exists (can be a file or directory)
+    filePath="filesForP5/p5Data.json"
+    if os.path.exists(filePath):
+        jsonFile = open(filePath, "r+")
+        theList = json.load(jsonFile)
+        nameExists = False
+        oldData = ""
+        for el in theList:
+            if el["id"].upper() ==  request.args["id"].upper():
+                nameExists = True
+                oldData = el["score"]
+                el["score"] = request.args["score"]
+                break # This exits the loop entirely
+        #clear 
+        jsonFile.truncate(0)
+        jsonFile.close()
+        jsonFile_write = open(filePath, "w")
+        if nameExists ==True: 
+            json.dump(theList,  jsonFile_write, indent =4)
+            jsonFile_write.close()
+            return({"inFile":"true","score":oldData})
+        else:
+            theList.append(request.args)
+            json.dump(theList, jsonFile_write, indent =4)
+            jsonFile_write.close()
+            return({"inFile":"false"})
+</code>
+</pre>
+<p>And test! 
+<br>So at this point we could change our client's output-> to display different information depending on the data that is returned from Flask :)</p>
+<h4>Extending the P5 end :)</h4>
+<ul>
+<li>We see the data that is returned in the <code> resJSON</code> variable in the <code>sendData</code>function in <code>game.js</code>. 
+<br>So we can save the score to a variable if it exists (within the try{}):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+ if(resJSON.score!==undefined){
+     oldScore = resJSON.score
+    }
+</code>
+</pre>
+<li>Then, in the <code>draw()</code>: we can replace the relevent if clause for <code>`end`</code> with:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61" class="language-javascript line-numbers">
+<code>
+/*** once received notification from server that data is saved we can end */
+  if (gameState === "end") {
+    //if we got data back - then this should be a new score
+    if(oldScore!=""){
+       displayInfo(`${nameToSave}'s OLD score was ${oldScore}.`, width / 2, height / 2-20);
+       displayInfo(`Now Saved ${nameToSave}'s score of ${score}.`, width / 2, height / 2 + 20);
+       }
+
+    else {
+       displayInfo(`Saved ${nameToSave}'s score of ${score}.`, width / 2, height / 2 + 20);
+
+    }
+   
+    displayInfo(`BYE!\n`, width / 2, height / 2 + 60);
+  }
+</code>
+</pre>
+</li>
+</ul>
+<p>Hopefully, this example is super helpful to allow you to create applications that can <code>send and receive data to/from the server</code> !</p>
+
+</section>
+</main>
+  
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+
+</body>
+
+</html>
+
+    
