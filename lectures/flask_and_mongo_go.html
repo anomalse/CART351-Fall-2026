@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<!-- <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+  </code>
+  </pre> -->
+<head>
+  <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>FLASK AND MONGODB SET UP AND GO</h1>
+    </div>
+  </header>
+  <main>
+
+<section class="contents-notes">
+  <h3>Introduction </h3>
+  <ul>
+<li>
+<a href ="https://www.mongodb.com/what-is-mongodb">WHAT IS MONGO DB?</a>
+</li>
+<li> In CART 351 we will use  the <scode>MongoDB Atlas Cloud</code> service with the <code>free sandbox</code> option. 
+  <br>Why? Well because you can then connect to your database easily from wherever you are! You do not need to worry about security ..etc... and it is a truly scalable option for this class. </li>
+<li> How will this work? You will have a web server running (php/node.js/flask...) and from the web server you will connect to the mongodb cloud atlas database. 
+  <br>You need to connect from the webserver - NOT from the client side ..there is a <code> DATA API</code> that allows you to connect that way - but we will not go into that option in this class ...
+</li>
+</ul>
+<h4> Create a mongodb atlas account</h4>
+<ol>
+   <li> <a href = "http://mongodb.com/atlas/database">LINK to mongodb Atlas:</a> and create an account </li>
+   <li> Once signed in - click on the <code>Create Cluster</code> button - why so that yo can host your database in the cloud for free ;)</li>
+    <li> Select FREE Shared option. Then keep the default settings for cloud provider and region and click on <code>Deployment</code> button</li>
+     <li>Your <code>current IP address</code> is automatically added for connectivity: (we will configure later more generallly in the Network Access option ).</li>
+     <li><code>Authentication for database access</code> (NOT your mongo db account): has been automatically created. Please do download the <code>.env file</code> - we will need it later. </li>
+    <li> O.K you have configured your initial setup (you have a project): In the left menu - under the heading <code> Database</code> click on <strong>Clusters</strong> - you will see the interface for your newly created cluster</li>
+    <li> Now click on <code>Browse Collections</code>: At this stage we have a sample Database: <code>sample_mflix</code> and sample collections within.</li>
+    <li>We want our own database and collections ... so right click on the <code>sample_mflix</code> database - ands select to <strong>drop it</strong> bye! </li>
+<li> Then in the main view click on the <code>Create Database</code> button  - call it: <code>CART351</code>, and for the collection call it <code> plantRepo</code>. OK you are done for now :)</li>
+<li> If you go home/ to a new location: You will need to go to the Database & Network Access option (left main menu) select  the IP Access list option.<br> Then click on the <code>Add IP Address</code> button and add your current IP Address to the list.</li>
+</ol>
+<h4> Connect Flask and MongoDB</h4>
+<p>The next task is to determine and implement the steps <code>to connect a flask appliaction</code> to our mongodb database residing in the cloud.<br>
+Python developers can think of MongoDB as a persistent, searchable repository of <code>Python dictionaries</code> :)</p>
+<ul>
+<li>We need to setup/enable a <code> driver</code>: in this case <a href = "https://pymongo.readthedocs.io/en/stable/">PyMongo</a> is the official MongoDB Driver for Python. Any python application can use the driver, by importing it and using the  <code>MongoClient</code> instance within... 
+</li>
+<li>As well, there is a widely adopted helper called <a href = "https://flask-pymongo.readthedocs.io/en/latest/">Flask-PyMongo</a> which is a wrapper around PyMongo, closely integrated with Flask.... which will make our lives much easier :) </li>
+<li>Create a new <code>project folder</code> (i.e. Cart351Mongo) in VS Code, and activate a virtual environment </li>
+<li>Create a <code>templates</code> and <code>static</code> folder</li>
+<li>Create a new python file i.e. <code>testMongo.py</code></li>
+</ul>
+<p>Nice ... ok - but before going further - let's discuss <code>ENVIRONMENT VARIABLES</code></p>
+<p>An <code>env file (or a file containing environment variables)</code> is an important part of both websites and apps. As the developer, you want to take all possible steps to ensure that any sensitive data is protected. So, it is good to be always prepared. So, an environment variable is a variable whose value is set outside the program, typically through a functionality built into the operating system or microservice. </p>
+<p><code>An environment variable</code>is made up of a name/value pair, and any number may be created and available for reference at a point in time.</p> 
+<p>You will need an env file exactly for the reason that you want to to protect your application sensitive data access, i.e. be API credentials ;).</p>
+<p> Remember the .env file that you downloaded when you created your mongodb cluster? ... <br> Add it into the root of your project folder and <code>rename it to just .env</code></p>
+<p> Note: that this. env file has the key value pairs set up for you in order to connect to your mongodb cluster .... (do not chnage it) </p>
+<p> Now we need to use this .env file: </p>
+<ul>
+<li>Import in testMongo.py: 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+from dotenv import load_dotenv
+import os
+</code>
+</pre>
+</li> 
+<li> Within your virtual environment, you will also need to install python-dotenv by running:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+pip install python-dotenv
+</code>
+</pre>
+</li>
+<li> And then you can access the those variables in <code>testMongo.py</code> by adding:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+load_dotenv()  # Load variables from .env and .flaskenv
+db_user = os.getenv('MONGODB_USERNAME')
+db_pass = os.getenv('MONGODB_PASSWORD')
+print(db_user)
+</code>
+</pre>
+<p>If you now test - you should be outputting the user name...</p>
+</li>
+</ul>
+<p>Connect to the db::</p>
+<ul>
+<li> At the top of the script import:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+from flask import Flask,render_template,request
+# use flask_pymongo instead of  normal pymongo (simplifies integration)
+from flask_pymongo import PyMongo
+</code>
+</pre>
+</li>
+<li> Within your virtual environment, make sure to install <code>Flask-PyMongo</code> by running:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+pip install Flask-PyMongo 
+</code>
+</pre>
+</li>
+<li> Next:: we can set up our flask app and the driver for mongo:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+uri = os.getenv("MONGODB_URI")
+app = Flask(__name__)
+# set a config var
+app.config["MONGO_URI"] = uri
+mongo = PyMongo(app)
+try:
+    #get details of the client
+    print (mongo.cx)
+    print("You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+</code>
+</pre>
+<p> And test: you should have a success message, as well as output of the details for the mongo client. <br> If you have issues make sure your connection string matches the one - that is in your mongodb configuration online...</p>
+</li>
+</ul>
+<p>Next: let's do a test insertion to verify that we can add to our collection and database.</p>
+ <p>Right now your connection string is not pointing to your cart351 db ... you will need to modify your uri to include the db</p>
+<ul> 
+<li> In the <code>.env</code> add an entry for <code>DATABASE_NAME = CART351</code></li>
+<li>In your textMongo.py add the following variable:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+db_name = os.getenv('DATABASE_NAME') 
+</code>
+</pre>
+</li>
+<li> Now modify your uri to be: <code>uri = uri+f"/{db_name}?retryWrites=true&w=majority"</code>
+</li>
+<li> So now we should be able to access the db and the collection:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+try:
+    #get details of the client
+    print (mongo.cx)
+    #get db
+    print (mongo.db)
+    #get collection
+    print (mongo.db.plantRepo)
+    print("You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
+  </code>
+</pre>
+</li>
+<li>
+So - if you have success - then we should be able to insert a test:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+ result = mongo.db.plantRepo.insert_one({"testKeyMon":"testValueMon"})
+ print(result)
+ </code>
+</pre>
+</li>
+</ul>
+ <p>Check in the web interface of the Atlas Cloud to ensure that a new entry has been added to the database ;)</p>
+ <h3>Go MONGO!</h3>
+<p>We will be building a database solution for the plant gallery example that we have been working on for the last weeks in flask ...</p>
+<p>So - since we know that our db connection is working ...  and you already have a collection called <code> plantRepo</code>... so what we can do first?</p>
+<p>COME up with a SCHEMA for our gallery items and then insert some sample documents:
+Download the sample images from this <a href ="data/images_mongo.zip">LINK</a> to follow the lesson ;)</p>
+<h4>CREATE A SCHEMA</h4>
+<p>Creating the database is the easy part and a single collection is easy....<br>
+The harder part is deciding what the structure of the collections(s) should be: the <code>design</code> is very important.<br/>
+We start with asking the following questions: </p>
+<ol>
+<li>What are and how many collections do we need?</li>
+<li>What are the properties that should be in each of them?</li>
+</ol>
+<p>We know that we want a collection that contains a <code>record / document</code> (an entry) for each of the plant items. 
+  <br>Each entry should contain, as a bare minimum, the <code>name</code> of each plant item. Because the name by itself is not very interesting, the collection should contain other information: 
+  <span class = "customP">For example, if the same person uploads different plants we may want to list all the plants uploaded by a specific person</span>. Maybe we also want to keep some basic descriptive information such as:</p>
+<ul>
+<li>geographic location</li>
+<li>birth date</li> 
+<li>a description</li> 
+<li>and a visual document (i.e. an image)</li>
+</ul>
+<p><code>Please Note:it is up to you as the developer to decide what fields you want in the collection - depending on the content, context and usage (i.e. what kind of queries do you want to implement).</code></p>
+<h4> FINISH FLASK set-up </h4>
+Before doing other stuff - lets add an a default route, some html templates and some css;) 
+<ul>
+<li>Create a <code>base.html</code> inside the templates folder and add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!doctype html&gt
+&lthtml&gt
+    &lthead&gt
+    &ltlink rel="preconnect" href="https://fonts.googleapis.com"&gt
+    &ltlink rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt
+    &ltlink href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"&gt
+    &ltlink rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}"&gt
+     &lttitle&gtCART 351 FLASK TEST WITH MONGO&lt/title&gt
+    &lt!--new add a custom block for the script--&gt
+    {% block scriptblock %}
+    {% endblock %}
+    &lt/head&gt
+    &ltbody&gt
+        &ltheader&gt 
+            &lth2&gtCART 351 FLASK TEST WITH MONGO&lt/h2&gt
+    
+        &lt/header&gt
+        &ltmain&gt
+        {% block content %}{% endblock %}
+        &lt/main&gt
+        &ltfooter&gt
+            footer info ** footer info **
+        &lt/footer&gt
+    &lt/body&gt
+&lt/html&gt
+</code>
+</pre>
+</li>
+<li> Next - create an <code>index.html</code> in the templates folder and add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+
+{% block content %}
+&ltp&gt IN MAIN CONTENT FOR DB&lt/p&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+<li> Create a <code>base.css</code> inside static/css and add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73" class="language-css line-numbers">
+<code>
+body {
+  background: rgb(231, 89, 89);
+  font-family: "Roboto", sans-serif;
+}
+main {
+  min-height: 70vh;
+  background-color: rgb(251, 128, 128);
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+p {
+  padding: 2px;
+  width: 100%;
+}
+p label {
+  display: inline-block;
+  width: 30%;
+  color: rgb(198, 101, 101);
+  font-size: 16px;
+  background: rgba(255,255,255,0.5);
+}
+.wrapper {
+  width: 75%;
+  margin-left: 12%;
+}
+h2 {
+  color: white;
+}
+h3 {
+  text-align: center;
+  color: rgb(252, 242, 242);
+}
+input {
+  margin-left: 5px;
+  width: 65%;
+}
+input[type="submit"] {
+  width: 8%;
+}
+form {
+  padding: 10px;
+  background: rgb(250, 191, 191);
+  width: 60%;
+  margin: 0 auto;
+}
+#results{
+  padding:10px;
+  width: 60%;
+  margin: 0 auto;
+  margin-top:10px;
+  background-color:rgb(250, 191, 191);
+}
+
+/*********** for the form input ***/
+form.plant-collect{ padding-top: 10px;background-color:rgb(246, 227, 245);padding-bottom:10px;}
+.plant-collect label{display:inline-block; width:40%; margin-top:1%;text-transform: uppercase;}
+.plant-collect textarea{margin-top:10px;width:50%;margin-left:2%;}
+.plant-collect input{margin-left:2%;width:50%;}
+.plant-collect fieldset{color:#302e2e;margin:0 auto;margin-top:2%;border:none;font-size:14px;text-transform: uppercase;}
+.plant-collect select{width:50%;}
+.plant-collect #submitPlant{width:auto;margin-top:10px;}
+.plant-collect h3{padding:5px;text-align: center; font-size:24px;color:rgb(191, 147, 189);}
+
+/* css for displaying the output*/
+#back{display:flex;flex-wrap: wrap;width:100%;padding-left:5%;}
+.outer{background-color:#0099ff;width:25%;margin:2%;height:max-content;}
+.content{background-color:#006bb3;width:100%;}
+.content p{color:white;padding:2%;background:#004d80;font-family:arial; font-size:12px; width:96%}
+img{margin:2%;width:30%;}
+</code>
+</pre>
+</li>
+<li> Append the <code>import flask statement</code> in <code>testMongo.py</code> to:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+from flask import Flask,render_template,request,redirect, url_for,session 
+</code>
+</pre>
+Why? Because in a moment we will use a session :) </li>
+<li> Add the secret key (for the session) 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+app.secret_key = 'BAD_SECRET_KEY'
+</code>
+</pre>
+</li>
+<li>Now add the default route in <code>testMongo.py</code>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@app.route('/')
+def index():
+    return render_template("index.html")
+app.run(debug = True)
+</code>
+</pre>
+</li>
+<li> Comment out the try/ except clause where we inserted just one element :)
+AND then test your script  - ensure that the default route works</li>
+</ul>
+<h4> DATABASE INSERTION </h4>
+<ul>
+<li>We can use the <code> insert_many() </code> function that will allow us to insert an array of documents all at one time :)
+<br>Lets add another template: <code>testInsert.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+ {% extends "base.html" %}
+
+ {% block content %}
+ &ltform  action = "/insertMany"&gt
+ &ltinput type = "submit" style = "width: min-content;" value = "testInsert"  /&gt
+ &lt/form&gt
+{% endblock %}
+ </code>
+ </pre>
+ </li>
+ <li>And then add a route to the testInsert page :
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+@app.route('/insertTestPage')
+def insertTest():
+    session.pop('ids', default=None)
+    return render_template("testInsert.html")
+  </code>
+</pre>
+Note that we have a <code>session.pop()</code> here ... will come back to this in a moment
+</li>
+<li> Next we need to add a route for when the button is pressed:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+# a route
+@app.route('/insertMany')
+def insertMany():
+    data = [
+{'owner_name': 'Sarah',
+'plant_name' : 'Snake Plant',
+'birthDate':'2002-06-12',
+'geoLoc': 'Montreal',
+'descript': 'Description for the plant',
+'imagePath': 'images/one.png'
+},
+{
+'owner_name': 'Sarah',
+'plant_name' :'Cactus',
+'birthDate' :'2005-06-13',
+'geoLoc':'Toronto',
+'descript':'Description for the plant',
+'imagePath': 'images/seven.png'
+},
+ 
+ {
+'owner_name': 'Sarah',
+'plant_name' : 'Agapanthus',
+'birthDate': '2003-03-19',
+'geoLoc': 'Halifax',
+'descript': 'Description for the plant',
+'imagePath': 'images/seventeen.png'
+},
+ {
+'owner_name': 'Stephen',
+'plant_name' : 'Baby Rubber Plant',
+'birthDate ': '1999-07-18',
+'geoLoc': 'Edinborough',
+'descript':'Description for the plant',
+'imagePath': 'images/ten.png'
+},
+ 
+{
+'owner_name': 'Stephen',
+'plant_name' : 'Dahlia',
+'birthDate' :'2000-05-06',
+'geoLoc':'London',
+'descript':'Description for the plant',
+'imagePath': 'images/thirteen.png'
+},
+ 
+{
+'owner_name' : 'Harold',
+'plant_name' : 'Daphne',
+'birthDate': '2012-10-21',
+'geoLoc':'New York',
+'descript':'Description for the plant',
+'imagePath': 'images/three.png'
+},
+{
+'owner_name' : 'Martha',
+'plant_name' : 'Daylily',
+'birthDate' :'2017-08-21',
+'geoLoc':'Paris',
+'descript':'Description for the plant',
+'imagePath': 'images/nine.png'
+}
+]
+    try:
+        # insert many works :)
+        result = mongo.db.plantRepo.insert_many(data)
+        session['ids'] = result.inserted_ids
+        return redirect(url_for('testIds'))
+    except Exception as e:
+        print(e)
+</code>   
+</pre>
+</li>
+<li> And finally the <code>testIds.html</code> - to display the ids :)
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+<!-- will be a child of base-->
+{% extends "base.html" %}
+
+ {% block content %}
+&ltp&gtTEST INSERT:: the returned ID's&lt/p&gt
+{%if session['ids']%}
+&ltul&gt
+{% for el in session['ids'] %}
+&ltli&gt{{el}}&lt/li&gt
+{%endfor%}
+{% endif %}
+{% endblock %}
+&lt/ul&gt
+</code>
+</pre>
+</li>
+<li>
+And the route:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+@app.route('/testIds')
+def testIds():
+    print(session['ids'])
+    return render_template("testIds.html")
+</code>
+</pre>
+</li>
+</ul>
+<p>Run the <code>/insertTestPage</code> and then press the button - see the redirect...  and go to the cloud dashboard in your browser ... and .. you should have some new documents in your collection! 
+<br>Note: how all the documents have the same fields ... it is reaallllyyy good practice to keep all all documents in the same collection having the same schema... mongo db WILL NOT enforce this by default.
+<br>Also : NOTE that every time you press the button in the <code>/insertTestPage</code> more entries are added - mongodb does not care that they are duplicates.</p>
+<h4>DATABASE RETRIEVAL</h4>
+<p>Now that we can insert. ... lets retrieve documents from the cloud:</p>
+<ul>
+<li>
+First create a new template page called <code>viewResults.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+<!-- will be a child of base-->
+{% extends "base.html" %}
+ {% block content %}
+<p>The Results from the Plant Database :)</p>
+{% endblock %}
+</code> 
+</pre>
+</li>
+<li>Next: we make a route in our flask App to the page:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+# a route
+@app.route('/viewResults')
+def viewResults():
+    return render_template("viewResults.html")
+</code>
+</pre>
+</li>
+<li>
+Lets start by retrieving <code> ONE result </code> - insert into the <code>viewResults()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+    result = mongo.db.plantRepo.find_one({})
+    print(result)
+</code>
+</pre>
+</li>
+<li>
+When you execute this page you will notice that we are returning the first result in the collection..
+<br>Lets parse the result and pass to the html template:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+return render_template("viewResults.html",result=result)
+</code>
+</pre>
+</li>
+<li>
+And add into the template the code to iterate through the result:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+&ltul&gt
+ {% for key, value in result.items() %}
+        &ltli&gt{{ key }}: {{ value }}&lt/li&gt
+    {% endfor %}
+&lt/ul&gt
+</code>
+</pre>
+</li>
+<li>
+o.k. lets add in some styling and divs and ...:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+{% block content %}
+&ltp&gtThe Results from the Plant Database :)&lt/p&gt
+&ltdiv id='back'&gt
+    &ltdiv class='outer'&gt
+        &ltdiv class='content'&gt
+                {% for key, value in result.items() %}
+                {% if key != "imagePath" %}
+                  &ltp&gt  {{ key }}: {{ value }} &lt/p&gt
+                {% endif %}
+        {% endfor %}
+        &ltimg src="{{url_for('static',filename = result['imagePath'] )}}" /&gt
+    &lt/div&gt
+  &lt/div&gt
+&lt/div>
+{% endblock %}
+</code>
+</pre>
+</li>
+<li>
+  OK ... lets look at getting <code>all the results</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+result = mongo.db.plantRepo.find()
+</code>
+</pre>
+</li>
+<li>
+Rewrite the html in <code>viewResults.html</code> to be:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+
+{% block content %}
+&ltp&gtThe Results from the Plant Database :)&lt/p&gt
+ &ltdiv id='back'&gt
+        {% for el in result %}      
+    &ltdiv class='outer'&gt
+        &ltdiv class='content'&gt
+                {% for key, value in el.items() %}
+                {% if key != "imagePath" %}
+                  &ltp&gt  {{ key }}: {{ value }} &lt/p&gt
+                {% endif %}
+        {% endfor %}
+        &ltimg src="{{url_for('static',filename = el['imagePath'] )}}" /&gt
+    &lt/div&gt
+    &lt/div&gt  
+     {% endfor %}
+&lt/div&gt
+{% endblock %}
+</code>
+</pre>
+And magic ;) - you are now outputting all the results...
+</li>
+</ul>
+</section>
+</main>
+  
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+
+</body>
+
+</html>
+
+    
