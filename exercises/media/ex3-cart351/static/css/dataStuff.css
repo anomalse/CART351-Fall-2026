@@ -1,0 +1,171 @@
+/* PLEASE DO NOT CHNAGE THE EXISTING STYLES - JUST ADD ... FOR YOUR VISUALIZATIONS **/
+*{
+    margin:0;
+     padding:0;
+}
+
+body,html{
+  font-family: 'Roboto', sans-serif;
+  margin:0;
+  padding:0;
+  background:rgba(248, 190, 13, 0.2);
+  height:100%;
+}
+
+header{
+
+  text-align: center;
+  color:rgba(255, 109, 51, 0.6);
+  /* background-color:rgba(151, 163, 200, 0.6); */
+
+}
+
+#default-wrapper{
+background:rgba(255, 255, 255, 0.2);
+margin:0;
+padding:0;
+width:99vw;
+/* min-width:1500px; */
+overflow: hidden;
+margin-top:20px;
+min-height:500px;
+}
+#debug-wrapper{
+    background:white
+}
+h2{
+    text-align:center;
+    color:rgba(255, 109, 51, 0.6);
+    padding-top:200px;
+    font-size:48px;
+}
+#results{
+    margin-left:20px;
+}
+h1{
+    padding-top:20px;
+}
+.button{
+      color:white;
+      background: rgba(255, 109, 51, 1);
+      width:max-content;
+      padding:5px;
+      margin-left:40%;
+      margin-top:10px;
+
+}
+#message{
+    text-align: center;
+      padding:5px;
+      margin-left:40%;
+      width:max-content;
+}
+.button:hover{
+      color:rgba(255, 109, 51, 1);
+      background: white;
+      width:max-content;
+      padding:5px;
+      margin-left:40%;
+      margin-top:10px;
+      cursor:pointer;
+
+}
+.dropDown{
+  text-align: center;
+  /* color:rgba(51,102,255,.6); */
+  margin-top:20px;
+  text-transform:uppercase;
+  background:white;
+  color: rgba(255, 109, 51, 0.6);
+    padding-top:10px;
+  padding-bottom:10px;
+
+}
+
+nav ul{
+    display:flex;
+    justify-content:right;
+    /* background-color: rgb(217, 55, 220); */
+    padding-top:20px;
+    padding-bottom:10px;
+    margin-left:10px;
+    margin-right:10px;
+    width:100%;
+  
+}
+nav ul li{
+    width:15%;
+    text-transform: uppercase;
+    text-decoration: none;
+    list-style-type: none;
+
+      
+}
+nav li a{
+text-decoration: none;
+  color:rgba(255, 109, 51, 0.6);
+   font-size:18px;
+}
+
+footer{
+padding:0;
+margin:0;
+padding:10px;
+color:rgba(255, 109, 51, 0.6);
+text-align:center;
+font-size:18px;
+
+}
+
+#parent-wrapper{
+background:rgba(51,102,255,.2);
+margin:0;
+padding:0;
+width:99vw;
+/* min-width:1500px; */
+overflow: hidden;
+margin-top:20px;
+padding-bottom:10px;
+}
+#Ex4_title{
+    text-align:center;
+    width:99vw;
+}
+
+#childOne{
+margin:0;
+margin-left:40px;
+margin-top:20px;
+width:100%;
+position:relative;
+padding:15px;
+}
+
+
+
+.point_two{
+background-color:white;
+width:10px;
+height:10px;
+position:absolute;
+border-radius: 5px;
+}
+
+.point{
+background-color:white;
+width:15px;
+height:15px;
+border-radius: 5px;
+position:absolute;
+}
+
+/* for dropDown*/
+.css-select{
+/* background: rgba(51,102,255,.6); */
+width: 30%;
+margin-left:45px;
+/* color:white; */
+font-size: 14px;
+outline:none;
+
+}

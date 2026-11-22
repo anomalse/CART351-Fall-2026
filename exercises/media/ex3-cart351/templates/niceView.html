@@ -1,0 +1,28 @@
+<!-- will be a child of base-->
+{% extends "base.html" %}
+{% block scriptblock%}
+<!-- tHERE IS NO NEED TO CHNAGE THE HTML MARKUP -->
+<script type= "text/javascript"  src = "{{url_for('static',filename='js/dataPoint.js')}}"></script>
+<script type= "text/javascript"  src = "{{url_for('static',filename='js/client.js')}}"></script>
+{% endblock %}
+
+{% block content %}
+<section class = "dropDown">
+<label for="query choice">Select from the drop-down which query to view:</label>
+<!-- drop down link for choosing which query to run
+NONE, ONE AND TWO HAVE ALREADY BEEN COMPLETED-->
+<select class="css-select" name="queryChoice" id="queryChoice">
+ <option value="default">NONE: ** DO NOT CHANGE ** </option>
+  <option value="one">ONE: ** DO NOT CHANGE ** </option>
+  <option value="two">TWO: ** DO NOT CHANGE ** </option>
+  <option value="three">THREE</option>
+  <option value="four">FOUR</option>
+	<option value="five">FIVE</option>
+	<option value="six">SIX</option>
+</select>
+</section>
+<div id="parent-wrapper">
+  <div id = "childOne"></div>
+	<h3 id = "Ex4_title"></h3>
+</div>
+{% endblock %}

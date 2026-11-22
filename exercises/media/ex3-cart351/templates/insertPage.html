@@ -1,0 +1,16 @@
+<!-- will be a child of base-->
+{% extends "base.html" %}
+
+{% block scriptblock%}
+<!-- tHERE IS NO NEED TO CHNAGE THE HTML MARKUP -->
+<script type= "text/javascript"  src = "{{url_for('static',filename='js/clickButton.js')}}"></script>
+{% endblock %}
+
+
+{% block content %}
+<div id="default-wrapper">
+<h2> THE INSERT PAGE</h2>
+<div id = "clickMe"class = "button-to-click button">CLICK ME TO INSERT INITIAL DATA</div>
+<p id = "message"> ...SLEEPING...</p>
+</div>
+{% endblock %}

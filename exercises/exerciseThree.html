@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<!-- https://images.nasa.gov/docs/images.nasa.gov_api_docs.pdf -->
+
+<head>
+  <title></title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+  <script src = "../js/ex2.js"></script>
+</head>
+
+<!-- <body>
+  <header> -->
+    <body style = "background:white">
+  <header style = "padding-bottom:.5%;background-color: var(--body-color);">
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>EXERCISE III</h1>
+    </div>
+  </header>
+  <main>
+    <section class="contents-notes">
+      <h4>PATTERNS AND MONGO DB</h4>
+<h5>DESCRIPTION</h5>
+<p>This exercise is using <code>mongodb</code> and the goal is to practice
+  writing mongodb queries and <code>visualizing</code> the results in
+  interesting patterns. Everyone <em>must</em> use the template code provided
+  (you will get 0 if you do not) - it is implemented in HTML, CSS, JS, and
+  Python (Flask).</p>
+<h5>BACKGROUND</h5>
+<p>This is a fictional survey that I dreamt up : <span
+    style="color: #0072a8;">we would like to explore how participating in a
+    specific event affects ones mood given certain weather conditions and a
+    specific date(day)</span>.</p>
+<p>Let us <em>imagine</em> that we have done an online survey.</p>
+<p>We have asked 1000 participants to:</p>
+<ol>
+  <li>Select an event that they have recently done from a predetermined list
+  </li>
+  <li>They will then select their mood before and after the event occurred (from
+    predetermined lists)</li>
+  <li>They would also rate the strength (1-10) of their after mood &amp; the
+    affect strength of the event.</li>
+  <li>They would also specify the day and weather conditions when the event
+    occurred</li>
+</ol>
+<p>In reality – this dataset of 1000 entries will be constructed automatically
+  using randomized input. DO NOT add new data or remove data from the dataset -
+  once you have initially created it.</p>
+<h5>PART I: SET UP A PROJECT</h5>
+<ul>
+  <li><a
+      href="media/ex3-cart351.zip">Download
+      the template project from here</a></li>
+  <li>UNZIP it and open as a project in Visual Studio Code</li>
+  <li>Make sure you have a virtual env activated and that <code>flask,
+      flask_pymongo and dotenv</code> are installed</li>
+  <li>You will be using <strong>your own mongodb</strong> using the
+    <code>MongoDB Atlas Cloud service</code> as we already setup and used in
+    class...</li>
+  <li>Please find your <code>.env</code> file from that class and copy it into
+    the project folder (root) - and ensure that your keys match the ones in
+    <code>server.py</code></li>
+
+  <li>Log into the <code>MongoDB Atlas Cloud service</code> and CREATE a new
+    collection called <code>dataStuff</code> WITHIN the pre-existing <code>
+      cart351</code> database.</li>
+</ul>
+<h5>PART II: ADDING THE DATASET</h5>
+<p><strong>Currently you have no data stored in your new collection
+    <code>(dataStuff)</code>. You will need to add some data in order to
+    retrieve it :)</strong></p>
+<p>To add data to the collection you <strong>just</strong> need to do the
+  following</p>
+<ul>
+  <li>Start the flask app ..</li>
+  <li>Navigate to the <code>insertData</code> page</li>
+  <li><code>Click on the only button on the page to insert the data</code> (note
+    the route <em> already </em>set up in server.py to receive the request and
+    create 1000 data entries automatically ;) )</li>
+  <li>If successful, you should have 1000 entries in your collection (verify in
+    the browser for mongodb atlas)</li>
+  <li>NB: if your authentication data is not correctly set - you will not be
+    inserting ...</li>
+</ul>
+<h5>PART III: WRITE THE QUERIES</h5>
+<p>You will see in <code>server.py</code> the routes are already created for
+  each query <code>("three","four","five" and "six")</code>. You job here is to
+  write the correct query for each and access the relevant result object for
+  each -- see routes "one" and "two" for help...</p>
+<ul>
+  <li><strong>three:</strong> Select all entries
+      in the collection where the after_mood is positive</li>
+  <li><strong>four:</strong> Select all entries in
+      the collection &amp; sort each entry by associated event name</li>
+  <li><strong>five:</strong> Select all entries in
+      the collection that occur on a Monday or a Tuesday and sort them by the
+      event_affect_strength</li>
+  <li><strong>six:</strong> Select all entries in
+      the collection where both the start_mood and after_mood fall into the
+      negative category and sort the entries by weather.</li>
+</ul>
+<p>N.B : You <strong>must</strong> use mongodb to obtain the correct results.
+  <em>Do not</em> implement any filtering strategies on the client side in js !
+</p>
+<p>It is recommended that you test the results using the <em>already created
+    route</em>:<code>debugView</code>. If you go to that page, and select from
+  the drop down list, you should, <em>without having to change any code</em>, be
+  able to get raw output in the page for each completed query.</p>
+<h5>PART IV: VISUALIZE</h5>
+<p>When you are satisfied with the results - the last part is to
+  <strong>visualize</strong> those results. The results will all be accessible
+  via the <code>niceView</code> route. The dropdown menu is functional and you
+  do not need to write the fetch request ... it is already prepared. Your job is
+  to make functions for visualizing the data and calling those functions in the
+  correct place ;)</p>
+<ul>
+  <li>Design, create and implement a <strong>UNIQUE</strong> visualization for
+    every query that you implemented in Part III – all the code is to be written
+    in <code>client.js </code>.</li>
+  <li>DO not modify, remove the existing template files – rather you just need
+    to ADD….</li>
+  <li>You may use the visualizations already created as <strong> inspiration
+      only</strong> – I do not want one to copy and paste and just change colors
+    … rather please explore, experiment, and try out …</li>
+  <li>You may add your own shapes or use the class already there
+    <code>(DataPoint.js)</code>. … but please <em>no images, videos, or
+      sound</em>.</li>
+  <li>You can achieve bonus points if your resulting visualizations have
+    interactivity, animation incorporated.</li>
+</ul>
+<h5>TO SUBMIT</h5>
+<ul>
+  <li>Each team needs to upload the entire project <strong>(not including the
+      .env file)</strong> to their CART 351 github repo <code>before Monday 30th November 1:15pm</code></li>
+  <li><strong>I will test the submissions with my .env file with my dataset in
+      mongodb</strong> - therefore it is super important that you use the insert
+    script given to you - if your files do not run with my .env file and my
+    dataset you will lose marks.</li>
+  <li>This exercise can be done in <code>teams of one or two</code> .. <strong>
+      but, ensure that all team members</strong> submit the relevant link on
+    moodle.</li>
+  <li>Include a readme file in project folder which:
+    <ol>
+      <li>provides a detailed explanation for how each of the queries work</li>
+      <li>provides detailed explanations for the intentions behind each
+        visualization</li>
+    </ol>
+  </li>
+  <li><code>Provide screen grabs for each of the visualizations</code></li>
+  <li>This assignment is worth <code>5%</code> of your overall grade.</li>
+</ul>
+
+    </section>
+  </main>
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+</body>
+
+</html>

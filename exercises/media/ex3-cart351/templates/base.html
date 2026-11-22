@@ -1,0 +1,33 @@
+
+<!doctype html>
+<html>
+    <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/dataStuff.css')}}">
+     <title>CART 351 EXERCISE 3</title>
+    <!--new add a custom block for the script-->
+    {% block scriptblock %}
+    {% endblock %}
+    </head>
+    <body>
+        <header> 
+            <h1> PATTERNS AND MONGODB </h1>
+            <nav>
+                <ul>
+                    <li> <a href="{{url_for('index')}}">Home </a> </li>
+                    <li> <a href="{{url_for('insertPage')}}">Insert Inital Data</a> </li>
+                    <li> <a href="{{url_for('niceView')}}">Nice View</a> </li>
+                     <li> <a href="{{url_for('debugView')}}">Debug View</a> </li>
+            
+                  
+                </ul>
+                </nav>
+        </header>
+        <main>
+        {% block content %}{% endblock %}
+        </main>
+    </body>
+    <footer></footer>
+</html>
