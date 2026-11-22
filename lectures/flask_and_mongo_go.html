@@ -187,7 +187,8 @@ We start with asking the following questions: </p>
 </ol>
 <p>We know that we want a collection that contains a <code>record / document</code> (an entry) for each of the plant items. 
   <br>Each entry should contain, as a bare minimum, the <code>name</code> of each plant item. Because the name by itself is not very interesting, the collection should contain other information: 
-  <span class = "customP">For example, if the same person uploads different plants we may want to list all the plants uploaded by a specific person</span>. Maybe we also want to keep some basic descriptive information such as:</p>
+  <code>For example, if the same person uploads different plants we may want to list all the plants uploaded by a specific person</code>. 
+  <br>Maybe we also want to keep some basic descriptive information such as:</p>
 <ul>
 <li>geographic location</li>
 <li>birth date</li> 
@@ -596,9 +597,700 @@ Rewrite the html in <code>viewResults.html</code> to be:
 And magic ;) - you are now outputting all the results...
 </li>
 </ul>
+<h4>UPDATING ENTRIES</h4>
+<p>Often - we want to also update an existing document in our collection ... so we will do that now:</p>
+<p>In our <code>testInsertPage</code> lets add another button:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+ &ltform  action = "/updateOne"&gt
+ &ltinput type = "submit" style = "width: min-content;" value = "updateOne"  /&gt
+ &lt/form&gt
+ </code>
+</pre>
+<p>And let's set up a route for this button in <code>testMongo.py</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+@app.route('/updateOne')
+def updateOne():
+      return redirect(url_for("insertTest"))
+</code>
+</pre>
+<p>Ok. You need here to have an idea about <code> which document(s)</code> you wish to update. 
+<br>Meaning, that you basically need to <code> find the document according to certain criteria</code> and then <code>choose which field to update</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+def updateOne():
+     try:
+        updatedRepoItem= mongo.db.plantRepo.find_one_and_update(
+            {'plant_name' :'Agapanthus'},
+            {'$set':{'descript':'a more precise description'}}
+            )
+        return redirect(url_for("insertTest"))
+     except Exception as e:
+        print(e)
+</code>
+</pre>
+<p>This query will find the document whose plant_name is <strong>Agapanthus</strong> and then will set the <strong>descript</strong> field.
+<p>We can also use the<code> $inc </code> :
+<br>First: using the cloud interface -> <code>insert a new document with a user named 'maria' (string) and points (int) field</code>
+<br>Then add:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+@app.route('/updatePoints')
+def updatePoints():
+     try:
+        updatedRepoItem= mongo.db.plantRepo.find_one_and_update(
+            {'user' :'maria'},
+            {'$inc':{'points':2}}
+            )
+        return redirect(url_for("insertTest"))
+     except Exception as e:
+        print(e)
+</code>
+</pre>
+<p>As well add a new button in the <code>testInsert.html</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+&ltform  action = "/updatePoints"&gt
+ &ltinput type = "submit" style = "width: min-content;" value = "updatePoints"  /&gt
+ &lt/form&gt
+ </code>
+</pre>
+<p>Run the following by clicking the button in the <code>testInsert.html</code> ... you have an error? 
+<br/>Well you need to ensure that it is the correct datatype... (i.e. int).
+<br/>Change and run again ... your document should have its points field being incremented by 2 each time ... iff your user has the name "maria".</p>
+<p>NOTE: if you have more than one result which matched the initial criteria, the function <code>find_one_and_update</code> will <code> update ONLY the first one</code> i.e.:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+  @app.route('/updateOneRepeat')
+def updateOneRepeat():
+     try:
+        updatedRepoItem= mongo.db.plantRepo.find_one_and_update(
+            {'owner_name' :'Sarah'},
+            {'$set':{'descript':'a more precise description for all sarahs','title':'test123'}}
+            )
+        return redirect(url_for("insertTest"))
+     except Exception as e:
+ 
+        print(e)
+</code>
+</pre>
+As well add a new button in the <code>testInsert.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+  &ltform  action = "/updateOneRepeat"&gt
+ &ltinput type = "submit" style = "width: min-content;" value = "updateRepeat"  /&gt
+ &lt/form&gt
+ </code>
+</pre>
+
+<p>Which document was updated? - <strong>Only the first one .</strong> 
+<br>Lets look at <code> update_many()</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+@app.route('/updateMany')
+def updateMany():
+     try:
+        updatedRepoItem= mongo.db.plantRepo.update_many(
+            {'owner_name' :'Sarah'},
+            {'$set':{'descript':'a more precise description for all sarahs','title':'testALL'}}
+            )
+        return redirect(url_for("insertTest"))
+     except Exception as e:
+        print(e)
+</code>
+</pre>
+<p>As well add a new button in the <code>testInsert.html</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+  &ltform  action = "/updateMany"&gt
+ &ltinput type = "submit" style = "width: min-content;" value = "updateMany"  /&gt
+ &lt/form&gt
+ </code>
+</pre>
+
+<p>Nice ... now all documents with "Sarah" as the user will be updated - and note we can update multiple fields.</p>
+<p><code>Also: if the field that you are trying to update does not exist -> it will create it ;)</code>
+<br>If you are interested  - there is <code>findAndReplace()</code>, <code>findAndDelete()</code> and more... variants on what we just did.. I encourage you to look often and intensively at the <a href = "https://pymongo.readthedocs.io/en/stable/api/pymongo/collection.html">documentation</a>.</p>
+<h4>SELECTING PARTICULAR ROWS</h4>
+<p>So - we used <code>update()</code> in combination with <code>find()</code>.
+<br>We can also use <code>find()</code> by itself and filter the results using various criteria ;)
+<br>Go back to your <code> view Results.html </code>:
+<br>There are a number of different mongodb comparison operators <code>(greater than, equal, notequal...)</code>that we can use to <code>filter our results</code>.</p> 
+<p><strong>Make a couple more documents with points (on the mongo db web interface)</strong>.
+<br>Then we can write a new find query i.e. in our <code>viewResults()</code> in testMongo.py:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+result = mongo.db.plantRepo.find({'points':{'$gt':5}})
+</code>
+</pre>
+<p>O.k. - if you run it (don't worry that you don't have an image...) - you should get back ALL results that have a points field greater then 2! What would less than look like? See <a href = "https://www.mongodb.com/docs/manual/reference/operator/projection/positional/">this page for the operators and their usage</a>.</p>
+<h4>FINDING ENTRIES WITHIN A TIME RANGE</h4>
+<p>Currently, the <code>birthDate</code> is formatted as a normal string ... and saved as such.</p>
+<p>If we want to save the dates in mongodb so that we can find valid date ranges - <strong>we must save the fields as date objects</strong>.</p>
+<p>We can use the python <code>datetime</code> package to convert the strings <strong>BEFORE adding/inserting into the db</strong>:</p>
+<ul>
+<li> CLEAR/DELETE you db in the cloud and remake (db =cart351 and collection=plantRepo) </li>
+<li> In <code>testMongo.py</code> import dateime:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+#import datetime
+from datetime import datetime 
+</code>
+</pre>
+</li>
+<li>
+Also define and set the formatting variable:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+format_string = "%Y-%m-%d"
+</code>
+</pre>
+</li>
+<li>
+Then: in the <code>insertMany()</code> replace the array:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+ data = [
+{'owner_name': 'Sarah',
+'plant_name' : 'Snake Plant',
+'birthDate':datetime.strptime("2002-06-12", format_string),
+'geoLoc': 'Montreal',
+'descript': 'Description for the plant',
+'imagePath': 'images/one.png'
+},
+{
+'owner_name': 'Sarah',
+'plant_name' :'Cactus',
+'birthDate' :datetime.strptime("2005-06-13", format_string),
+'geoLoc':'Toronto',
+'descript':'Description for the plant',
+'imagePath': 'images/seven.png'
+},
+ 
+ {
+'owner_name': 'Sarah',
+'plant_name' : 'Agapanthus',
+'birthDate': datetime.strptime("2003-03-19", format_string),
+'geoLoc': 'Halifax',
+'descript': 'Description for the plant',
+'imagePath': 'images/seventeen.png'
+},
+ {
+'owner_name': 'Stephen',
+'plant_name' : 'Baby Rubber Plant',
+'birthDate ': datetime.strptime("1997-07-18", format_string),
+'geoLoc': 'Edinborough',
+'descript':'Description for the plant',
+'imagePath': 'images/ten.png'
+},
+ 
+{
+'owner_name': 'Stephen',
+'plant_name' : 'Dahlia',
+'birthDate' :datetime.strptime("2000-05-06", format_string),
+'geoLoc':'London',
+'descript':'Description for the plant',
+'imagePath': 'images/thirteen.png'
+},
+ 
+{
+'owner_name' : 'Harold',
+'plant_name' : 'Daphne',
+'birthDate': datetime.strptime("2012-10-21", format_string),
+'geoLoc':'New York',
+'descript':'Description for the plant',
+'imagePath': 'images/three.png'
+},
+{
+'owner_name' : 'Martha',
+'plant_name' : 'Daylily',
+'birthDate' :datetime.strptime("2017-08-21", format_string),
+'geoLoc':'Paris',
+'descript':'Description for the plant',
+'imagePath': 'images/nine.png'
+}
+]
+</code>
+</pre>
+And insert the results again ... check :)
+</li>
+</ul>
+<p>Now that the <strong>birthDate</strong> fields have been formatted we can happily use the comparison operators to make a query to filter by date: i.e. run the following in the <code>viewResults()</code></p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+  startTime = datetime.strptime("2003-01-12", format_string)
+  result= mongo.db.plantRepo.find({'birthDate':{'$gt':startTime}})
+  </code>
+</pre>
+<h4> AND  - OR </h4>
+<p>We can define a <strong> range of valid dates</strong> using the logical operator <code>$and</code>:
+<br>Note the structure:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+    endTime = datetime.strptime("2010-01-12", format_string)
+    result = mongo.db.plantRepo.find(
+        {'$and':[{'birthDate':{'$gt':startTime}},{'birthDate':{'$lt':endTime}} ]})
+</code>
+</pre>
+<p>We van also use the use the logical operator <code>$or</code>:</p> 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+  result = mongo.db.plantRepo.find(
+        {'$or':[{'owner_name':'Sarah'},{'owner_name':'Martha'} ]})
+</code>
+</pre>
+<h4> SORT</h4>
+<p>We can also sort the output results using specific fields.<br/>You specify <code> how you want to sort as a set of options to the query</code>:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+   result = mongo.db.plantRepo.find(
+        {'$or':[{'owner_name':'Sarah'},{'owner_name':'Martha'}]}).sort("birthDate",1)
+</code>
+</pre>
+<p>Here - we are sorting by creation date smaller-larger ... if we change to -1, then it would be the opposite direction.</p>
+<h4> LIMIT</h4>
+<p>We can limit the number of results.
+<br>In the next example we will SORT and LIMIT the number of results:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+      result = mongo.db.plantRepo.find(
+        {'$or':[{'owner_name':'Sarah'},{'owner_name':'Martha'}]}).sort("birthDate",-1).limit(2)
+</code>
+</pre>
+<h4> SELECTING FIELDS </h4>
+<p>Up till now: we have <code>by default put out all the fields in our results </code>.
+<br>BUT this is not necessary -> we can choose which fields to output by further refining the query using the <code> projection </code> option:</p>
+<p>We specify a <code>(0) if we do want to include a field that wouly by default be included (the id), and a 1 for those we want included</code> 
+<br>All the ones we <strong>DO NOT</strong> want included: <code> we will not list in the options</code>. i.e.: </p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+  options = {'_id':0,'owner_name':1,'plant_name':1,'imagePath':1}
+   result =  mongo.db.plantRepo.find({},options)
+</code>
+</pre>
+<p>And note we can still include our other options in the query: sort, project and limit.</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+    result = mongo.db.plantRepo.find(
+     {'$or':[{'owner_name':'Sarah'},{'owner_name':'Martha'}]},options).sort("birthDate",-1).limit(3)
+</code>
+</pre>
+<p>Please note:: there are MANY other types of queries you can write - I will not present examples for all the possibilities - that is up to you ;) </p>
+<h4> COUNTING </h4>
+<p>But sometimes we juust want to find out the <strong>number of results</strong> <a href = "https://www.mongodb.com/docs/languages/python/pymongo-driver/current/crud/query/count/">(COUNT) </a>for a given query - without outputting the documents themselves:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+   resultCount = mongo.db.plantRepo.count_documents({})
+    print(resultCount)
+    result ={}
+    #CHANGE THIS LINE
+    return render_template("viewResults.html", result = result, resultCount=resultCount)
+</code>
+</pre>
+<p> and to test - in the <code>viewResults.html</code> add after the initial p-tag:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-html line-numbers">
+<code>
+&lth3&gt RESULT COUNT::: {{resultCount}} &lt/h3&gt
+</code>
+</pre>
+<p>or</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+ resultCount = mongo.db.plantRepo.count_documents({'owner_name':'Sarah'})
+</code>
+</pre>
+or 
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71" class="language-python line-numbers">
+<code>
+ resultCount = mongo.db.plantRepo.count_documents({"$or":[{'owner_name':'Sarah'},{'owner_name':'Martha'}]})
+ </code>
+</pre>
+<p>I will not go into <strong>Grouping queries</strong> either - as that requires a more advanced usage of mongoDB - but you are welcome to look at the documentation for it <a href = "https://www.mongodb.com/docs/manual/reference/operator/aggregation/group/"> HERE </a>.
+<br>RATHER - we will now go back to our html ...to incorporate the addPlant page with our mongoDB -- a dynamic insert:)</p>
+<h4>DATABASE INSERTION II</h4>
+<ul>
+<li>
+Create a new file called: <code>insertPlantMongo.html</code> in the templates folder.
+Then take the html page that we used previously:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+<!-- js for this page-->
+{% block scriptblock %}
+  &ltscript src="{{url_for('static',filename='js/script_post.js')}}"&gt&lt/script&gt
+{% endblock %}
+{% block content %}
+    &ltsection class = "plant-collect"&gt
+    &ltdiv class= "formContainer"&gt
+&lt!--form done using more current tags... --&gt
+&ltform id = "insertPlantFormFetchPost"&gt
+&lt!-- group the related elements in a form --&gt
+&lth3&gt ADD A NEW PLANT AND AN IMAGE &lt/h3&gt
+&ltfieldset&gt
+ &ltp&gt
+    &ltlabel&gtOwner Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "o_name" required&gt 
+&lt/p&gt
+
+&ltp&gt
+    &ltlabel&gtPlant Name:&lt/label&gt
+    &ltinput type="text" size="24" maxlength = "40" name = "p_name" required&gt 
+&lt/p&gt
+
+&ltp&gt
+    &ltlabel&gtPlant Color:&lt/label&gt
+    &ltinput type="color" name = "p_color" required&gt 
+&lt/p&gt
+&ltdiv class="range-ui"&gt
+
+&ltlabel&gtPlant Condition:&lt/label&gt
+
+&ltdiv&gt
+  &ltinput type="range" name="p_condition" min="0" max="100" value="0" step="1" list="values" /&gt
+  &ltdatalist id="values"&gt
+  &ltoption value="0" label="almost dead!"&gt&lt/option&gt
+  &ltoption value="100" label="super-alive"&gt&lt/option&gt
+&lt/datalist&gt
+&lt/div&gt
+
+&lt/div&gt
+
+&ltp&gt
+  &ltlabel&gtHome of Plant:&lt/label&gt
+  &ltselect name="plant-home" &gt
+  &ltoption value="Montreal"&gtMontreal&lt/option&gt
+  &ltoption value="Quebec City"&gtQuebec City&lt/option&gt
+  &ltoption value="Ottawa"&gtOttawa&lt/option&gt
+  &ltoption value="Winnipeg"&gtWinnipeg&lt/option&gt
+    &ltoption value="Vancouver"&gtVancouver&lt/option&gt
+&lt/select&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtBirth Date (DD-MM-YYYY):&lt/label&gt
+    &ltinput type="date" name="a_date" required&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtDescription:&lt/label&gt
+    &lttextarea type = "text" rows="4" cols="50" name = "a_descript" required&gt&lt/textarea&gt
+&lt/p&gt
+&ltp&gt
+    &ltlabel&gtUpload Image:&lt/label&gt
+    &ltinput type="file" name='the_file' size=10 required /&gt
+&lt/p&gt
+ &ltp&gt
+    &ltlabel&gt&lt/label&gt
+    &ltinput id = "submitPlant" type = "submit" name = "submit" value = "submit my info" id =buttonS /&gt
+&lt/p&gt
+ &lt/fieldset&gt
+&lt/form&gt
+&lt/div&gt
+&ltdiv id="results"&gt
+  &lth4&gtRESULTS&lt/h4&gt
+  &ltdiv id="result-container"&gt
+    &lt/div&gt
+&lt/div&gt
+&lt/section&gt
+{% endblock %}
+  </code>
+  </pre>
+</li>
+<li>
+Next .. create the <code>js</code> folder inside the <code>static</code> folder, and then the <code>script_post.js</code>. Again we will use the javascript from a previous lesson:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+ window.onload = function () {
+ console.log("loaded script_post.js");
+ document
+    .querySelector("#insertPlantFormFetchPost")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      console.log("post form clicked")
+       let form = document.querySelector("#insertPlantFormFetchPost");
+      let data = new FormData(form);
+       try {
+        let res = await fetch("/postPlantFormFetch",
+            {
+                method: 'POST',
+                body:data
+
+            }
+        );
+        let resJSON = await res.json();
+        console.log(resJSON);
+        document.querySelector("#results").innerHTML = `<img src = ${resJSON.imagePath}>`
+      } catch (err) {
+        console.log(err);
+      }
+})
+};
+</code>
+</pre>
+</li>
+<li> Ok -  create a route for this page in <code>testMongo.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+@app.route('/insertDynamic')
+def insertDynamic():
+  return render_template("insertPlantMongo.html")
+</code>
+</pre>
+</li>
+<li> And finally we need the route for <code>/postPlantFormFetch</code> - this will trigger the function to deal with the POST request and the uploaded file - again we will just use the function from a previous lesson:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+@app.route("/postPlantFormFetch",methods = ['POST'])
+def postPlantFormFetch():
+     #key is the same as in the form :)
+    uploadedfile = request.files['the_file']
+    #save file to uploads folder
+    filePath = os.path.join(app.config['UPLOAD_FOLDER'], uploadedfile.filename)
+    app.logger.info(filePath)
+    uploadedfile.save(filePath)
+    app.logger.info(uploadedfile.filename)
+  #return the file name
+    return({"imagePath":filePath})
+</code>
+</pre>
+</li>
+<li> And recall - because we are saving a file ... we want to add in the <code>static</code> folder an <code>uploads</code> folder.</li>
+<li> And finally - we will specify the app config:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+UPLOAD_FOLDER = 'static/uploads' 
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024 # 16 MB limit
+</code>
+</pre>
+Test that it works :)
+</li>
+<li>
+Now: instead of sending back the data - <strong>lets insert the data into our mongodb collection</strong>:
+So first we will construct an object to send at the end of <code>postPlantFormFetch()</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+dataToMongo = {
+'owner_name': request.form['o_name'],
+'plant_name' : request.form['p_name'],
+'birthDate': datetime.strptime(request.form['a_date'], format_string),
+'geoLoc': request.form['plant-home'],
+'descript': request.form['a_descript'],
+'imagePath': f"uploads/{uploadedfile.filename}"
+}
+</code>
+</pre>
+</li>
+<li>
+And then we insert::
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+ try:
+        res = mongo.db.plantRepo.insert_one(dataToMongo)
+        #return the file name
+        return({"imagePath":filePath})
+    
+    except Exception as e:
+        print(e)
+</code>
+</pre>
+</li>
+<li>
+ TEst and check in the cloud for nice results ;)
+</li>
+</ul>
+<h3> RETRIEVE FROM DB USING FETCH ... </h3>
+<p>Last thing and then we are done... lets look at how to retrieve from mongodb in a more dynamic way instead of hardcoding our queries in the python script:</p>
+<ol>
+<li> Create a new html page that contains a search field. </li>
+<li> Then when the user makes a search request -> we make a GET request to the Flask Application passing the search value. </li>
+<li> Our Flask Application receives the GET request - and makes a query to the mongo db </li>
+<li> Mongodb returns the results to the Flask Application</li>
+<li> Flask encodes the results as JSON and sends back the response </li>
+<li>Client side JS receives the response and outputs the result to the html </li>
+</ol>
+<h5> STEP 1 </h5>
+<ul>
+<li>
+Create a new page called <code>viewAndSearchMongo.html</code> in the templates folder and add the following:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+&lt!-- js for this page--&gt
+{% block scriptblock %}
+  &ltscript src="{{url_for('static',filename='js/script_search.js')}}"&gt&lt/script&gt
+{% endblock %}
+
+{% block content %}
+&ltdiv class= "searchFormContainer"&gt
+&lth1&gt SEARCH & VIEW&lt/h1&gt
+&ltform id="searchForm" action=""&gt
+&ltp&gtSearch By Plant Owner: &ltinput type="text" size="24" maxlength = "40" name = "a_search" id = "a_search"&gt
+&ltinput type = "submit" name = "submit" value = "submit my info" id ="buttonSearch" /&gt&lt/p&gt
+&lt/form&gt
+&lt/div&gt
+  &lt!-- NEW for the result --&gt
+&ltdiv id = "result"&gt&lt/div&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+<li>
+And let's also add some more css to our style sheet:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-css line-numbers">
+<code>
+/** search form **/
+.searchFormContainer{
+     background: rgb(178, 21, 21);
+     min-width:500px;
+    width:40%;
+    padding:0;
+}
+#searchForm{
+    background: rgba(255,255,255,.6);
+    width: calc(100% - 14px);
+    font-family: Arial, Helvetica, sans-serif;
+     color: rgb(178, 21, 21);
+    font-size:14px;
+    padding:7px;}
+#a_search{
+    min-width:200px;
+    width:40%;
+    margin-right:5px;
+}
+#buttonSearch{
+    margin-left:0;
+    min-width:100px;
+    max-width:20%;
+    display:inline;
+   
+}
+h1{
+    text-align: center; 
+    font-family:arial; 
+    color:rgba(255,255,255,.6);
+    font-size:18px;
+    padding:5px;
+ }
+ </code>
+</pre>
+</li>
+<li> Finally add a new file called <code>script_search.js</code> and place in the js folder.</li>
+<li> In <code>testMongo.py</code> create a new route:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+@app.route('/viewAndSearchMongo')
+def viewAndSearchMongo():
+    return render_template("viewAndSearchMongo.html")
+</code>
+</pre>
+And test :)
+</li>
+</ul>
+<h5> STEP 2 </h5>
+<p>Next - we write the js in <code>script_search.js</code> to deal with the search field and make the GET request...(using fetch):</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+window.onload = function (){
+        console.log("ready");
+        document.querySelector("#searchForm").addEventListener("submit", function(){
+            event.preventDefault();
+            console.log("button clicked");
+            console.log("form has been submitted");
+            let formData = new FormData(document.querySelector("#searchForm"));
+            formData.append("submitSearch","extraTest");
+            /* excellent function */
+            const queryString = new URLSearchParams(formData).toString();
+
+            fetch("passToFlask?"+queryString)
+           .then(function (response) {
+            return response.json();
+          })
+          .then(function (jsonData) {
+          console.log(jsonData);
+          //displayResponse(jsonData["test-response"])
+        });
+
+        })
+    }
+</code>
+</pre>
+<h5> STEP 3 </h5>
+<p>Ok - so now we need to before we can test we  will set up the associated route in <code>testMongo.py</code> to receive the GET request:</p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+@app.route('/passToFlask')
+def passToFlask():
+    print(request.args)
+    return ({"test-response": "success"})
+</code>
+</pre>
+<p>You can now test to ensure that the search criteria is being received in flask.</p>
+<h5> STEP 4 </h5>
+<p>Lets write our <code>find() query</code> ... using the search criteria: inside <code>passToFlask()</code></p>
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-python line-numbers">
+<code>
+ searchField = request.args['a_search']
+    try:
+        results = mongo.db.plantRepo.find({"owner_name": searchField})
+          #return the file name
+        #return ({"test-response": "success"})
+        return ({"test-response": results})
+    except Exception as e:
+        print(e)
+</code>
+</pre>
+If you now test, you should be getting a valid response back
+<h5> STEP 6 </h5>
+Lets add in a simple display function to output the results using js (in the <code>script_search.js</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77" class="language-javascript line-numbers">
+<code>
+ function displayResponse(theResult) {
+    document.querySelector("#result").innerHTML = "";
+    let back = document.createElement("div");
+    back.id = "back";
+    let title = document.createElement("h3");
+    title.textContent = "Results from user";
+    document.querySelector("#result").appendChild(title);
+    document.querySelector("#result").appendChild(back);
+
+    for (let i = 0; i < theResult.length; i++) {
+      let container = document.createElement("div");
+      container.classList.add("outer");
+      back.appendChild(container);
+
+      let contentContainer = document.createElement("div");
+      contentContainer.classList.add("content");
+      container.appendChild(contentContainer);
+
+      for (let property in theResult[i]) {
+        console.log(property);
+
+        if (property !== "imagePath" && property !== "birthDate") {
+          let para = document.createElement("p");
+          para.textContent = property + ":" + theResult[i][property];
+          contentContainer.appendChild(para);
+        }
+        if(property ==="birthDate"){
+          let para = document.createElement("p");
+          let options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          let date = new Date(theResult[i][property]["$date"])
+          para.textContent = property + ":" + date.toLocaleDateString("en-US", options);
+         contentContainer.appendChild(para);
+        }
+      }
+      let img = document.createElement("img");
+      img.setAttribute("src", "../static/"+theResult[i]["imagePath"]);
+      container.appendChild(img);
+    } //outer for
+  }
+</code>
+</pre>
+<p>And un comment the <code>displayResponse() in the fetch()</code> and TEST :)</p>
 </section>
 </main>
-  
   <script src="../js/prism.js"></script>
   <script src="../js/dataStuff.js"></script>
 
