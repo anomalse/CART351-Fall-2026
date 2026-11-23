@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<!-- <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+  </code>
+  </pre> -->
+<head>
+  <title></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="../css/themes/prism.css" rel="stylesheet" />
+</head>
+
+<body>
+  <header>
+    <h1 id="title-head"></h1>
+    <nav id="cart351Nav"></nav>
+    <div class="inner-head">
+      <h1>FLASK AND WEBSOCKETS</h1>
+    </div>
+  </header>
+  <main>
+
+<section class="contents-notes">
+<h3>Introduction </h3>
+<p>WebSocket technology makes it possible to have bi-directional, realtime, interactive communication between a client(s) and a server. 
+  <br>One can send messages to a server (web socket server) and receive responses without having to polling the server for a reply. 
+  <br>Essentially, a <code> persistant </code> connection between client and server is established and both client and server can send/receive data as long as the connection is active. 
+<br>In order to implement and use: the server MUST be a <code> websocket enabled </code> server, and the client must be a <code>websocket enabled</code> client - hence the need for a WebSocket API ...
+<br>Note: Sockets - are NOT specific to Flask or Python... Web socket clients exist for Touch Designer, Unity ....Unreal ...  MAxMSp, ... :)</p>
+<br>
+<p>We can use websockets in Flask using the <code>Flask-SocketIO</code> library and as per the documentation it says below:<br>
+<strong> Flask-SocketIO gives Flask applications access to low latency bi-directional communications between the clients and the server. The client-side application can use any of the SocketIO client libraries in Javascript, Python, C++, Java and Swift,or any other compatible client to establish a permanent connection to the server.</strong></p>
+<h3>WEB SERVER SETUP </h3>
+<ul>
+<li> Create a new project: i.e. <code> webSocketTests</code> in VS Code</li>
+<li> Start with a new virtual environment (remember use *conda* ) </li>
+<li> Install <code>Flask</code> using pip </li>
+<li> Create a folder called <code>static</code> and <code>templates</code> as well as a new python script called <code>socketTest.py</code>.</li>
+<li> Lets add the usual instructions to implement a flask app in <code>socketTest.py</code>:
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+from flask import Flask, render_template, request
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+     return render_template('socketTest.html')
+app.run(debug = True)
+</code>
+</pre>
+</li>
+<li> Create the html page <code>base.html</code>:
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lthtml&gt
+    &lthead&gt
+    &ltlink rel="preconnect" href="https://fonts.googleapis.com"&gt
+    &ltlink rel="preconnect" href="https://fonts.gstatic.com" crossorigin&gt
+    &ltlink href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"&gt
+    &ltlink rel="stylesheet" href="{{url_for('static',filename='css/base.css')}}"&gt
+    &lt!--new add a custom block for the script--&gt
+    {% block scriptblock %}
+    {% endblock %}
+
+    &lt/head&gt
+    &ltbody&gt
+        &ltheader&gt 
+            &lth1&gtCART 351 WEB SOCKETS TEST&lt/h1&gt
+        &lt/header&gt
+        &ltmain&gt
+        {% block content %}{% endblock %}
+        &lt/main&gt
+        &ltfooter&gt
+            footer info ** footer info **
+        &lt/footer&gt
+    &lt/body&gt
+&lt/html&gt
+</code>
+</pre>
+</li>
+<li>
+and <code>socketTest.html</code>:
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+&lt!-- js for this page--&gt
+{% block scriptblock %}
+    &ltscript src="{{url_for('static',filename='js/client.js')}}"&gt&lt/script&gt
+{% endblock %}
+{% block content %}
+        &ltsection class="username-container"&gt
+            &ltp&gt
+                &ltinput type="text" id="uName" placeholder="enter your name" /&gt
+                &ltinput type="button" id="uButton"value="submit" /&gt&lt/p&gt
+        &lt/section&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+<li>
+  and <code>static/css/base.css</code>:
+ <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101,103,105,107,109,111,113,115,117,119" class="language-css line-numbers">
+<code>
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(255, 221, 0);
+  font-family: 'Roboto', sans-serif;
+
+}
+
+header {
+  height: 10vh;
+  background-color: rgb(243, 234, 180);
+  padding-top: 5vh;
+  color: rgb(84, 84, 84)
+}
+
+header h1 {
+
+  text-align: center;
+}
+
+main {
+  margin-top: 1vh;
+  background-color: rgb(243, 234, 180);
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 15px;
+  width: 100%;
+
+}
+
+.username-container {
+  margin: 0 auto;
+  padding: 2px;
+  min-width: 500px;
+  max-width: 40%;
+
+}
+
+.username-container input {
+  font-size: 22px;
+  margin-left: 10px;
+  padding: 5px;
+}
+
+footer {
+  background: #781be2;
+  position: relative;
+  top: 70vh;
+  height: 10vh;
+  text-align: center;
+  padding-top: 10px;
+  color: white;
+
+}
+
+#chat {
+  width: 98%;
+  margin: 0 auto;
+  display:none
+}
+
+
+#container {
+  margin: 0 auto;
+  width: 70%;
+  margin-top:20px;
+  font-size: 18px;
+  background: #be91f2;
+  height: 550px;
+  padding: 0;
+}
+
+#container ul {
+  width: 95%;
+  margin-left: 2%;
+  height: 450px;
+  color: black;
+  padding: 0;
+}
+
+
+.chat-text-container {
+  margin: 0 auto;
+  width: 70%;
+  margin: 0 auto;
+  padding: 2px;
+
+}
+
+.chat-text-container input {
+  font-size: 22px;
+  margin-left: 10px;
+  padding: 5px;
+}
+
+.chat-text-container label {
+  font-size: 22px;
+  margin-left: 10px;
+  padding: 5px;
+}
+
+#chatList li {
+  list-style-type: none;
+  padding: 5px;
+  color: white;
+  font-size:16px;
+}
+.uTit{
+   color:#781be2;
+
+}
+.uMessage{
+    color:#f2f4ed;
+}
+</code>
+</pre>
+</li>
+<li>
+and finally <code>static/js/client.js</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+  window.onload = function(){console.log("loaded") }
+</code>
+</pre>
+</li>
+<li> And run :)  css should load, html should load and js should load All correctly! SUper!</li>
+</ul>
+<h3>WEB SOCKET CONNECTION SETUP </h3>
+<p>Ok so now that we have the barebones setup we can extend out flask app to allow for <code>web socket connections</code>
+<br>We are now ready to integrate the Socket.io API: which is composed of two parts:</p>
+<ol>
+<li> <strong>A websocket server</strong>: implemented with <code>Flask-SocketIO</code> that integrates with (or mounts on top of) the Flask App (HTTP Server)</li>
+<li><strong>A client library</strong>: that loads on the browser side: the socket.io client (javascript).</li>
+</ol>
+<h4>WEB SOCKET SERVER SETUP </h4>
+<ul>
+<li> run <code> pip install flask_socketio</code> to add the library to your project environment </li>
+<li> Add the import statements to <code>socketTest.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+from flask_socketio import SocketIO, send, emit, join_room, leave_room
+</code>
+</pre>
+</li>
+<li> As we will be using sessions you need to configure a key in to <code>socketTest.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+#needed for sockets
+app.config['SECRET_KEY'] = 'your_secret_key'
+</code>
+</pre>
+</li>
+<li> Now: in <code>socketTest.py</code> - we need to instantiate the <code>SocketIO</code> object - and we pass the <code>app</code> as an argument:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+socketio = SocketIO(app)
+</code>
+</pre>
+</li>
+<li> Next: in <code>socketTest.py</code> we now run the instance: (<code>INSTEAD of app.run()</code>):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+socketio.run(app, debug=True)
+</code>
+</pre>
+<li>
+  <li>Now, we need the socket server to listen for incoming messages from any clients connected to it – right now there are none :)
+    <br>Add the following <code>decorator function</code> to <code>socketTest.py</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+users = {} #for maintaining the users
+#handle new connection
+@socketio.on('connect')
+def connectFunction ():
+     app.logger.info(request.sid)
+</code>
+</pre>
+</li>
+</ul>
+<h4>WEB SOCKET CLIENT SETUP </h4>
+<ul>
+<li>
+In the <code>socketTest.html</code>, we need to add a reference to the client socket.io script:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&ltscript src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"&gt&lt/script&gt
+</code>
+</pre>
+</li>
+<li> Then in <code>client.js</code> add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+let uName  ="";
+let io_client = io(); //js library
+let clientSocket = io_client.connect('http://localhost:5000');
+console.log(clientSocket)
+</code>
+</pre>
+</li>
+</ul>
+<p>So if you test now ... you will see that on the server side there is a request being made with an id and on the client side there is a valid socket instance ...</p>
+<h3>CLIENT -> SERVER HANDSHAKE</h3>
+<p>Now that we know that client and server have the ability to be connected to each other, <code>we will set up a basic protocol</code>:</p>
+<ol>
+<li> Upon loading: the browser is waiting for the user to input a username</li>
+<li>Once the username has been entered, the browser will send a <code>join</code> message to the server, <code>using the socket connection</code>.</li>
+<li> The server will <code> receive the join message</code>, will store the username in the <code>users</code> list, and will acknowledge the client by sending back a <code> join-complete message</code></li>
+<li>The browser (client) will receive the <code>join-complete message</code> and will know it is able to send messages and is connected ;) </li>
+</ol>
+<ul>
+<li> In <code>client.js</code> add the event listener for the username:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+ document.querySelector("#uButton").addEventListener("click", function(){
+        uName = document.querySelector("#uName").value;
+        console.log(uName);
+      });
+</code>
+</pre>
+</li>
+<li> Then, within the event listener call back add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+  //inital handshake send to server
+   clientSocket.emit("join", uName);  // Notify server of new user
+</code>
+</pre>
+</li>
+<li> In <code>socketTest.py</code> add the following decorator function:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+# Handle new user joining     
+@socketio.on('join')
+def handle_join(username):
+    users[request.sid] = username  # Store username by session ID
+    app.logger.info("in join function")
+    app.logger.info(users[request.sid])
+    app.logger.info(request.sid)
+    # send back message
+    emit("join-complete", f"{username} joined the chat")
+</code>
+</pre>
+</li>
+<li>And finally back in <code>client.js</code>, add the callback function:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+  //receive notice from server :)
+  clientSocket.on("join-complete", function (data) {
+    console.log("server registered my join");
+    //hide the username input
+    document.querySelector(".username-container").style.display = "none"
+  });
+  </code>
+</pre>
+</li>
+</ul>
+<p>So now if you test - and add in a username etc ... you should observe that the handshake protocol is in action.
+<br>And at this point we have a connection -- YAY..
+<br>So it is up to us what we want to design in terms of realtime collaboration...
+<br>Let's start with a <code>basic chat app:)</code> - we will continue with the app that we have already implemented.</p>
+<h3>CHAT APP</h3>
+<ul>
+<li> Add the following html to <code>socketTest.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&ltsection id = "chat"&gt
+   &ltdiv class="chat-text-container"&gt
+        &ltp&gt&ltlabel&gtInput Text: &lt/label&gt&ltinput type="text" id="message" size="40" /&gt
+        &ltinput type ="button" id="sub" value="submit"&gt&lt/p&gt
+    &lt/div&gt
+
+    &ltdiv id="container"&gt
+        &ltul id="chatList"&gt
+        &lt/ul&gt
+&lt/div&gt
+&lt/section&gt
+</code>
+</pre>
+</li>
+<li> And then in <code>client.js</code>, add the following (once the <code>join-complete</code> event is triggered):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+ document.querySelector("#chat").style.display = "block";
+ </code>
+</pre>
+</li>
+<li> Next add the in  the client.js the code to handle when a user types a message (put after the the <code>join-complete</code> event handler):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+document.querySelector("#sub").addEventListener("click", function (event) {
+      event.preventDefault();
+      let myMessage = document.querySelector("#message").value;
+      console.log(myMessage);
+    });
+  </code>
+</pre>
+And test to make sure you get the message client side </li>
+<li> Now: we need to <strong>append this text to the chat box AND emit to the server</strong>, so add the following in <code>client.js</code> within the above callback function :):
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+    let dataToSend = {data:myMessage};
+     clientSocket.emit("textData", dataToSend);
+     let li_item = document.createElement("li");
+     li_item.style = "list"
+     li_item.innerHTML = `<span class="uTit">user: ${uName}</span> ------ <span class="uMessage">message: ${myMessage}</span>`;
+     document.querySelector("#chatList").appendChild(li_item);
+     document.querySelector("#message").value ="";
+  </code>
+</pre>
+And test to ensure that the value is appended in html.
+</li>
+<li> Ok - now in <code>socketTest.py</code> we will add the following decorator function:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+@socketio.on('textData')
+def handle_text(data):
+     app.logger.info(request.sid)
+     app.logger.info(data)
+</code>
+</pre>
+And note when testing how the <code>request.sid</code> is a unique id to the sender...
+</li>
+<li> So now - the last part: we want to send this data on: <code>to everyone else</code> who is connected ... so add in the decorator function:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-python line-numbers">
+<code>
+ #send to everyone but me
+     dataToSend ={}
+     dataToSend["user"] = users[request.sid]
+     dataToSend["data"] = data["data"]
+     emit("dataFromServer",dataToSend,broadcast =True,skip_sid=request.sid)
+</code>
+</pre>
+</li>
+<li> And in <code>client.js</code> add:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-javascript line-numbers">
+<code>
+clientSocket.on("dataFromServer", function (incomingData) {
+    console.log(incomingData.data);
+    let li_item = document.createElement("li");
+    li_item.style = "list";
+    li_item.innerHTML = `<span class="uTit">user: ${incomingData.user}</span> ------ <span class="uMessage">message: ${incomingData.data}</span>`;
+    document.querySelector("#chatList").appendChild(li_item);
+  });
+  </code>
+</pre>
+</li>
+</ul>
+<p>And now you will see that we are sending messages in realtime to anyone who is connected :)</p>
+<h3>P5.js and Webscockets</h3>
+<p>Ok - so here we will build an example whereby the client has a p5 sketch running -- and we will pass data via websockets to implement a collaborative visualization -depending on the number of clients ... :) :) Super fun?</p>
+<h4>Initial Setup</h4>
+<ul>
+<li> Keep with the current project... </li>
+<li> Include the p5 library folder <a href = "media/p5_lib.zip">DOWNLOAD HERE</a> and add into the <code>js</code> folder</li>
+<li> Create a new html template page <code>socket_p5Test.html</code>:
+<pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43" class="language-html line-numbers">
+<code>
+&lt!-- will be a child of base--&gt
+{% extends "base.html" %}
+&lt!-- js for this page--&gt
+{% block scriptblock %}
+&lt!-- &ltscript src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"&gt&lt/script&gt --&gt
+&ltscript src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.8.1/socket.io.js"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/p5_lib/p5.min.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/p5_lib/p5.sound.min.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/Flower.js')}}"&gt&lt/script&gt
+&ltscript src="{{url_for('static',filename='js/clientP5.js')}}"&gt&lt/script&gt
+{% endblock %}
+{% block content %}
+
+&ltsection class="username-container"&gt
+    &ltp&gt
+        &ltinput type="text" id="uName" placeholder="enter your name" /&gt
+        &ltinput type="button" id="uButton" value="submit" /&gt
+    &lt/p&gt
+&lt/section&gt
+&ltsection id = "p5Test"&gt
+    &lth3&gtHELLO P5!&lt/h3&gt
+        &ltdiv id="p5Container"&gt
+
+        &lt/div&gt
+&lt/section&gt
+{% endblock %}
+</code>
+</pre>
+</li>
+</ul>
+</section>
+</main>
+  <script src="../js/prism.js"></script>
+  <script src="../js/dataStuff.js"></script>
+
+
+</body>
+
+</html>
+
+    

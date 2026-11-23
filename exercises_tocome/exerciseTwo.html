@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 
+<!-- https://images.nasa.gov/docs/images.nasa.gov_api_docs.pdf -->
+
 <head>
   <title></title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,202 +22,126 @@
     </div>
   </header>
   <main>
-
     <section class="contents-notes">
-    
-<h3>WEB APIS, DICTIONARIES + LISTS IN PYTHON</h3>
-<h4>DESCRIPTION</h4>
+    <h4>WORKING WITH FLASK AND JS AND FETCH</h4>
+<h5>DESCRIPTION</h5>
 <ul>
-  <li>The <code>purpose</code> of this exercise is to
-    practice receiving data from a WEB API: specifically <a
-      href="https://aqicn.org/">The World Air Quality Index API </a></li>
-  <li>You will be required to make <code>requests</code>
-    to the API, <code>explore</code> and <code>document</code> the results, and <code>read</code> the API documentation -- all similar
-    tasks to an example we just did in class.</li>
-  <li>This is <code>not a test</code>: you can discuss solutions, issues with each other and the instructor.</li>
-  <li>PLEASE <code>try not to use AI tools for this exercise</code>.</li>
-  <li>You will be required to <code>complete all items in the list below</code> in order to get full marks.</li>
-  <li>This exercise is <code>worth 5%</code> of your grade</li>
-  <li><code>WHO</code>: Please work in teams of <code>two or three </code> - not one, not four.</li>
-  <li><code>WHEN</code>: All team members mustbefore the end of class (Monday Sept 22 2025 5:15 pm)</li>
-  <li><code>THE DELIVERABLE</code>: All team members must <strong>individually</strong> upload the python project (with all comments and code
+  <li>The purpose of this exercise is to set up a Flask Application,
+    create/modify/extend HTML Templates, process some GET requests, 
+    access the NASA Public API, and  </li>
+  <li>This is <code>not a test</code>: you can discuss
+    solutions, issues with each other and the instructor.</li>
+  <li>PLEASE do <code>not use AI tools for this
+      exercise</code>.</li>
+  <li>You will be required to <code>complete all items
+      in the list below</code> in order to get full marks. This exercise is
+    <code>worth 5%</code> of your grade</li>
+  <li><code>WHO</code>: Please work individually. You can get help from others, but you need to submit individually</li>
+  <li><code>WHERE</code>: Please submit the link to the exercise on moodle before midnight
+    Nov 2nd 2026</li>
+  <li><code>THE DELIVERABLE</code>: All team members
+    must individually upload the python project (with all comments and code
     included NEATLY and NUMBERED) to their own github repository and provide the
-    url in the submission box of the CART 351 moodle page</li>
+    url in the submission box</li>
 </ul>
-<h4>WHAT TO DO</h4>
-<ol style = "list-style: none;">
-  <li><span class = "highLightExColor">Set up your
-        workspace</span>
-        <ul>
-        <li>Create a new project called <code>student-name-1_student-name-2_exercise_one</code>
-    (student-name-1, and student-name-2 are the team members names) in
-    VisualStudio Code. </li>
-    <li>Then create a new file in the project called <code>ex-one.py</code>. </li>
-    <li>Create a new virtual environment with python =3.13, and activate it with necessary <code>conda</code> commands.</li>
-    <li>Use <code>pip</code> within your activated virtual environment to install the <code>requests</code> library. And you are set up!</li>
-    </ul>
+<h5>WHAT TO DO</h5>
+<ol>
+  <li><strong><span style="color: #004085;">Set up your
+        workspace</span></strong>: Create a new project called <code>student-name-1_exercise_two</code> in
+    Visual Studio Code. Copy all the files from the <a
+      href="../resources/exercises/ex_2.zip">ex2.zip</a>
+    into your new project folder. You must start with the files given to you.
+    Activate or create a new virtual environment with python =3.13, and activate
+    it with necessary <code>conda</code> commands. Use
+    <code>pip</code> within your activated virtual environment to install the
+    <code>flask</code> library (if it is not already
+    there). And you are set up! Run the python file called
+    <code>exercise-two.py</code> and make sure that the web server is serving
+    the <code>index.html</code> by default in your browser.
   </li>
-  <li><span class = "highLightExColor"> to the web
-        api:</span>
-        <ul>
-         <li>This exercise is going to help you to practice how
-    one API in particular works, or at least a subset of a particular web
-    API---<a href="http://aqicn.org/api/">the World Air Quality Index API</a>.</li>
-    <li>The idea is that by introducing you to this one API, you'll learn the tools
-    necessary to sign up for, query, and interpret APIs from other providers as
-    well. Before you can use the Air Quality Index API, <code>you need to sign up for an API key</code>. 
-    <li>Do so by going to the <code>API's </code><a href="http://aqicn.org/data-platform/token/#/">token request form</a> and
-    following the instructions. You'll need to provide your e-mail address.
-    (When I signed up, I got my confirmation e-mail and API key very fast!)
-    After confirming your e-mail address, you'll get your token. <code>Token</code> in this context is just another word
-    for <code>API key</code>. The token is just a string
-    of letters and numbers.</li>
-    <li>Whenever you make a request to that API, you'll need to include your key in the
-      request.</li>
-    </ul>
-  </li>
-  <li> <span class = "highLightExColor">Look at the
-        documentation</span>
-        <ul>
-        <li>The documentation for a web API usually describes what the API can do in terms of the URLs you can access, the
-    patterns that those URLs follow, and the format of the responses. Here's an example
-    screenshot of the documentation page for the <code>search
-      function</code> of the <a href="https://aqicn.org/json-api/doc/#api-Search">World Air Quality Index
-      API</a>: <figure><img class = "exImg" src="media/searchQueries_ex1.jpg"/></figure>
-      <li>The box under <code>GET</code> shows you what the URL path should look
-        like to make this request.</li>
-      <li>Inside the path, the words preceded by colons (like `:keyword`) are
-        intended to be <code>placeholders</code>: you should replace those with
-        the values that correspond to what you want the request to do.</li>
-      <li>The <code>Parameter</code> table shows what the placeholder values
-        mean. (Don't worry about the `callback` parameter—that's only useful if
-        you're a Javascript programmer.)</li>
-      <li>The <code>Success 200</code> field shows what the
-        <code>response</code> looks like. It tells you the names and types of
-        the values in the JSON object returned in the response.</li>
-    </ul>
-  </li>
-  <li> <span class = "highLightExColor">Write the initial
-        request</span> 
-        <ul>
-        <li>So: you are now ready to write the initial search request in your python script... I will help you get started...</li>
-         <li>You will write a <code>request</code> to give back all the results for <code>montreal</code>: 
-        <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
-        <code>
-          import requests
-          token = "your api key" # replace this with your own key
-          url = "https://api.waqi.info/search/"
-          response = requests.get(url, params={"token": token, "keyword":"montreal"})
-          results = response.json()
-          print(results)
-        </code>
-        </pre>
+  <li><strong><span style="color: #004085;">Task: GET search criteria and display single result </span></strong>: 
+    <br> Ok - you already have the route:<code>"/t1"</code> and the associated view function defined - uncomment it
+    :).
+    <ol>
+    <li> Add a link in the nav bar to this html page (hint: use
+    <code>url_for()</code>in base.html</code>)</li>
+    <li>Create the specified HTML template - and make sure it inherits from base.html. </li>
+    <li>Design an html page that is <code>visually enticing</code> (layout, color choices do matter :) The page needs to include:
+      <ul>
+        <li> An HTML form with a text input field and a submit button</li>
+        <li> A placeholder container for possible result data: a textual description and an image </li> 
+        </ul>
         </li>
-      <li>Run the code above</li>
-      <li>Add comments to what each line does</li>
-    </ul>
-  </li>
-  <li><span class = "highLightExColor">Write the code and or answer the
-        questions as comments in the code NEATLY so that I can read it :)
-      </span>
-      <br/> <span class = "justHighLight">Also note how in the first couple of questions I am
-    helping you to get the answers .... (I am not trying to trick you ;))</span>
-    <ul>
-      <li>In your script write the code to get the <code>type</code> of the
-        <code>results</code> variable. Run the code and document the answer.
-      </li>
-      <li>In your script write the code to get the <code>keys</code> of the
-        <strong>results</strong> variable. Run the code and document the answer
-      </li>
-      <li>The first key of the <code>results</code> variable is called
-        <code>data</code>. If you <em> look</em> in the documentation: <a
-          href="https://aqicn.org/json-api/doc/#api-Search">response fields</a>: you will access all the necessary info:). So - now write the code to access the content
-        associated with the <code> data </code> field.</li> 
-        <li>Save the result from the expression as a variable called <code>responseData</code>.</li>
-        Then find out the <code>type</code> of <code>responseData</code>. Document your
-        findings.</li>
-      <li>What is the result of running the following code (put the code after
-        the assignment above):
-        <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
-        <code>
-        for item in responseData:
-           print(item)
-        </code>
-        </pre>
-        What does each <code> item</code> represent?</li>
-        <li>Write the code to determine the type of the <code> item</code> variable</li>
-        <li>Write the code to determine the keys associated with the <code> item</code> variable</li>
-        <li>Modify the code above to now print out the <code>name</code> of each
-        <code>station</code> from the responseData. Document the results.</li>
-      <li>Append the code above to also print out the <code>geolocations</code>
-        of each <code>station</code> from the responseData. 
-        <br/>The output for the geolocation should look like the following example - then document your results:
-        <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
-        <code>
-          lat: 45.426509
-          long: -73.928944
-        </code>
-        </pre>
-     </li>
-      <li>Append the code above to print out the <code>air quality index</code>
-        for each item AND the <code>uid</code> for each item. The output needs
-        to be neat and labelled!</li>
-    </ul>
-  </li>
-  <li> <span class = "highLightExColor">Access the <em> feed </em>
-        results:</span>
-        <ul>
-        <li> Now you have gotten a response from the API, and you have parsed it into a Python data structure that you know how to use
-    (a dictionary :)).</li>
-    <li>But now what do we do with it? Look next at the <a href="https://aqicn.org/json-api/doc/#api-City_Feed">feed</a> resource for
-    the Air Quality API.</li>
-    <li>According to the documentation, you can make a request to get air quality information about a particular city by accessing a path
-    with the following format: <code>/feed/:city/?token=:token</code>.</li>
-    <li>Here <code>:city</code> -&gt; will be replaced with one or more of the
-    <code>uid's</code> that you obtained from the previous query.</li>
-    <li>And<code>:token</code>-&gt; is your api key.</li>
-    <li>Lets start a new request ... and say that we wanted the results for the city with <code>uid
-      == 5468</code> then this is the script: 
-      <pre data-line="1, 3, 5, 7, 9, 11, 13,15" class="language-python line-numbers"> 
-      <code>
-      url_feed ="https://api.waqi.info/feed/@5468"
-      response_feed = requests.get(url_feed, params={"token":token})
-      results_feed = response_feed.json()
-      print(results_feed)
-      </code>
-      </pre>
-      The documentation also states that if you use the ID, you need to precede it
-    with a `@` symbol, which is reflected in the code. </li>
-      <li>Add the above code and run it</li>
-      <li>So - now write the code to access the content associated with the
-        <code>data</code> field. Save the result from the expression as a
-        variable called <code>response_data_feed</code>. What is the
-        <code>type</code> of this variable?</li>
-      <li>Write a <code> for loop to iterate through the
-          `response_data_feed`</code> variable . Document the results</li>
-      <li>Next write the expression to access the <code>aqi</code> field and the
-        <code>dominentpol</code>field - according to the documentation what does
-        this field represent? Save both values in new variables.</li>
-      <li>OK ... now access you will access the <code> iaqi</code> field. You
-        will see that the result is another dictionary, with keys for different
-        pollutants. Each one of those keys—somewhat inexplicably—has
-        <strong>another</strong> dictionary for its values, whose only key (`v`)
-        points to the actual value for that pollutant... Write the code and
-        document your results</li>
-      <li>Let's use the value from the <code>dominentpol</code> field to access the actual value for that pollutant... (i.e. <code>dominentpol =so</code>) - how can we use the data from the <code>
-          iaqi</code> field to access the actual value? </li>
-        <li>Hint: the keys from the iaqi dictionary map directly to the <code>dominentpol</code>
-          field. Write the code to access this value...and document
-        your results</li>
-    </ul>
-  </li>
-  <li>So - now that you can access the feed for a specific station in a
-    particular city, and from that feed you can access the value of its dominant
-    pollutant.... : <span class = "highLightExColor"> explain theoretically</span> (you do not have to write the
-    code) what the process would be to access the value of the dominant pollutant value from <strong> different cities </strong> ...</li>
+
+    <li>Implement a <code>GET request</code> to pass the user input to the server... note that in your python script the route <strong>("/getSearchCriteria")</strong> & associated function  has already been set up.</li>
+
+    <li>In the python script: <code>exercise-two.py</code> -> at the function associated with the route <strong>("/getSearchCriteria")</strong> implement the following:
+      <ul>
+        <li> Take the user input from the client (hint - see : request.args) and formulate the url to pass to the NASA Image API:
+          <ul>
+            <li> the base url: <strong>https://images-api.nasa.gov/search</strong></li>
+              <li> the search parameter:<strong>q= &ltuser input&gt</strong></li>
+              <li> the media type parameter:<strong>media_type=image</strong></li>
+          </ul>
+        </li>
+        <li>Use the <code>requests</code> module to perform the API request (hint: remember Star Wars)</li>
+        <li>Use the <code>json()</code> function to retrieve the result</li>
+        <li>Access the <code>data['collection']['items']</code> part of the result ... it is a list.
+          <ol>
+          <li>Access the <code>first</code> element in the list - which is a dictionary.</li>
+          <li>Access the first <code>image href attribute</code> from the <code>links</code> key and store the result in a variable called <code>imgFromNasa</code>.</li>
+          <li>Access the first <code> description attribute</code> from the <code>data</code> key and store that result in a variable called <code>description</code>.</li>
+          </ol>
+          </li>
+          <li><strong>The code to format the url is properly has already been done for you as well as the return statement (render_template....) - DO NOT CHANGE IT</strong></li>
+      </li> 
+      </ul>
+    <li>On the client side: <code>t1.html</code>: ensure that the description and image are being displayed... </li>
+    <li> Finally: write the logic (using Jinja), using the <code>have_results</code> variable: only show the container with image and description when that variable is set to <code>True</code>.</li>
 </ol>
-      
-    
+</li>
+<!-- task two -->
+<li><strong><span style="color: #004085;">Task: GET search criteria and display multiple results </span></strong>: 
+    <br> Ok - you already have the route:<code>"/t2"</code> and the associated view function defined - uncomment it
+    :).
+    <ol>
+    <li> Add a link in the nav bar to this html page (hint: use
+    <code>url_for()</code>in base.html</code>)</li>
+    <li>Create the specified HTML template - and make sure it inherits from base.html. </li>
+    <li>Design another html page that is <code>visually enticing</code> (layout, color choices do matter :) The page needs to include:
+      <ul>
+        <li> An HTML form with a text input field and a submit button</li>
+        <li> A placeholder container for a dynamic list of images (could be 0 1,2,n...)</li> 
+        </ul>
+        </li>
+
+    <li>Implement a <code>GET request</code> to pass the user input to the server... note that in your python script the route <strong>("/getSearchCriteriaAdv")</strong> & associated function  has already been set up.</li>
+
+    <li>In the python script: <code>exercise-two.py</code> -> at the function associated with the route <strong>("/getSearchCriteriaAdv")</strong> implement the following:
+      <ul>
+        <li> Take the user input from the client (hint - see : request.args) and formulate the url to pass to the NASA Image API:
+          <ul>
+            <li> the base url: <strong>https://images-api.nasa.gov/search</strong></li>
+              <li> the search parameter:<strong>q= &ltuser input&gt</strong></li>
+              <li> the media type parameter:<strong>media_type=image</strong></li>
+          </ul>
+        </li>
+        <li>Use the <code>requests</code> module to perform the API request (hint: this step, the next step and the one previously is the same as in the previous question :))</li>
+        <li>Use the <code>json()</code> function to retrieve the result</li>
+        <li>Access the <code>data['collection']['items']</code> part of the result ... it is a list. Iterate through this list with a for loop and for each element:
+          <ol>
+          <li>Access the first <code>image href attribute</code> from the <code>links</code> key and store the result in a variable called <code>singleImage</code>.</li>
+          <li>Use the <code>replace(' ', '%20')</code> on the <code>singleImage</code> variable and append <em> the new result</em> to a list called <code>encodedImageLinks</code></li>
+
+          </ol>
+          </li>
+          <li><strong>The code to return the new list to the correct page (render_template....) has been done for you  - DO NOT CHANGE IT</strong></li>
+      </li> 
+      </ul>
+    <li>On the client side: <code>t2.html</code>: write the logic (using Jinja), write a <code>for loop</code> to iterate through the result list and show all the results (as images). </li>
+</ol>
+</li>
+</ol>
     </section>
   </main>
   <script src="../js/prism.js"></script>
