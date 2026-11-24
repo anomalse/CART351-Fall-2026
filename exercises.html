@@ -70,6 +70,114 @@
                 <h3><em>DUE NOVEMBER 30TH</em></h3>
                 <ul>
                     <li><a href="exercises/exerciseThree.html">EX-THREE</a></li>
+                    <li>Note::: I have added more comments as an aid to the visualizing process in exercise III - client.js.
+                        <br/>Specifically I added more comments to the <code>displayAsDefault()</code> - in the hopes that this may give you
+                        all a better idea for how features can be mapped... 
+                        <br/> Below is the newly commented function:
+    <pre data-line="1, 3, 5, 7, 9, 11, 13,15,17,19,21,23,25,27,29,31,33,35,37,39,41,43,45,47,49,51,53,55,57,59,61,63,65,67,69,71,73,75,77,79,81,83,85,87,89,91,93,95,97,99,101" class="language-javascript line-numbers">
+    <code>
+    /*****************DISPLAY AS DEFAULT GRID :: AT ONLOAD ******************************/
+    function displayAsDefault(resultOBj) {
+    //dataPoints: will be the number of elements in the resultOBj.results array
+    dataPoints = [];
+    
+    let xPos = 0;//starting xPos of grid
+    let yPos = 0;//starting yPos of grid
+    const NUM_COLS = 50;//number of columns in the grid
+    const CELL_SIZE = 20; // size of each cell in the grid
+
+    let coloredDays = {};
+    let resultSet = resultOBj.results;
+    possibleDays = resultOBj.days;
+    /*
+    1: get the array of days (the second entry in the resultOBj -returned from the python function (def default()) in server.py
+    2: for each possible day (7)  - create a key value pair -> day: color and put in the
+    coloredDays object
+    */
+    console.log(possibleDays);
+    //7 days == 7 possible colors
+    let possibleColors = [
+      "rgb(255, 102, 153)",
+      "rgb(255, 77, 136)",
+      "rgb(255, 51, 119)",
+      "rgb(255, 26, 102)",
+      "rgb(255, 0, 85)",
+      "rgb(255, 0, 85)",
+      "rgb(255, 0, 85)",
+    ];
+
+    // go through the array of possibleDays and use the 
+    //possibleDays[i] -- key
+    //possibleColors[i]-- value
+
+    //ESSENTIALLY:
+    /*coloredDays = {
+    "Monday":possibleColors[0],
+    "Tuesday":possibleColors[1],
+    "Wednesday":possibleColors[2],
+    "Thursday":possibleColors[3],
+    "Friday":possibleColors[4],
+    "Saturday":possibleColors[5],
+    "Sunday":possibleColors[6]
+    }*/
+    for (let i = 0; i < possibleDays.length; i++) {
+      coloredDays[possibleDays[i]] = possibleColors[i];
+    }
+    /* for through each result
+    1: create a new MyDataPoint object and pass the properties from the db result entry to the object constructor
+    2: set the color using the coloredDays object associated with the resultSet[i].day
+    3:  put into the dataPoints array.
+    **/
+    //set background of parent ... for fun ..
+    document.querySelector("#parent-wrapper").style.background =
+      "rgba(255,0,0,.4)";
+    description.textContent = "DEfAULT CASE";
+    description.style.color = "rgb(255, 0, 85)";
+
+    //last  element is the helper array...
+    for (let i = 0; i < resultSet.length - 1; i++) {
+      dataPoints.push(
+        new myDataPoint(
+          resultSet[i].dataId,
+          resultSet[i].day,
+          resultSet[i].weather,
+          resultSet[i].start_mood,
+          resultSet[i].after_mood,
+          resultSet[i].after_mood_strength,
+          resultSet[i].event_affect_strength,
+          resultSet[i].evnet_name,
+          //map to the day ... // so the color here is according to which day the result object contains:
+          //i.e. if resultSet[i].day == "Tuesday" then coloredDays["Tuesday"]== possibleColors[1] ==rgb(255, 77, 136)
+          coloredDays[resultSet[i].day],
+          //last parameter is where should this go...
+          document.querySelector("#childOne"),
+          //which css style/// -- see the datastuff.css (there are different styles for different shapes)
+          "point"
+        )
+      );
+
+      /*ONCE A data point has been generated for each result element (will be an HTML div set up in myDataPoint.js )
+      / but each one will not have a position ... so here we set its position) */
+      /** this code is rather brittle - but does the job for now .. draw a grid of data points ..
+      //*** drawing a grid ****/
+      if (i % NUM_COLS === 0) {
+        //reset x and inc y (go to next row)
+        xPos = 0;
+        yPos += CELL_SIZE;
+      } else {
+        //just move along in the column
+        xPos += CELL_SIZE;
+      }
+      //update the position of the data point...
+      dataPoints[i].update(xPos, yPos);
+    } //for
+    document.querySelector("#childOne").style.height = `${yPos + CELL_SIZE}px`;
+    } //function
+    /***********************************************/
+
+</code>
+</pre>
+                    </li>
                 </ul>
 
             </div>
@@ -84,6 +192,7 @@
               
         </section>
     </main>
+     <script src="js/prism.js"></script>
     <script src="js/dataStuff.js"></script>
 </body>
 
