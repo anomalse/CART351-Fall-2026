@@ -16,7 +16,7 @@
     <h1 id="title-head"></h1>
     <nav id="cart351Nav"></nav>
     <div class="inner-head">
-         <h1>HOSTING AND RENDER</h1>
+         <h1>PREPARE AND DEPLOY YOUR FLASK APP</h1>
     </div>
     </header>
   
@@ -121,12 +121,32 @@
 </pre>
 <p> Why - well because the <code>Render Platform</code> will require the host to be <strong>0.0.0.0</strong> and the port number to be predetermined by them (Render), or if not will be allocated to be <strong>10000</strong>. Also ensure to remove the <strong>debug=true</strong> property within the <strong>app.run()</strong></p>
 
- <h3>Repo/Branch setup</h3>
+ <h3>GitHub Repo/Branch setup</h3>
  <p>It is <strong>highly advisable</strong> that you isolate your project that you want publically hosted to be in a new github repository on its own or to be on a unique branch. 
 <br>Remember to please not commit and push your <strong>.env</strong> file.</p>
-<h3>Render Platform Account setup</h3>
+<h3>Hosting Your Application</h3>
+<h4> Preamble: Why do we use <a href="https://render.com/">RENDER</a> ? </h4>
+<p>
+PLease Note: <a href="https://render.com/">Render</a> is only one option of many ... 
+<br><code>Render is a cloud hosting platform that handles deployment, scaling, and infrastructure</code> without requiring you to think much about any of it:
 <ul>
-    <li>GO to the <a href = "https://dashboard.render.com/register-next">Render</a>Platform web page and signup to make an account:) - is free </li>
+<li>You connect a GitHub repository</li> 
+<li>tell Render what kind of service you are deploying</li>
+<li>and it takes care of the rest: 
+    <ul>
+    <li>building the app</li>
+    <li>running it</li>
+    <li>giving it a public URL</li>
+    <li>and redeploying automatically whenever you push new code</li>
+    </ul>
+    </li>
+<li>It supports static sites, web services, background workers, cron jobs, and managed PostgreSQL databases. </li>
+<li>For a Python developer building a web app or API, it covers almost everything you need and all in one place:)</li>
+</ul>
+</p>
+<h4>Render Platform Account setup</h4>
+<ul>
+    <li>GO to the <a href = "https://dashboard.render.com/register-next">Render</a> Platform web page and signup to make an account:) - is free </li>
         <li>Once you have registered, create a new project </li>
         <li>Select the type of service you want to create (i.e. type of app) - i.e. <code> New Web Service </code> </li>
         <li>Allow for Render to access your GitHub Repository (that contains) your application - why, because it is super straightforward to set up deployment via your github account... </li>
@@ -147,8 +167,21 @@
         <li><strong>By default: everytime you push any changes to this github repository - your deployed application should also update (it automatically syncronizes with github)</strong></li>
 
 </ul>
-       <h3>Mongo db IP addresses  - need updating</h3>
-       <h3>Images/Videos -- cannot be stored on Render ... use cloudflare instead (10gb free bucket storage)</h3>
+       <h3>Mongo db IP addresses</h3>
+       <p>If you are using Mongo DB aand hosting on Render then you must add the IP Addresses from Render to Mongo DB:
+        <ul>
+            <li> On the Render Dashboard for your application (web service) - click on the <code>CONNECT</code> button. There are 2 outbound Addresses there - copy these...
+                Why? Well because MongoDB will receive requests from THESE addresses not your own ;)</li>
+            <li> Now go login to the MongoDB Atlas Interface.
+                 <br>Go to Security > Database & Network Access > Network Access > IP Access List.
+                <br>Then Add the IP addresses that you just got from Render... update and done. </li>
+        </ul>
+         </p>
+       <h3>Uploading Images/Videos/Audio</h3> 
+       <p>Note: if your application is one that has users uploading files (i.e. images/audio/video) - you cannot store
+        the files on render  ... you need to use another service in parallel with Render.
+        i.e. <a href = "https://www.cloudflare.com/products/r2/">CloudFlare R2 Storage</a> offers a free option of up to 10 GB of storage..
+        <br> If you would like to get support with this option - Sabine has an example of uploading / accesing etc.</p>  
 
 </section>
 </main>
